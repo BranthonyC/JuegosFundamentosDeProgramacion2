@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Veinte retos para armar clases de Python y separar propiedades de metodos. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%A9%3C/text%3E%3C/svg%3E">
+<title>Armá la Clase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#EFF2F7; --surface:#FFFFFF; --sunken:#E4E8F0;
+  --ink:#141821; --ink-2:#454C5C; --ink-3:#767E90;
+  --line:#D3D9E4;
+  --tiene:#2F6FAE; --tiene-soft:#E4EEF8; --tiene-ink:#1B4B7A;
+  --hace:#C4762A; --hace-soft:#FBEEDD; --hace-ink:#8A4F13;
+  --bien:#2F7D52; --bien-soft:#E3F2E9;
+  --mal:#B8403A; --mal-soft:#FBE7E5;
+  --shadow:0 1px 2px rgba(20,24,33,.06), 0 8px 24px -12px rgba(20,24,33,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --tiene:#6FA9DC; --tiene-soft:#17293A; --tiene-ink:#A8CCE9;
+  --hace:#E0A160; --hace-soft:#33231F; --hace-ink:#EEC38F;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --tiene:#6FA9DC; --tiene-soft:#17293A; --tiene-ink:#A8CCE9;
+  --hace:#E0A160; --hace-soft:#33231F; --hace-ink:#EEC38F;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.55;padding:clamp(16px,4vw,40px) clamp(14px,4vw,24px);
+  display:flex;justify-content:center}
+img{max-width:100%} [hidden]{display:none!important} button{font:inherit;color:inherit}
+.wrap{width:100%;max-width:840px;display:flex;flex-direction:column;gap:20px}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  font-size:clamp(26px,5.5vw,38px);line-height:1.05;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.brand em{font-style:normal;color:var(--ink-3);font-weight:600}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 6px}
+.rail{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
+.seg{height:6px;border-radius:99px;background:var(--sunken);transition:background .25s}
+.seg.bien{background:var(--bien)} .seg.mal{background:var(--mal)} .seg.now{background:var(--ink-3)}
+@media (prefers-reduced-motion:reduce){.seg{transition:none}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:clamp(18px,4vw,26px)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12.5px;
+  color:var(--ink-3);font-variant-numeric:tabular-nums;margin-bottom:12px}
+.meta strong{color:var(--ink-2);font-weight:600}
+.tipo{display:inline-block;border-radius:99px;padding:2px 10px;font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase}
+.tipo.p{background:var(--tiene-soft);color:var(--tiene-ink);border:1px solid var(--tiene)}
+.tipo.s{background:var(--hace-soft);color:var(--hace-ink);border:1px solid var(--hace)}
+h2.enun{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(17px,3.6vw,21px);
+  font-weight:600;margin:0 0 6px;line-height:1.3;text-wrap:balance}
+.sub{font-size:14px;color:var(--ink-2);margin:0 0 16px}
+/* ---------- rompecabezas ---------- */
+.code{background:var(--sunken);border:1px solid var(--line);border-radius:10px;
+  padding:16px 14px;overflow-x:auto;margin:0}
+.code pre{margin:0;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:clamp(13px,3vw,15px);line-height:2.1;white-space:pre;color:var(--ink)}
+.hueco{display:inline-block;min-width:190px;padding:3px 10px;border-radius:7px;
+  border:2px dashed var(--ink-3);background:var(--surface);color:var(--ink-3);
+  font-family:"JetBrains Mono",monospace;font-size:.92em;cursor:pointer;vertical-align:middle;
+  text-align:center;transition:border-color .15s,background .15s}
+.hueco:hover,.hueco.destino{border-color:var(--tiene);background:var(--tiene-soft)}
+.hueco.lleno{border-style:solid;border-color:var(--tiene);background:var(--tiene-soft);
+  color:var(--ink);text-align:left}
+.hueco.ok{border-color:var(--bien);background:var(--bien-soft)}
+.hueco.err{border-color:var(--mal);background:var(--mal-soft)}
+.hueco:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.piezas{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pieza{font-family:"JetBrains Mono",monospace;font-size:clamp(12px,2.7vw,14px);
+  padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);
+  cursor:grab;transition:transform .12s,border-color .12s,box-shadow .12s}
+.pieza:hover{transform:translateY(-2px);border-color:var(--tiene);box-shadow:var(--shadow)}
+.pieza.sel{border-color:var(--tiene);background:var(--tiene-soft);box-shadow:0 0 0 3px var(--tiene-soft)}
+.pieza.usada{opacity:.32;pointer-events:none}
+.pieza:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.pieza{transition:none}.pieza:hover{transform:none}}
+.salida{margin-top:14px;background:#0B0D12;color:#EDF0F5;border-radius:10px;padding:14px 16px;
+  font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.65;white-space:pre-wrap;
+  overflow-x:auto;border:1px solid #2A303C;min-height:56px}
+.salida .err{color:#E1756D}
+.salida .ok{color:#66BC8C}
+.salida .esp{color:#7C8497;font-style:italic}
+/* ---------- clasificador ---------- */
+.zonas{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:520px){.zonas{grid-template-columns:1fr}}
+.zona{border-radius:12px;padding:14px;min-height:132px}
+.zona.p{border:2px dashed var(--tiene);background:var(--tiene-soft)}
+.zona.s{border:2px solid var(--hace);background:var(--hace-soft);border-radius:22px}
+.zona.destino{box-shadow:0 0 0 3px var(--ink-3)}
+.zona h3{margin:0 0 2px;font-family:"Bricolage Grotesque",sans-serif;font-size:15px;font-weight:800}
+.zona.p h3{color:var(--tiene-ink)} .zona.s h3{color:var(--hace-ink)}
+.zona p{margin:0 0 10px;font-size:12px;opacity:.85}
+.zona.p p{color:var(--tiene-ink)} .zona.s p{color:var(--hace-ink)}
+.soltados{display:flex;flex-wrap:wrap;gap:6px}
+.ficha{font-family:"JetBrains Mono",monospace;font-size:13px;padding:6px 10px;border-radius:7px;
+  border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.ficha.sel{border-color:var(--ink);box-shadow:0 0 0 3px var(--sunken)}
+.ficha.ok{border-color:var(--bien);background:var(--bien-soft);color:var(--bien)}
+.ficha.err{border-color:var(--mal);background:var(--mal-soft);color:var(--mal)}
+.ficha:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.banco{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;min-height:44px}
+/* ---------- comunes ---------- */
+.fb{margin-top:14px;padding:13px 15px;border-radius:11px;border-left:4px solid;font-size:14.5px}
+.fb.bien{background:var(--bien-soft);border-color:var(--bien)}
+.fb.mal{background:var(--mal-soft);border-color:var(--mal)}
+.fb b{display:block;margin-bottom:3px}
+.fb.bien b{color:var(--bien)} .fb.mal b{color:var(--mal)}
+.fb p{margin:0;color:var(--ink-2)}
+.fb code{font-family:"JetBrains Mono",monospace;font-size:.92em;background:var(--surface);
+  padding:1px 5px;border-radius:4px;border:1px solid var(--line)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.btn{cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--ground);
+  padding:11px 20px;border-radius:10px;font-weight:600;font-size:15px}
+.btn:hover{opacity:.86}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible{outline:3px solid var(--tiene);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--ink-2);border-color:var(--line)}
+.hint{font-size:12.5px;color:var(--ink-3)}
+kbd{font-family:"JetBrains Mono",monospace;font-size:11px;background:var(--sunken);
+  border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 5px;color:var(--ink-2)}
+label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;
+  color:var(--ink-3);margin-bottom:7px}
+input[type=text]{width:100%;padding:13px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ground);color:var(--ink);font:inherit}
+input[type=text]:focus{outline:none;border-color:var(--tiene);box-shadow:0 0 0 3px var(--tiene-soft)}
+.reglas{display:flex;flex-direction:column;gap:10px;margin:16px 0 20px;padding:0;list-style:none}
+.reglas li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--ink-2)}
+.chip{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
+  font-size:11px;font-weight:700;margin-top:1px}
+.chip.a{background:var(--sunken);color:var(--ink-2);border:1px solid var(--line)}
+.chip.b{background:var(--tiene-soft);color:var(--tiene-ink);border:1px dashed var(--tiene)}
+.chip.c{background:var(--hace-soft);color:var(--hace-ink);border:1px solid var(--hace);border-radius:12px}
+/* ---------- resultado ---------- */
+.res-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.score{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(44px,12vw,68px);
+  line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.score span{font-size:.4em;color:var(--ink-3);font-weight:600}
+.grid7{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin:18px 0}
+.g-cell{aspect-ratio:1;border-radius:7px;display:grid;place-items:center;
+  font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;
+  background:var(--bien-soft);color:var(--bien);border:1px solid var(--bien)}
+.g-cell.mal{background:var(--mal-soft);color:var(--mal);border-color:var(--mal)}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.dato{background:var(--surface);padding:11px 13px}
+.dato dt{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 3px}
+.dato dd{margin:0;font-weight:600;font-size:14.5px;font-variant-numeric:tabular-nums}
+.dato dd.mono{font-family:"JetBrains Mono",monospace;letter-spacing:.06em}
+.aviso{margin-top:16px;padding:13px 15px;border-radius:11px;background:var(--tiene-soft);
+  border:1px dashed var(--tiene);color:var(--tiene-ink);font-size:14px}
+footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
+
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.campos{grid-template-columns:1fr}}
+select{width:100%;padding:13px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ground);color:var(--ink);font:inherit}
+select:focus{outline:none;border-color:var(--tiene);box-shadow:0 0 0 3px var(--tiene-soft)}
+textarea{width:100%;min-height:150px;padding:13px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ground);color:var(--ink);font:inherit;line-height:1.55;resize:vertical}
+textarea:focus{outline:none;border-color:var(--tiene);box-shadow:0 0 0 3px var(--tiene-soft)}
+.cuenta{font-size:12px;color:var(--ink-3);margin-top:6px;font-variant-numeric:tabular-nums}
+.entrega{margin-top:16px}
+.entrega h3{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;margin:0 0 4px;font-weight:600}
+.entrega .pregunta-pdf{font-size:14px;color:var(--ink-2);margin:0 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">FP2 · Unidad 2 · Semana 3 · práctica</p>
+      <h1 class="brand">Armá <em>la</em> Clase</h1>
+    </div>
+    <button class="btn ghost" id="tema" type="button">Tema</button>
+  </header>
+
+  <!-- ============ INICIO ============ -->
+  <section class="card" id="p-inicio">
+    <p style="font-size:15.5px;margin:0 0 4px">
+      Veinte retos en dos modalidades. En unos <strong>armás código</strong> que después se ejecuta
+      de verdad; en otros decidís qué <strong>tiene</strong> un objeto y qué <strong>hace</strong>.
+    </p>
+    <ul class="reglas">
+      <li><span class="chip a">1</span><span><strong>Rompecabezas.</strong> El programa está incompleto. Arrastrá —o tocá— las piezas hasta su hueco y dale <strong>Calificar</strong> para ver qué imprime tu programa — o qué error da.</span></li>
+      <li><span class="chip b">2</span><span><strong>¿Tiene o hace?</strong> Clasificá cada palabra: <strong>propiedades</strong> son las características (lo que el objeto <em>tiene</em>) y <strong>métodos</strong> el comportamiento (lo que <em>hace</em>).</span></li>
+      <li><span class="chip c">✓</span><span>Todo corre en tu navegador. Nada se envía a ningún servidor: tu nombre y tu avance viven solo en este equipo.</span></li>
+    </ul>
+    <label for="nombre">Tu nombre completo</label>
+    <input type="text" id="nombre" placeholder="Ana María López Chacón" autocomplete="name" spellcheck="false">
+    <div class="campos" style="margin-top:12px">
+      <div><label for="carne">Carné</label>
+        <input type="text" id="carne" placeholder="202612345" inputmode="numeric" spellcheck="false"></div>
+      <div><label for="grupo">Grupo</label>
+        <select id="grupo">
+          <option value="II24-FP2">II24-FP2 — presencial / remoto síncrono</option>
+          <option value="IS24-FP2">IS24-FP2 — e-learning</option>
+        </select></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="empezar" type="button">Empezar los 20 retos</button>
+      <button class="btn ghost" id="continuar" type="button" hidden>Continuar</button>
+    </div>
+    <p class="hint" style="margin-top:12px">En celular funciona a toques: tocá la pieza y después el hueco.</p>
+  </section>
+
+  <!-- ============ JUEGO ============ -->
+  <section id="p-juego" hidden>
+    <div class="rail" id="rail" aria-hidden="true"></div>
+    <div class="card" style="margin-top:16px">
+      <div class="meta">
+        <span>Reto <strong id="n-actual">1</strong> de 20 · <span id="etiqueta" class="tipo p">rompecabezas</span></span>
+        <span id="marcador">0 resueltos</span>
+      </div>
+      <h2 class="enun" id="enunciado">—</h2>
+      <p class="sub" id="subtitulo"></p>
+
+      <div id="zona-codigo" hidden>
+        <div class="code"><pre id="codigo"></pre></div>
+        <div class="piezas" id="piezas"></div>
+        <div class="salida" id="salida"><span class="esp">Al calificar vas a ver aquí lo que tu programa imprime — o el error que da.</span></div>
+      </div>
+
+      <div id="zona-clasif" hidden>
+        <div class="banco" id="banco"></div>
+        <div class="zonas">
+          <div class="zona p" data-zona="prop">
+            <h3>Propiedades</h3><p>lo que el objeto TIENE · características</p>
+            <div class="soltados" id="z-prop"></div>
+          </div>
+          <div class="zona s" data-zona="met">
+            <h3>Métodos</h3><p>lo que el objeto HACE · comportamiento</p>
+            <div class="soltados" id="z-met"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="fb"></div>
+      <div class="row">
+        <button class="btn" id="accion" type="button">Calificar</button>
+        <button class="btn ghost" id="limpiar" type="button">Limpiar</button>
+        <button class="btn" id="siguiente" type="button" hidden>Siguiente</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTADO ============ -->
+  <section id="p-fin" hidden>
+    <div class="card">
+      <div class="res-head">
+        <div>
+          <p class="eyebrow">Resultado · Armá la Clase</p>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;margin:0;font-weight:600" id="r-nombre">—</h2>
+        </div>
+        <div class="score" id="r-score">0<span>/20</span></div>
+      </div>
+      <div class="grid7" id="r-grid"></div>
+      <dl class="datos">
+        <div class="dato"><dt>Resueltos</dt><dd id="r-pct">0 %</dd></div>
+        <div class="dato"><dt>Intentos</dt><dd id="r-int">0</dd></div>
+        <div class="dato"><dt>Tiempo</dt><dd id="r-tiempo">0:00</dd></div>
+        <div class="dato"><dt>Fecha</dt><dd id="r-fecha">—</dd></div>
+        <div class="dato"><dt>Código</dt><dd class="mono" id="r-codigo">—</dd></div>
+      </dl>
+      <div class="aviso"><strong>Tomá una captura de esta tarjeta</strong> y adjuntala donde lo indique el curso.
+        El código de verificación se calcula con tu nombre, tu puntaje y la fecha.</div>
+    </div>
+    <div class="card entrega" id="bloque-entrega" hidden>
+      <h3>Tu respuesta</h3>
+      <p class="pregunta-pdf">1) ¿Qué es una propiedad y qué es un método? Explicalo con tus palabras. 2) Elegí un objeto de tu vida diaria y listá tres propiedades y tres métodos suyos.</p>
+      <textarea id="reflexion" placeholder="Escribí aquí tu respuesta…"></textarea>
+      <p class="cuenta"><span id="n-palabras">0</span> palabras</p>
+      <div class="row">
+        <button class="btn" id="bajar-pdf" type="button">Descargar mi PDF de entrega</button>
+        <span class="hint">Se arma solo, con tu cabecera y tu resultado. Después lo subís a Moodle.</span>
+      </div>
+    </div>
+    <div class="row"><button class="btn" id="reiniciar" type="button">Jugar de nuevo</button></div>
+  </section>
+
+  <footer>Fundamentos de Programación 2 · Universidad Da Vinci de Guatemala · Ing. Brandon Chitay</footer>
+</div>
+<script>
+(function(){
+"use strict";
+var q=function(i){return document.getElementById(i)};
+
+/* ═══════════ LOS 7 RETOS ═══════════
+   tipo "codigo": plantilla con {0},{1}... como huecos · piezas (con distractores)
+                  · solucion = indice de la pieza correcta por hueco
+   tipo "clasif": palabras con su categoria correcta                                    */
+var RETOS=[{"tipo": "codigo", "titulo": "La ficha del estudiante", "sub": "Completá la clase para que CADA estudiante guarde su propio nombre y carné.", "plantilla": "class Estudiante:\n    def __init__({0}, nombre, carne):\n        {1} = nombre\n        self.carne = carne\n\n    def presentarse({0}):\n        return f\"Soy {self.nombre}, carne {self.carne}\"\n\nana = Estudiante(\"Ana\", \"202612345\")\nluis = Estudiante(\"Luis\", \"202698765\")\nprint(ana.presentarse())\nprint(luis.presentarse())", "piezas": ["self", "self.nombre", "nombre", "Estudiante.nombre"], "solucion": [0, 1], "pistas": {"2": "Sin <code>self.</code> guardás una variable local que se pierde al terminar el constructor.", "3": "Eso lo guarda en la CLASE, así que los dos estudiantes lo comparten. Mirá la salida: los dos se llaman igual."}, "esperado": "Soy Ana, carne 202612345\nSoy Luis, carne 202698765"}, {"tipo": "clasif", "titulo": "Un carro en un videojuego", "sub": "¿Qué TIENE el carro y qué HACE?", "palabras": [["color", "prop"], ["velocidad", "prop"], ["acelerar()", "met"], ["placa", "prop"], ["frenar()", "met"], ["tocar_bocina()", "met"], ["marca", "prop"]]}, {"tipo": "codigo", "titulo": "Crear la galleta, no el molde", "sub": "Falta fabricar el objeto y pedirle que actúe.", "plantilla": "class Perro:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\n    def ladrar(self):\n        return f\"{self.nombre} dice guau\"\n\nfirulais = {0}\nprint({1})", "piezas": ["Perro(\"Firulais\")", "firulais.ladrar()", "Perro", "Perro.ladrar()"], "solucion": [0, 1], "pistas": {"2": "Sin paréntesis no fabricás nada: le estás dando el molde a la variable.", "3": "Llamado desde la clase le falta el objeto. ¿A quién le pedís que ladre?"}, "esperado": "Firulais dice guau"}, {"tipo": "clasif", "titulo": "Una cuenta bancaria", "sub": "La misma clase que armaste hace un par de retos.", "palabras": [["titular", "prop"], ["depositar()", "met"], ["saldo", "prop"], ["retirar()", "met"], ["numero_de_cuenta", "prop"], ["mostrar_saldo()", "met"]]}, {"tipo": "codigo", "titulo": "La cuenta de doña Mary", "sub": "El saldo va protegido y el retiro debe rechazar lo que no alcanza.", "plantilla": "class Cuenta:\n    def __init__(self, titular, saldo):\n        self.titular = titular\n        {0} = saldo\n\n    def retirar(self, monto):\n        if {1}:\n            print(\"Fondos insuficientes\")\n            return\n        self._saldo -= monto\n\n    def mostrar(self):\n        print(f\"{self.titular}: Q{self._saldo:.2f}\")\n\nc = Cuenta(\"Mary\", 500.0)\nc.retirar(1000.0)\nc.retirar(100.0)\nc.mostrar()", "piezas": ["self._saldo", "monto > self._saldo", "self.saldo", "monto < self._saldo"], "solucion": [0, 1], "pistas": {"2": "El enunciado pide el saldo <em>protegido</em>: lleva guion bajo.", "3": "Al revés: si el monto es menor al saldo, sí alcanza."}, "esperado": "Fondos insuficientes\nMary: Q400.00"}, {"tipo": "clasif", "titulo": "Un estudiante de la UDV", "sub": "Ojo con las que parecen acción pero son dato.", "palabras": [["carne", "prop"], ["inscribirse()", "met"], ["promedio", "prop"], ["entregar_tarea()", "met"], ["carrera", "prop"], ["calcular_zona()", "met"], ["semestre", "prop"]]}, {"tipo": "codigo", "titulo": "El producto de la tienda", "sub": "Vender descuenta del inventario, y el valor total se calcula: no se imprime.", "plantilla": "class Producto:\n    def __init__(self, nombre, precio, cantidad):\n        self.nombre = nombre\n        self.precio = precio\n        self.cantidad = cantidad\n\n    def vender(self, unidades):\n        self.cantidad {0} unidades\n\n    def valor_inventario(self):\n        {1} self.precio * self.cantidad\n\nazucar = Producto(\"Azucar\", 7.5, 24)\nazucar.vender(4)\nprint(f\"{azucar.nombre}: {azucar.cantidad} en bodega\")\nprint(f\"Valor: Q{azucar.valor_inventario():.2f}\")", "piezas": ["-=", "return", "+=", "print"], "solucion": [0, 1], "pistas": {"2": "Vender <em>quita</em> unidades, no las suma.", "3": "Si imprime en vez de devolver, no podés usar el resultado para sumar."}, "esperado": "Azucar: 20 en bodega\nValor: Q150.00"}, {"tipo": "clasif", "titulo": "Tu celular", "sub": "Lo que traés en la bolsa, modelado como objeto.", "palabras": [["modelo", "prop"], ["bateria", "prop"], ["llamar()", "met"], ["sacar_foto()", "met"], ["color", "prop"], ["reiniciar()", "met"]]}, {"tipo": "codigo", "titulo": "Enseñale a presentarse", "sub": "El método __str__ tiene que DEVOLVER el texto para que print lo use.", "plantilla": "class Punto:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __str__(self):\n        {0} f\"({self.x}, {self.y})\"\n\np = Punto(3, 4)\n{1}", "piezas": ["return", "print(p)", "print", "str(p)"], "solucion": [0, 1], "pistas": {"2": "<code>print</code> sin paréntesis no es válido ahí. Además <code>__str__</code> devuelve, no imprime.", "3": "Convierte a texto pero no muestra nada. Falta imprimirlo."}, "esperado": "(3, 4)"}, {"tipo": "clasif", "titulo": "La tienda de doña Mary", "sub": "El negocio completo, no solo un producto.", "palabras": [["nombre", "prop"], ["direccion", "prop"], ["vender()", "met"], ["inventario", "prop"], ["reabastecer()", "met"], ["calcular_ganancia()", "met"]]}, {"tipo": "codigo", "titulo": "Un método que reutiliza a otro", "sub": "es_impar no debe repetir la lógica: preguntale a es_par y devolvé lo contrario.", "plantilla": "class Numero:\n    def __init__(self, valor):\n        self.valor = valor\n\n    def es_par(self):\n        return self.valor % 2 == 0\n\n    def es_impar(self):\n        return {0}\n\nn = Numero(7)\nprint(n.es_par(), {1})", "piezas": ["not self.es_par()", "n.es_impar()", "self.es_par()", "es_impar()"], "solucion": [0, 1], "pistas": {"2": "Eso devuelve lo mismo que es_par, no lo contrario. Falta el <code>not</code>.", "3": "Sin objeto delante, Python no sabe de quién es ese método."}, "esperado": "False True"}, {"tipo": "clasif", "titulo": "Un parqueo", "sub": "El mismo del último rompecabezas.", "palabras": [["capacidad", "prop"], ["ocupados", "prop"], ["entrar()", "met"], ["salir()", "met"], ["tarifa_por_hora", "prop"], ["lugares_libres()", "met"]]}, {"tipo": "codigo", "titulo": "El IVA que todos comparten", "sub": "El IVA vive en la clase: si cambia, cambia para TODOS los productos.", "plantilla": "class Producto:\n    iva = 0.12\n\n    def __init__(self, nombre, precio):\n        self.nombre = nombre\n        self.precio = precio\n\n    def con_iva(self):\n        return {0} * (1 + Producto.iva)\n\na = Producto(\"Azucar\", 10.0)\nb = Producto(\"Frijol\", 20.0)\n{1} = 0.15\nprint(f\"{a.con_iva():.2f} {b.con_iva():.2f}\")", "piezas": ["self.precio", "Producto.iva", "precio", "a.iva"], "solucion": [0, 1], "pistas": {"2": "No existe ninguna variable suelta con ese nombre dentro del metodo.", "3": "Eso se lo cambia solo a <em>a</em>. Mirá: el frijol se queda con el IVA viejo."}, "esperado": "11.50 23.00"}, {"tipo": "clasif", "titulo": "Un libro de la biblioteca", "sub": "Cuidado: 'esta_disponible()' responde una pregunta, pero es acción.", "palabras": [["titulo", "prop"], ["autor", "prop"], ["prestar()", "met"], ["isbn", "prop"], ["devolver()", "met"], ["esta_disponible()", "met"]]}, {"tipo": "codigo", "titulo": "Frío o no frío", "sub": "Convertir a Fahrenheit y decidir con el dato del propio objeto.", "plantilla": "class Termometro:\n    def __init__(self, celsius):\n        self.celsius = celsius\n\n    def a_fahrenheit(self):\n        return {0}\n\n    def describir(self):\n        if {1}:\n            return \"hace frio\"\n        return \"no hace frio\"\n\nt = Termometro(10)\ncalor = Termometro(30)\nprint(t.a_fahrenheit())\nprint(t.describir())\nprint(calor.describir())", "piezas": ["self.celsius * 9/5 + 32", "self.celsius < 15", "celsius * 9/5 + 32", "self.celsius > 15"], "solucion": [0, 1], "pistas": {"2": "Falta <code>self.</code>: el dato vive en el objeto.", "3": "Al revés. Con 10 grados hace frío, no calor."}, "esperado": "50.0\nhace frio\nno hace frio"}, {"tipo": "clasif", "titulo": "La tarjeta del Transmetro", "sub": "La del reto opcional de la semana.", "palabras": [["saldo", "prop"], ["pin", "prop"], ["recargar()", "met"], ["pagar_pasaje()", "met"], ["numero", "prop"], ["cambiar_pin()", "met"]]}, {"tipo": "codigo", "titulo": "El carrito de la tienda", "sub": "Agregar mete el precio en la lista del objeto, y el total se le pide al carrito.", "plantilla": "class Carrito:\n    def __init__(self):\n        self.items = []\n\n    def agregar(self, precio):\n        {0}\n\n    def total(self):\n        return sum(self.items)\n\nc = Carrito()\nc.agregar(10.5)\nc.agregar(4.5)\nprint({1})", "piezas": ["self.items.append(precio)", "c.total()", "items.append(precio)", "Carrito.total()"], "solucion": [0, 1], "pistas": {"2": "Sin <code>self.</code> no existe esa lista dentro del método.", "3": "Llamado desde la clase no sabe de qué carrito hablás."}, "esperado": "15.0"}, {"tipo": "clasif", "titulo": "Un perro", "sub": "El clásico, para cerrar.", "palabras": [["nombre", "prop"], ["raza", "prop"], ["ladrar()", "met"], ["edad", "prop"], ["correr()", "met"], ["comer()", "met"]]}, {"tipo": "codigo", "titulo": "Contar los dígitos", "sub": "Con -305 tiene que dar 3: el signo no es un dígito.", "plantilla": "class Entero:\n    def __init__(self, valor):\n        self.valor = valor\n\n    def cantidad_digitos(self):\n        n = {0}\n        cuenta = 0\n        while n > 0:\n            n = n // 10\n            cuenta {1} 1\n        return cuenta\n\nprint(Entero(-305).cantidad_digitos())\nprint(Entero(7).cantidad_digitos())", "piezas": ["abs(self.valor)", "+=", "self.valor", "-="], "solucion": [0, 1], "pistas": {"2": "Con un negativo el ciclo nunca arranca y te devuelve 0. Hay que quitarle el signo.", "3": "Estás restando: el contador se va a negativo."}, "esperado": "3\n1"}, {"tipo": "codigo", "titulo": "Dos objetos, dos vidas", "sub": "Que cada parqueo lleve su propia cuenta y no la comparta con el otro.", "plantilla": "class Parqueo:\n    def __init__(self, nombre, capacidad):\n        self.nombre = nombre\n        self.capacidad = capacidad\n        {0} = 0\n\n    def entrar(self):\n        if self.ocupados >= self.capacidad:\n            print(f\"{self.nombre}: lleno\")\n            return\n        self.ocupados += 1\n\n    def libres(self):\n        return {1}\n\noakland = Parqueo(\"Oakland\", 2)\npradera = Parqueo(\"Pradera\", 5)\noakland.entrar()\noakland.entrar()\noakland.entrar()\nprint(f\"Oakland libres: {oakland.libres()}\")\nprint(f\"Pradera libres: {pradera.libres()}\")", "piezas": ["self.ocupados", "self.capacidad - self.ocupados", "ocupados", "self.ocupados - self.capacidad"], "solucion": [0, 1], "pistas": {"2": "Sin <code>self.</code> el contador se pierde al salir del constructor.", "3": "Te da negativo. Los libres son capacidad menos ocupados."}, "esperado": "Oakland: lleno\nOakland libres: 0\nPradera libres: 5"}];
+var SALIDAS={"0":{"00":{"o":"","e":"AttributeError: 'str' object has no attribute 'carne'"},"01":{"o":"Soy Ana, carne 202612345\nSoy Luis, carne 202698765","e":""},"02":{"o":"","e":"AttributeError: 'Estudiante' object has no attribute 'nombre'"},"03":{"o":"Soy Luis, carne 202612345\nSoy Luis, carne 202698765","e":""},"10":{"o":"","e":"SyntaxError: invalid syntax"},"11":{"o":"","e":"SyntaxError: invalid syntax"},"12":{"o":"","e":"SyntaxError: invalid syntax"},"13":{"o":"","e":"SyntaxError: invalid syntax"},"20":{"o":"","e":"SyntaxError: duplicate argument 'nombre' in function definition"},"21":{"o":"","e":"SyntaxError: duplicate argument 'nombre' in function definition"},"22":{"o":"","e":"SyntaxError: duplicate argument 'nombre' in function definition"},"23":{"o":"","e":"SyntaxError: duplicate argument 'nombre' in function definition"},"30":{"o":"","e":"SyntaxError: invalid syntax"},"31":{"o":"","e":"SyntaxError: invalid syntax"},"32":{"o":"","e":"SyntaxError: invalid syntax"},"33":{"o":"","e":"SyntaxError: invalid syntax"}},"2":{"00":{"o":"<Perro object at 0x1022b9580>","e":""},"01":{"o":"Firulais dice guau","e":""},"02":{"o":"<class 'Perro'>","e":""},"03":{"o":"","e":"TypeError: Perro.ladrar() missing 1 required positional argument: 'self'"},"10":{"o":"","e":"NameError: name 'firulais' is not defined"},"11":{"o":"","e":"NameError: name 'firulais' is not defined"},"12":{"o":"","e":"NameError: name 'firulais' is not defined"},"13":{"o":"","e":"NameError: name 'firulais' is not defined"},"20":{"o":"<Perro object at 0x1022bac60>","e":""},"21":{"o":"","e":"TypeError: Perro.ladrar() missing 1 required positional argument: 'self'"},"22":{"o":"<class 'Perro'>","e":""},"23":{"o":"","e":"TypeError: Perro.ladrar() missing 1 required positional argument: 'self'"},"30":{"o":"","e":"TypeError: Perro.ladrar() missing 1 required positional argument: 'self'"},"31":{"o":"","e":"TypeError: Perro.ladrar() missing 1 required positional argument: 'self'"},"32":{"o":"","e":"TypeError: Perro.ladrar() missing 1 required positional argument: 'self'"},"33":{"o":"","e":"TypeError: Perro.ladrar() missing 1 required positional argument: 'self'"}},"4":{"00":{"o":"Fondos insuficientes\nFondos insuficientes\nMary: Q500.00","e":""},"01":{"o":"Fondos insuficientes\nMary: Q400.00","e":""},"02":{"o":"","e":"AttributeError: 'Cuenta' object has no attribute 'saldo'"},"03":{"o":"Mary: Q-600.00","e":""},"10":{"o":"","e":"SyntaxError: cannot assign to comparison"},"11":{"o":"","e":"SyntaxError: cannot assign to comparison"},"12":{"o":"","e":"SyntaxError: cannot assign to comparison"},"13":{"o":"","e":"SyntaxError: cannot assign to comparison"},"20":{"o":"","e":"AttributeError: 'Cuenta' object has no attribute '_saldo'"},"21":{"o":"","e":"AttributeError: 'Cuenta' object has no attribute '_saldo'"},"22":{"o":"Fondos insuficientes\nFondos insuficientes","e":"AttributeError: 'Cuenta' object has no attribute '_saldo'"},"23":{"o":"","e":"AttributeError: 'Cuenta' object has no attribute '_saldo'"},"30":{"o":"","e":"SyntaxError: cannot assign to comparison"},"31":{"o":"","e":"SyntaxError: cannot assign to comparison"},"32":{"o":"","e":"SyntaxError: cannot assign to comparison"},"33":{"o":"","e":"SyntaxError: cannot assign to comparison"}},"6":{"00":{"o":"","e":"SyntaxError: invalid syntax"},"01":{"o":"Azucar: 20 en bodega\nValor: Q150.00","e":""},"02":{"o":"","e":"SyntaxError: invalid syntax"},"03":{"o":"","e":"SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?"},"10":{"o":"","e":"SyntaxError: invalid syntax"},"11":{"o":"","e":"SyntaxError: invalid syntax"},"12":{"o":"","e":"SyntaxError: invalid syntax"},"13":{"o":"","e":"SyntaxError: invalid syntax"},"20":{"o":"","e":"SyntaxError: invalid syntax"},"21":{"o":"Azucar: 28 en bodega\nValor: Q210.00","e":""},"22":{"o":"","e":"SyntaxError: invalid syntax"},"23":{"o":"","e":"SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?"},"30":{"o":"","e":"SyntaxError: invalid syntax"},"31":{"o":"","e":"SyntaxError: invalid syntax"},"32":{"o":"","e":"SyntaxError: invalid syntax"},"33":{"o":"","e":"SyntaxError: invalid syntax"}},"8":{"00":{"o":"","e":"SyntaxError: 'return' outside function"},"01":{"o":"(3, 4)","e":""},"02":{"o":"","e":""},"03":{"o":"","e":""},"10":{"o":"","e":"SyntaxError: invalid syntax"},"11":{"o":"","e":"SyntaxError: invalid syntax"},"12":{"o":"","e":"SyntaxError: invalid syntax"},"13":{"o":"","e":"SyntaxError: invalid syntax"},"20":{"o":"","e":"SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?"},"21":{"o":"","e":"SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?"},"22":{"o":"","e":"SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?"},"23":{"o":"","e":"SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?"},"30":{"o":"","e":"SyntaxError: invalid syntax"},"31":{"o":"","e":"SyntaxError: invalid syntax"},"32":{"o":"","e":"SyntaxError: invalid syntax"},"33":{"o":"","e":"SyntaxError: invalid syntax"}},"10":{"00":{"o":"","e":"NameError: name 'self' is not defined"},"01":{"o":"False True","e":""},"02":{"o":"","e":"NameError: name 'self' is not defined"},"03":{"o":"","e":"NameError: name 'es_impar' is not defined"},"10":{"o":"","e":"NameError: name 'self' is not defined"},"11":{"o":"","e":"RecursionError: maximum recursion depth exceeded"},"12":{"o":"","e":"NameError: name 'self' is not defined"},"13":{"o":"","e":"NameError: name 'es_impar' is not defined"},"20":{"o":"","e":"NameError: name 'self' is not defined"},"21":{"o":"False False","e":""},"22":{"o":"","e":"NameError: name 'self' is not defined"},"23":{"o":"","e":"NameError: name 'es_impar' is not defined"},"30":{"o":"","e":"NameError: name 'self' is not defined"},"31":{"o":"","e":"NameError: name 'es_impar' is not defined"},"32":{"o":"","e":"NameError: name 'self' is not defined"},"33":{"o":"","e":"NameError: name 'es_impar' is not defined"}},"12":{"00":{"o":"","e":"NameError: name 'self' is not defined"},"01":{"o":"11.50 23.00","e":""},"02":{"o":"11.20 22.40","e":""},"03":{"o":"11.20 22.40","e":""},"10":{"o":"","e":"NameError: name 'self' is not defined"},"11":{"o":"0.17 0.17","e":""},"12":{"o":"0.13 0.13","e":""},"13":{"o":"0.13 0.13","e":""},"20":{"o":"","e":"NameError: name 'self' is not defined"},"21":{"o":"","e":"NameError: name 'precio' is not defined"},"22":{"o":"0.17 0.17","e":""},"23":{"o":"","e":"NameError: name 'precio' is not defined"},"30":{"o":"","e":"NameError: name 'self' is not defined"},"31":{"o":"0.17 0.17","e":""},"32":{"o":"0.13 0.13","e":""},"33":{"o":"0.17 0.17","e":""}},"14":{"00":{"o":"50.0\nhace frio\nhace frio","e":""},"01":{"o":"50.0\nhace frio\nno hace frio","e":""},"02":{"o":"50.0","e":"NameError: name 'celsius' is not defined"},"03":{"o":"50.0\nno hace frio\nhace frio","e":""},"10":{"o":"True\nhace frio\nhace frio","e":""},"11":{"o":"True\nhace frio\nno hace frio","e":""},"12":{"o":"True","e":"NameError: name 'celsius' is not defined"},"13":{"o":"True\nno hace frio\nhace frio","e":""},"20":{"o":"","e":"NameError: name 'celsius' is not defined"},"21":{"o":"","e":"NameError: name 'celsius' is not defined"},"22":{"o":"","e":"NameError: name 'celsius' is not defined"},"23":{"o":"","e":"NameError: name 'celsius' is not defined"},"30":{"o":"False\nhace frio\nhace frio","e":""},"31":{"o":"False\nhace frio\nno hace frio","e":""},"32":{"o":"False","e":"NameError: name 'celsius' is not defined"},"33":{"o":"False\nno hace frio\nhace frio","e":""}},"16":{"00":{"o":"","e":"NameError: name 'self' is not defined"},"01":{"o":"15.0","e":""},"02":{"o":"","e":"NameError: name 'items' is not defined"},"03":{"o":"","e":"TypeError: Carrito.total() missing 1 required positional argument: 'self'"},"10":{"o":"","e":"NameError: name 'self' is not defined"},"11":{"o":"0","e":""},"12":{"o":"","e":"NameError: name 'items' is not defined"},"13":{"o":"","e":"TypeError: Carrito.total() missing 1 required positional argument: 'self'"},"20":{"o":"","e":"NameError: name 'items' is not defined"},"21":{"o":"","e":"NameError: name 'items' is not defined"},"22":{"o":"","e":"NameError: name 'items' is not defined"},"23":{"o":"","e":"NameError: name 'items' is not defined"},"30":{"o":"","e":"TypeError: Carrito.total() missing 1 required positional argument: 'self'"},"31":{"o":"","e":"TypeError: Carrito.total() missing 1 required positional argument: 'self'"},"32":{"o":"","e":"TypeError: Carrito.total() missing 1 required positional argument: 'self'"},"33":{"o":"","e":"TypeError: Carrito.total() missing 1 required positional argument: 'self'"}},"18":{"00":{"o":"","e":"SyntaxError: invalid syntax"},"01":{"o":"3\n1","e":""},"02":{"o":"","e":"SyntaxError: invalid syntax"},"03":{"o":"-3\n-1","e":""},"10":{"o":"","e":"SyntaxError: invalid syntax"},"11":{"o":"","e":"SyntaxError: invalid syntax"},"12":{"o":"","e":"SyntaxError: invalid syntax"},"13":{"o":"","e":"SyntaxError: invalid syntax"},"20":{"o":"","e":"SyntaxError: invalid syntax"},"21":{"o":"0\n1","e":""},"22":{"o":"","e":"SyntaxError: invalid syntax"},"23":{"o":"0\n-1","e":""},"30":{"o":"","e":"SyntaxError: invalid syntax"},"31":{"o":"","e":"SyntaxError: invalid syntax"},"32":{"o":"","e":"SyntaxError: invalid syntax"},"33":{"o":"","e":"SyntaxError: invalid syntax"}},"19":{"00":{"o":"Oakland: lleno\nOakland libres: 2\nPradera libres: 0","e":""},"01":{"o":"Oakland: lleno\nOakland libres: 0\nPradera libres: 5","e":""},"02":{"o":"Oakland: lleno","e":"NameError: name 'ocupados' is not defined"},"03":{"o":"Oakland: lleno\nOakland libres: 0\nPradera libres: -5","e":""},"10":{"o":"","e":"SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?"},"11":{"o":"","e":"SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?"},"12":{"o":"","e":"SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?"},"13":{"o":"","e":"SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?"},"20":{"o":"","e":"AttributeError: 'Parqueo' object has no attribute 'ocupados'"},"21":{"o":"","e":"AttributeError: 'Parqueo' object has no attribute 'ocupados'"},"22":{"o":"","e":"AttributeError: 'Parqueo' object has no attribute 'ocupados'"},"23":{"o":"","e":"AttributeError: 'Parqueo' object has no attribute 'ocupados'"},"30":{"o":"","e":"SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?"},"31":{"o":"","e":"SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?"},"32":{"o":"","e":"SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?"},"33":{"o":"","e":"SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?"}}};
+
+var LS="fp2_armar_clase_v1";
+var idx=0, resueltos=0, intentos=0, res=[], t0=0, nombre="";
+var colocado={}, seleccion=null, clasif={}, selFicha=null;
+
+/* ---- tema ---- */
+q("tema").addEventListener("click",function(){
+  var r=document.documentElement;
+  var osc = r.getAttribute("data-theme")==="dark" ||
+    (!r.getAttribute("data-theme") && matchMedia("(prefers-color-scheme:dark)").matches);
+  r.setAttribute("data-theme", osc?"light":"dark");
+});
+
+/* ---- persistencia ---- */
+function guardar(){ try{ localStorage.setItem(LS, JSON.stringify(
+  {nombre:nombre, carne:carne, grupo:grupo, idx:idx, resueltos:resueltos, intentos:intentos, res:res, t0:t0})); }catch(e){} }
+function leer(){ try{ return JSON.parse(localStorage.getItem(LS)||"null"); }catch(e){ return null; } }
+function borrar(){ try{ localStorage.removeItem(LS); }catch(e){} }
+
+/* ---- riel ---- */
+var rail=q("rail");
+for(var i=0;i<20;i++){ var d=document.createElement("div"); d.className="seg"; rail.appendChild(d); }
+function pintarRiel(){
+  for(var i=0;i<20;i++){
+    rail.children[i].className="seg" + (res[i]===undefined ? (i===idx?" now":"")
+      : (res[i]?" bien":" mal"));
+  }
+}
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* ═══════════ ROMPECABEZAS ═══════════ */
+function pintarCodigo(){
+  var r=RETOS[idx], html=esc(r.plantilla);
+  html=html.replace(/\{(\d+)\}/g, function(_,n){
+    var v=colocado[n];
+    return '<span class="hueco'+(v!==undefined?' lleno':'')+'" data-hueco="'+n+'" tabindex="0" role="button">'+
+           (v!==undefined? esc(r.piezas[v]) : '&nbsp;? &nbsp;')+'</span>';
+  });
+  q("codigo").innerHTML=html;
+  q("codigo").querySelectorAll(".hueco").forEach(function(h){
+    h.addEventListener("click", function(){ ponerEnHueco(h.dataset.hueco); });
+    h.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){e.preventDefault(); ponerEnHueco(h.dataset.hueco);} });
+    h.addEventListener("dragover", function(e){ e.preventDefault(); h.classList.add("destino"); });
+    h.addEventListener("dragleave", function(){ h.classList.remove("destino"); });
+    h.addEventListener("drop", function(e){
+      e.preventDefault(); h.classList.remove("destino");
+      var p=e.dataTransfer.getData("text/plain");
+      if(p!==""){ seleccion=parseInt(p,10); ponerEnHueco(h.dataset.hueco); }
+    });
+  });
+  var cont=q("piezas"); cont.innerHTML="";
+  r.piezas.forEach(function(txt,i){
+    var usada=Object.keys(colocado).some(function(k){ return colocado[k]===i; });
+    var b=document.createElement("button");
+    b.type="button"; b.className="pieza"+(usada?" usada":"")+(seleccion===i?" sel":"");
+    b.textContent=txt; b.draggable=!usada; b.dataset.i=i;
+    b.addEventListener("click", function(){ seleccion = (seleccion===i? null : i); pintarCodigo(); });
+    b.addEventListener("dragstart", function(e){ e.dataTransfer.setData("text/plain", String(i)); seleccion=i; });
+    cont.appendChild(b);
+  });
+}
+function ponerEnHueco(n){
+  if(seleccion===null){                       // tocar un hueco lleno lo vacia
+    if(colocado[n]!==undefined){ delete colocado[n]; pintarCodigo(); }
+    return;
+  }
+  for(var k in colocado){ if(colocado[k]===seleccion) delete colocado[k]; }
+  colocado[n]=seleccion; seleccion=null; pintarCodigo();
+}
+function codigoArmado(){
+  var r=RETOS[idx];
+  return r.plantilla.replace(/\{(\d+)\}/g, function(_,n){
+    return colocado[n]!==undefined ? r.piezas[colocado[n]] : "___";
+  });
+}
+function huecosLlenos(){
+  var r=RETOS[idx], n=(r.plantilla.match(/\{\d+\}/g)||[]);
+  var unicos={}; n.forEach(function(x){ unicos[x.slice(1,-1)]=1; });
+  return Object.keys(unicos).every(function(k){ return colocado[k]!==undefined; });
+}
+
+function calificar(){
+  var r=RETOS[idx], sal=q("salida");
+  if(!huecosLlenos()){
+    sal.innerHTML='<span class="esp">Faltan huecos por llenar.</span>'; return;
+  }
+  intentos++;
+  var comb=r.solucion.map(function(_,i){ return colocado[String(i)]; }).join("");
+  var correcto=(comb===r.solucion.join(""));
+  var t=(SALIDAS[String(idx)]||{})[comb] || {o:"",e:""};
+  var h="";
+  if(t.o) h+='<span class="ok">'+esc(t.o)+'</span>';
+  if(t.e) h+=(h?"\n":"")+'<span class="err">'+esc(t.e)+'</span>';
+  if(!h) h='<span class="esp">(el programa no imprimio nada)</span>';
+  sal.innerHTML=h;
+  if(correcto){ resolver(true, "Corre y hace exactamente lo que pedia el enunciado."); return; }
+  var pista=null;
+  r.solucion.forEach(function(v,i){
+    var puesto=colocado[String(i)];
+    if(puesto!==v && r.pistas && r.pistas[String(puesto)] && !pista) pista=r.pistas[String(puesto)];
+  });
+  fallo(pista || "Alguna pieza no va en ese hueco. Mira lo que devolvio y proba de nuevo.");
+}
+
+/* ═══════════ CLASIFICADOR ═══════════ */
+function pintarClasif(){
+  var r=RETOS[idx];
+  var banco=q("banco"); banco.innerHTML="";
+  r.palabras.forEach(function(par,i){
+    if(clasif[i]) return;
+    banco.appendChild(hacerFicha(par[0], i));
+  });
+  ["prop","met"].forEach(function(z){
+    var cont=q(z==="prop"?"z-prop":"z-met"); cont.innerHTML="";
+    r.palabras.forEach(function(par,i){ if(clasif[i]===z) cont.appendChild(hacerFicha(par[0], i)); });
+  });
+}
+function hacerFicha(txt,i){
+  var b=document.createElement("button");
+  b.type="button"; b.className="ficha"+(selFicha===i?" sel":"");
+  b.textContent=txt; b.draggable=true; b.dataset.i=i;
+  b.addEventListener("click", function(){
+    if(clasif[i]){ delete clasif[i]; selFicha=null; }
+    else selFicha = (selFicha===i? null : i);
+    pintarClasif();
+  });
+  b.addEventListener("dragstart", function(e){ e.dataTransfer.setData("text/plain", String(i)); selFicha=i; });
+  return b;
+}
+document.querySelectorAll(".zona").forEach(function(z){
+  z.addEventListener("dragover", function(e){ e.preventDefault(); z.classList.add("destino"); });
+  z.addEventListener("dragleave", function(){ z.classList.remove("destino"); });
+  z.addEventListener("drop", function(e){
+    e.preventDefault(); z.classList.remove("destino");
+    var i=e.dataTransfer.getData("text/plain");
+    if(i!==""){ clasif[parseInt(i,10)]=z.dataset.zona; selFicha=null; pintarClasif(); }
+  });
+  z.addEventListener("click", function(){
+    if(selFicha!==null){ clasif[selFicha]=z.dataset.zona; selFicha=null; pintarClasif(); }
+  });
+});
+function revisarClasif(){
+  var r=RETOS[idx];
+  if(Object.keys(clasif).length < r.palabras.length){
+    q("fb").innerHTML='<div class="fb mal"><b>Faltan palabras</b><p>Clasificá todas antes de revisar.</p></div>';
+    return;
+  }
+  intentos++;
+  var malas=[];
+  r.palabras.forEach(function(par,i){ if(clasif[i]!==par[1]) malas.push(par[0]); });
+  document.querySelectorAll(".ficha").forEach(function(f){
+    var i=parseInt(f.dataset.i,10);
+    f.classList.add(clasif[i]===r.palabras[i][1] ? "ok" : "err");
+  });
+  if(!malas.length) resolver(true, "Las propiedades son datos; los métodos, acciones. Lo tenés claro.");
+  else fallo("Revisá "+(malas.length===1?"esta":"estas")+": <code>"+malas.join("</code>, <code>")+
+             "</code>. Pista: si termina en <code>()</code> es algo que el objeto <em>hace</em>.");
+}
+
+/* ═══════════ FLUJO ═══════════ */
+function resolver(ok, msg){
+  res[idx]=ok; if(ok) resueltos++;
+  q("fb").innerHTML='<div class="fb bien"><b>Correcto</b><p>'+msg+'</p></div>';
+  q("marcador").textContent=resueltos+(resueltos===1?" resuelto":" resueltos");
+  q("accion").disabled=true; q("limpiar").disabled=true;
+  q("siguiente").hidden=false; q("siguiente").textContent = idx===19 ? "Ver mi resultado" : "Siguiente";
+  q("siguiente").focus(); pintarRiel(); guardar();
+}
+function fallo(msg){
+  q("fb").innerHTML='<div class="fb mal"><b>Todavía no</b><p>'+msg+'</p></div>';
+}
+function mostrar(){
+  var r=RETOS[idx];
+  colocado={}; seleccion=null; clasif={}; selFicha=null;
+  q("n-actual").textContent=idx+1;
+  q("marcador").textContent=resueltos+(resueltos===1?" resuelto":" resueltos");
+  q("enunciado").textContent=r.titulo;
+  q("subtitulo").textContent=r.sub;
+  q("fb").innerHTML="";
+  q("siguiente").hidden=true;
+  q("accion").disabled=false; q("limpiar").disabled=false;
+  var et=q("etiqueta");
+  if(r.tipo==="codigo"){
+    et.textContent="rompecabezas"; et.className="tipo p";
+    q("zona-codigo").hidden=false; q("zona-clasif").hidden=true;
+    q("accion").textContent="Calificar";
+    q("salida").innerHTML='<span class="esp">Al calificar vas a ver aquí lo que tu programa imprime — o el error que da.</span>';
+    pintarCodigo();
+  }else{
+    et.textContent="¿tiene o hace?"; et.className="tipo s";
+    q("zona-codigo").hidden=true; q("zona-clasif").hidden=false;
+    q("accion").textContent="Calificar";
+    pintarClasif();
+  }
+  pintarRiel();
+}
+q("accion").addEventListener("click", function(){
+  if(RETOS[idx].tipo==="codigo") calificar(); else revisarClasif();
+});
+q("limpiar").addEventListener("click", function(){
+  colocado={}; seleccion=null; clasif={}; selFicha=null; q("fb").innerHTML="";
+  if(RETOS[idx].tipo==="codigo"){ pintarCodigo();
+    q("salida").innerHTML='<span class="esp">Al calificar vas a ver aquí lo que tu programa imprime — o el error que da.</span>'; }
+  else pintarClasif();
+});
+q("siguiente").addEventListener("click", function(){
+  if(idx>=19){ terminar(); return; }
+  idx++; guardar(); mostrar();
+});
+
+/* ---- resultado ---- */
+function codigoVerif(nom, ac, fechaISO){
+  var s=nom.trim().toLowerCase()+"|"+ac+"|"+fechaISO, h=5381;
+  for(var i=0;i<s.length;i++){ h=((h*33) ^ s.charCodeAt(i)) >>> 0; }
+  var b=h.toString(36).toUpperCase();
+  while(b.length<6) b="0"+b;
+  return b.slice(0,6);
+}
+function dos(n){ return n<10?"0"+n:""+n }
+function terminar(){
+  var ahora=new Date();
+  var fecha=ahora.getFullYear()+"-"+dos(ahora.getMonth()+1)+"-"+dos(ahora.getDate());
+  var seg=Math.max(0, Math.round((Date.now()-t0)/1000));
+  q("r-nombre").textContent=nombre||"Sin nombre";
+  q("r-score").innerHTML=resueltos+'<span>/20</span>';
+  q("r-pct").textContent=Math.round(resueltos/20*100)+" %";
+  q("r-int").textContent=intentos;
+  q("r-tiempo").textContent=Math.floor(seg/60)+":"+dos(seg%60);
+  q("r-fecha").textContent=fecha+" "+dos(ahora.getHours())+":"+dos(ahora.getMinutes());
+  q("r-codigo").textContent=codigoVerif(nombre, resueltos, fecha);
+  var g=q("r-grid"); g.innerHTML="";
+  for(var i=0;i<20;i++){
+    var c=document.createElement("div");
+    c.className="g-cell"+(res[i]?"":" mal"); c.textContent=i+1; g.appendChild(c);
+  }
+  q("p-juego").hidden=true; q("p-fin").hidden=false; q("bloque-entrega").hidden=false; borrar();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ---- arranque ---- */
+function iniciar(reanudar){
+  var g=reanudar?leer():null;
+  if(g){ nombre=g.nombre; carne=g.carne||""; grupo=g.grupo||""; idx=g.idx; resueltos=g.resueltos; intentos=g.intentos||0; res=g.res||[]; t0=g.t0||Date.now(); }
+  else { nombre=q("nombre").value.trim(); carne=(q("carne")||{value:""}).value.trim(); grupo=(q("grupo")||{value:""}).value; idx=0; resueltos=0; intentos=0; res=[]; t0=Date.now(); }
+  if(!nombre){ q("nombre").focus(); q("nombre").style.borderColor="var(--mal)"; return; }
+  q("p-inicio").hidden=true; q("p-fin").hidden=true; q("p-juego").hidden=false;
+  guardar(); mostrar();
+  }
+q("empezar").addEventListener("click", function(){ iniciar(false) });
+q("continuar").addEventListener("click", function(){ iniciar(true) });
+q("nombre").addEventListener("keydown", function(e){ if(e.key==="Enter") iniciar(false) });
+q("reiniciar").addEventListener("click", function(){
+  borrar(); q("p-fin").hidden=true; q("p-inicio").hidden=false;
+  q("nombre").value=nombre; q("continuar").hidden=true;
+});
+var prev=leer();
+if(prev && prev.nombre && prev.idx>0){
+  q("continuar").hidden=false;
+  q("continuar").textContent="Continuar de "+prev.nombre.split(" ")[0]+" (reto "+(prev.idx+1)+")";
+  q("nombre").value=prev.nombre;
+}
+
+/* ═══════ PDF de entrega ═══════ */
+var carne="", grupo="";
+function palabras(t){ return (t.trim().match(/\\S+/g)||[]).length; }
+var ta=q("reflexion");
+if(ta) ta.addEventListener("input", function(){ q("n-palabras").textContent=palabras(ta.value); });
+
+function cargarJsPDF(){
+  if(window.jspdf && window.jspdf.jsPDF) return Promise.resolve();
+  return new Promise(function(ok,mal){
+    var s=document.createElement("script");
+    s.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    s.onload=ok; s.onerror=function(){ mal(new Error("no cargo jsPDF")); };
+    document.head.appendChild(s);
+  });
+}
+function slug(t){
+  return (t||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^A-Za-z]/g,"") || "Estudiante";
+}
+function armarPDF(){
+  var btn=q("bajar-pdf");
+  var texto=(q("reflexion")||{value:""}).value.trim();
+  if(!texto){ q("reflexion").focus(); q("reflexion").style.borderColor="var(--mal)"; return; }
+  btn.disabled=true; var etiqueta=btn.textContent; btn.textContent="Armando el PDF…";
+  cargarJsPDF().then(function(){
+    var doc=new window.jspdf.jsPDF({unit:"pt", format:"letter"});
+    var M=56, y=M, A=doc.internal.pageSize.getWidth()-M*2;
+    var fecha=q("r-fecha").textContent, cod=q("r-codigo").textContent;
+
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("FUNDAMENTOS DE PROGRAMACION 2  ·  UNIVERSIDAD DA VINCI DE GUATEMALA", M, y); y+=22;
+    doc.setFontSize(17); doc.setTextColor(20);
+    doc.text("Armá la Clase", M, y); y+=20;
+    doc.setFont("helvetica","normal"); doc.setFontSize(10.5); doc.setTextColor(70);
+    doc.text(nombre, M, y); y+=14;
+    doc.text("Carne: "+(carne||"(sin carne)")+"    Grupo: "+(grupo||"—")+"    Fecha: "+fecha, M, y); y+=20;
+    doc.setDrawColor(200); doc.line(M, y, M+A, y); y+=26;
+
+    // --- tarjeta de resultado, dibujada ---
+    doc.setFillColor(244,247,251); doc.roundedRect(M, y, A, 96, 8, 8, "F");
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("RESULTADO DEL JUEGO", M+16, y+22);
+    doc.setFontSize(30); doc.setTextColor(20);
+    doc.text(String(resueltos)+" / "+String(20), M+16, y+56);
+    doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.setTextColor(70);
+    doc.text("Aciertos: "+q("r-pct").textContent, M+A-190, y+30);
+    doc.text("Tiempo: "+q("r-tiempo").textContent, M+A-190, y+48);
+    doc.text("Codigo de verificacion: "+cod, M+A-190, y+66);
+    // rejilla de resultados
+    var celdas=document.querySelectorAll("#r-grid .g-cell"), n=celdas.length;
+    var cx=M+150, cy=y+40, lado=11, sep=3, porFila=Math.min(n,10);
+    for(var i=0;i<n;i++){
+      var f=Math.floor(i/porFila), c=i%porFila;
+      var malo=celdas[i].classList.contains("mal");
+      if(malo) doc.setFillColor(232,150,142); else doc.setFillColor(122,190,152);
+      doc.roundedRect(cx+c*(lado+sep), cy+f*(lado+sep), lado, lado, 2, 2, "F");
+    }
+    y+=118;
+
+    doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(20);
+    doc.text("Respuesta", M, y); y+=8;
+    doc.setFont("helvetica","normal"); doc.setFontSize(11); doc.setTextColor(40);
+    var lineas=doc.splitTextToSize(texto, A);
+    var alto=doc.internal.pageSize.getHeight()-M;
+    for(var j=0;j<lineas.length;j++){
+      y+=16;
+      if(y>alto){ doc.addPage(); y=M+16; }
+      doc.text(lineas[j], M, y);
+    }
+    doc.setFontSize(8); doc.setTextColor(150);
+    doc.text("Generado por "+"Armá la Clase"+" · codersatelier.com", M, doc.internal.pageSize.getHeight()-28);
+
+    var _t=nombre.trim().split(/\s+/);
+    var _ape=_t[Math.min(2,_t.length-1)], _nom=_t[0];
+    doc.save("FP2_U2_Armar_"+slug(_ape)+"_"+slug(_nom)+".pdf");
+    btn.disabled=false; btn.textContent=etiqueta;
+  }).catch(function(){
+    btn.disabled=false; btn.textContent=etiqueta;
+    alert("No se pudo generar el PDF. Tomale captura a la tarjeta y armalo a mano.");
+  });
+}
+var bp=q("bajar-pdf"); if(bp) bp.addEventListener("click", armarPDF);
+
+})();
+</script>
+</body>
+</html>

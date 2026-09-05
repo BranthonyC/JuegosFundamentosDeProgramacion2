@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Juegos · Fundamentos de Programación 2</title>
+<meta name="description" content="Dos juegos para aprender programacion orientada a objetos con Python. Universidad Da Vinci de Guatemala.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{--ground:#EFF2F7;--surface:#FFF;--ink:#141821;--ink-2:#454C5C;--ink-3:#767E90;
+  --line:#D3D9E4;--a:#2F6FAE;--a-soft:#E4EEF8;--b:#C4762A;--b-soft:#FBEEDD;
+  --shadow:0 1px 2px rgba(20,24,33,.06),0 8px 24px -12px rgba(20,24,33,.18)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#101319;--surface:#191D26;--ink:#EDF0F5;--ink-2:#AAB2C2;--ink-3:#7C8497;
+  --line:#2A303C;--a:#6FA9DC;--a-soft:#17293A;--b:#E0A160;--b-soft:#33231F;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7)}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;
+  font-size:16px;line-height:1.55;padding:clamp(20px,5vw,56px) clamp(16px,4vw,24px);display:flex;justify-content:center}
+.wrap{width:100%;max-width:720px;display:flex;flex-direction:column;gap:22px}
+h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(28px,6vw,42px);
+  line-height:1.05;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 8px}
+.lead{font-size:16.5px;color:var(--ink-2);margin:0;max-width:60ch}
+a.tarjeta{display:flex;gap:18px;align-items:center;text-decoration:none;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;
+  box-shadow:var(--shadow);transition:transform .12s,border-color .12s}
+a.tarjeta:hover{transform:translateY(-2px)}
+a.tarjeta.uno:hover{border-color:var(--a)} a.tarjeta.dos:hover{border-color:var(--b)}
+@media (prefers-reduced-motion:reduce){a.tarjeta{transition:none}a.tarjeta:hover{transform:none}}
+.emoji{flex:none;width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-size:27px}
+.uno .emoji{background:var(--a-soft)} .dos .emoji{background:var(--b-soft)}
+.tt{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:20px;letter-spacing:-.01em}
+.dd{font-size:14px;color:var(--ink-2);margin-top:3px}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:99px;padding:2px 9px;margin-top:8px;border:1px solid var(--line);color:var(--ink-3)}
+footer{font-size:13px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:18px}
+footer a{color:var(--a)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Fundamentos de Programación 2 · Universidad Da Vinci de Guatemala</p>
+    <h1>Dos juegos para entender objetos</h1>
+  </header>
+  <p class="lead">Corren enteros en tu navegador. No hay servidor, no se envía nada: tu nombre y
+    tu avance viven solo en tu equipo. El código está acá mismo, para que lo abras y veas cómo funciona.</p>
+
+  <a class="tarjeta uno" href="molde-o-galleta/">
+    <span class="emoji">🍪</span>
+    <span>
+      <span class="tt">Molde o Galleta</span>
+      <span class="dd">Veinticinco tarjetas. En cada una decidís si lo que ves define la clase —el molde—
+        o si ya es un objeto —la galleta—.</span>
+      <span class="pill">25 tarjetas</span>
+    </span>
+  </a>
+
+  <a class="tarjeta dos" href="armar-la-clase/">
+    <span class="emoji">🧩</span>
+    <span>
+      <span class="tt">Armá la Clase</span>
+      <span class="dd">Veinte retos. Colocás piezas de código en su hueco y ves qué imprime —o qué error da—,
+        y separás lo que un objeto <em>tiene</em> de lo que <em>hace</em>.</span>
+      <span class="pill">20 retos</span>
+    </span>
+  </a>
+
+  <footer>
+    Ing. Brandon Antony Chitay Coutiño ·
+    <a href="https://codersatelier.com/college/fundamentos-2">portal del curso</a> ·
+    <a href="https://github.com/BranthonyC/JuegosFundamentosDeProgramacion2">código en GitHub</a>
+  </footer>
+</div>
+</body>
+</html>

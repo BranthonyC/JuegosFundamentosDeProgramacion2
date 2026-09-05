@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Juego de 25 tarjetas para distinguir clase de objeto en Python. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%AA%3C/text%3E%3C/svg%3E">
+<title>Molde o Galleta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#EFF2F7; --surface:#FFFFFF; --sunken:#E4E8F0;
+  --ink:#141821; --ink-2:#454C5C; --ink-3:#767E90;
+  --line:#D3D9E4;
+  --molde:#2F6FAE; --molde-soft:#E4EEF8; --molde-ink:#1B4B7A;
+  --galleta:#C4762A; --galleta-soft:#FBEEDD; --galleta-ink:#8A4F13;
+  --bien:#2F7D52; --bien-soft:#E3F2E9;
+  --mal:#B8403A; --mal-soft:#FBE7E5;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(20,24,33,.06), 0 8px 24px -12px rgba(20,24,33,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+    --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497;
+    --line:#2A303C;
+    --molde:#6FA9DC; --molde-soft:#17293A; --molde-ink:#A8CCE9;
+    --galleta:#E0A160; --galleta-soft:#33231170; --galleta-ink:#EEC38F;
+    --bien:#66BC8C; --bien-soft:#16281E;
+    --mal:#E1756D; --mal-soft:#2C1917;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497;
+  --line:#2A303C;
+  --molde:#6FA9DC; --molde-soft:#17293A; --molde-ink:#A8CCE9;
+  --galleta:#E0A160; --galleta-soft:#33231170; --galleta-ink:#EEC38F;
+  --bien:#66BC8C; --bien-soft:#16281E;
+  --mal:#E1756D; --mal-soft:#2C1917;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.55;
+  padding:clamp(16px,4vw,40px) clamp(14px,4vw,24px);
+  display:flex; justify-content:center;
+}
+img{max-width:100%}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit}
+.wrap{width:100%;max-width:680px;display:flex;flex-direction:column;gap:22px}
+
+/* ---------- encabezado ---------- */
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  font-weight:800;font-size:clamp(26px,5.5vw,38px);line-height:1.05;letter-spacing:-.02em;
+  text-wrap:balance;margin:0}
+.brand .o{color:var(--ink-3);font-weight:600}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;margin:0 0 6px}
+
+/* ---------- riel de progreso ---------- */
+.rail{display:grid;grid-template-columns:repeat(25,1fr);gap:3px}
+.seg{height:6px;border-radius:99px;background:var(--sunken);transition:background .25s}
+.seg.bien{background:var(--bien)} .seg.mal{background:var(--mal)}
+.seg.now{background:var(--ink-3)}
+@media (prefers-reduced-motion:reduce){.seg{transition:none}}
+
+/* ---------- tarjetas ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:clamp(18px,4vw,28px)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;margin-bottom:14px}
+.meta strong{color:var(--ink-2);font-weight:600}
+.pregunta{font-size:14px;color:var(--ink-2);margin:0 0 14px}
+
+.code{background:var(--sunken);border:1px solid var(--line);border-radius:10px;
+  padding:18px 16px;overflow-x:auto;margin:0 0 6px}
+.code pre{margin:0;font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:clamp(14px,3.4vw,17px);line-height:1.65;white-space:pre;color:var(--ink)}
+.prosa{font-family:"IBM Plex Sans",sans-serif;font-size:clamp(16px,3.6vw,19px);
+  font-weight:500;white-space:normal;line-height:1.5}
+.kw{color:var(--molde);font-weight:700}
+.st{color:var(--galleta)}
+.cm{color:var(--ink-3);font-style:italic}
+
+/* ---------- botones de respuesta ---------- */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media (max-width:420px){.opts{grid-template-columns:1fr}}
+.opt{cursor:pointer;padding:16px 14px;border-radius:12px;text-align:left;
+  display:flex;flex-direction:column;gap:3px;transition:transform .12s,box-shadow .12s;
+  background:var(--surface)}
+.opt:hover:not(:disabled){transform:translateY(-2px)}
+.opt:disabled{cursor:default;opacity:.55}
+.opt:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.opt .t{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:19px;letter-spacing:-.01em}
+.opt .s{font-size:12px;opacity:.85}
+.opt-molde{border:2px dashed var(--molde);color:var(--molde-ink);background:var(--molde-soft)}
+.opt-galleta{border:2px solid var(--galleta);border-radius:22px;color:var(--galleta-ink);background:var(--galleta-soft)}
+.opt.elegida{transform:none;opacity:1}
+.opt.correcta{border-style:solid;border-color:var(--bien);background:var(--bien-soft);color:var(--bien)}
+.opt.incorrecta{border-style:solid;border-color:var(--mal);background:var(--mal-soft);color:var(--mal)}
+@media (prefers-reduced-motion:reduce){.opt{transition:none}.opt:hover{transform:none}}
+
+/* ---------- feedback ---------- */
+.fb{margin-top:16px;padding:14px 16px;border-radius:11px;border-left:4px solid;font-size:14.5px}
+.fb.bien{background:var(--bien-soft);border-color:var(--bien)}
+.fb.mal{background:var(--mal-soft);border-color:var(--mal)}
+.fb .veredicto{font-weight:700;display:block;margin-bottom:3px}
+.fb.bien .veredicto{color:var(--bien)} .fb.mal .veredicto{color:var(--mal)}
+.fb p{margin:0;color:var(--ink-2)}
+.fb code{font-family:"JetBrains Mono",monospace;font-size:.92em;
+  background:var(--surface);padding:1px 5px;border-radius:4px;border:1px solid var(--line)}
+
+/* ---------- botones ---------- */
+.btn{cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--ground);
+  padding:12px 22px;border-radius:10px;font-weight:600;font-size:15px;
+  transition:opacity .15s}
+.btn:hover{opacity:.86}
+.btn:focus-visible{outline:3px solid var(--molde);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--ink-2);border-color:var(--line)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.hint{font-size:12.5px;color:var(--ink-3)}
+kbd{font-family:"JetBrains Mono",monospace;font-size:11px;background:var(--sunken);
+  border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 5px;color:var(--ink-2)}
+
+/* ---------- inicio ---------- */
+.reglas{display:flex;flex-direction:column;gap:10px;margin:18px 0 22px;padding:0;list-style:none}
+.reglas li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--ink-2)}
+.chip{flex:none;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;
+  font-size:11px;font-weight:700;margin-top:1px}
+.chip.m{background:var(--molde-soft);color:var(--molde-ink);border:1px dashed var(--molde)}
+.chip.g{background:var(--galleta-soft);color:var(--galleta-ink);border:1px solid var(--galleta);border-radius:11px}
+.chip.n{background:var(--sunken);color:var(--ink-3);border:1px solid var(--line)}
+label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;color:var(--ink-3);margin-bottom:7px}
+input[type=text]{width:100%;padding:13px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ground);color:var(--ink);font:inherit}
+input[type=text]:focus{outline:none;border-color:var(--molde);box-shadow:0 0 0 3px var(--molde-soft)}
+
+/* ---------- resultados ---------- */
+.res-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.score{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  font-size:clamp(46px,13vw,72px);line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.score span{font-size:.4em;color:var(--ink-3);font-weight:600}
+.grid25{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:20px 0}
+.g-cell{aspect-ratio:1;border-radius:7px;display:grid;place-items:center;
+  font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;
+  background:var(--bien-soft);color:var(--bien);border:1px solid var(--bien)}
+.g-cell.mal{background:var(--mal-soft);color:var(--mal);border-color:var(--mal)}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:4px}
+.dato{background:var(--surface);padding:11px 13px}
+.dato dt{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 3px}
+.dato dd{margin:0;font-weight:600;font-size:14.5px;font-variant-numeric:tabular-nums}
+.dato dd.mono{font-family:"JetBrains Mono",monospace;letter-spacing:.06em}
+.aviso{margin-top:18px;padding:14px 16px;border-radius:11px;background:var(--molde-soft);
+  border:1px dashed var(--molde);color:var(--molde-ink);font-size:14px}
+.aviso strong{font-weight:700}
+.repaso{margin-top:22px}
+.repaso h3{font-family:"Bricolage Grotesque",sans-serif;font-size:15px;margin:0 0 10px;font-weight:600}
+.repaso ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:9px}
+.repaso li{font-size:13.5px;color:var(--ink-2)}
+.repaso code{font-family:"JetBrains Mono",monospace;font-size:.9em;background:var(--sunken);
+  padding:1px 5px;border-radius:4px;border:1px solid var(--line)}
+footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
+
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.campos{grid-template-columns:1fr}}
+select{width:100%;padding:13px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ground);color:var(--ink);font:inherit}
+select:focus{outline:none;border-color:var(--molde);box-shadow:0 0 0 3px var(--molde-soft)}
+textarea{width:100%;min-height:150px;padding:13px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ground);color:var(--ink);font:inherit;line-height:1.55;resize:vertical}
+textarea:focus{outline:none;border-color:var(--molde);box-shadow:0 0 0 3px var(--molde-soft)}
+.cuenta{font-size:12px;color:var(--ink-3);margin-top:6px;font-variant-numeric:tabular-nums}
+.entrega{margin-top:16px}
+.entrega h3{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;margin:0 0 4px;font-weight:600}
+.entrega .pregunta-pdf{font-size:14px;color:var(--ink-2);margin:0 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">FP2 · Unidad 2 · Semana 3</p>
+      <h1 class="brand">Molde <span class="o">o</span> Galleta</h1>
+    </div>
+    <button class="btn ghost" id="tema" type="button" aria-label="Cambiar tema">Tema</button>
+  </header>
+
+  <!-- ============ INICIO ============ -->
+  <section class="card" id="pantalla-inicio">
+    <p class="pregunta" style="font-size:15.5px;color:var(--ink)">
+      Veinticinco tarjetas. En cada una decidís una sola cosa: lo que estás viendo,
+      ¿describe el <strong>molde</strong> o ya es una <strong>galleta</strong>?
+    </p>
+    <ul class="reglas">
+      <li><span class="chip m">M</span><span><strong>Molde</strong> — la clase. El plano, la definición. Todavía no existe nada horneado.</span></li>
+      <li><span class="chip g">G</span><span><strong>Galleta</strong> — el objeto. Una instancia concreta, ya fabricada, con sus propios datos.</span></li>
+      <li><span class="chip n">✓</span><span>Cada respuesta te explica el porqué al instante. El puntaje no se guarda en ningún servidor: vive solo en este navegador.</span></li>
+    </ul>
+    <label for="nombre">Tu nombre completo</label>
+    <input type="text" id="nombre" placeholder="Ana María López Chacón" autocomplete="name" spellcheck="false">
+    <div class="campos" style="margin-top:12px">
+      <div><label for="carne">Carné</label>
+        <input type="text" id="carne" placeholder="202612345" inputmode="numeric" spellcheck="false"></div>
+      <div><label for="grupo">Grupo</label>
+        <select id="grupo">
+          <option value="II24-FP2">II24-FP2 — presencial / remoto síncrono</option>
+          <option value="IS24-FP2">IS24-FP2 — e-learning</option>
+        </select></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="empezar" type="button">Empezar las 25</button>
+      <button class="btn ghost" id="continuar" type="button" hidden>Continuar donde quedé</button>
+    </div>
+    <p class="hint" style="margin-top:12px">Atajos: <kbd>M</kbd> molde · <kbd>G</kbd> galleta · <kbd>Enter</kbd> siguiente</p>
+  </section>
+
+  <!-- ============ JUEGO ============ -->
+  <section id="pantalla-juego" hidden>
+    <div class="rail" id="rail" aria-hidden="true"></div>
+    <div class="card" style="margin-top:18px">
+      <div class="meta">
+        <span>Tarjeta <strong id="n-actual">1</strong> de 25</span>
+        <span id="marcador">0 correctas</span>
+      </div>
+      <p class="pregunta" id="enunciado">¿Molde o galleta?</p>
+      <div class="code"><pre id="codigo"></pre></div>
+      <div class="opts">
+        <button class="opt opt-molde" id="btn-molde" type="button">
+          <span class="t">Molde</span><span class="s">la clase · el plano</span>
+        </button>
+        <button class="opt opt-galleta" id="btn-galleta" type="button">
+          <span class="t">Galleta</span><span class="s">el objeto · la instancia</span>
+        </button>
+      </div>
+      <div id="fb"></div>
+      <div class="row" id="fila-siguiente" hidden>
+        <button class="btn" id="siguiente" type="button">Siguiente</button>
+        <span class="hint">o presioná <kbd>Enter</kbd></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTADOS ============ -->
+  <section id="pantalla-fin" hidden>
+    <div class="card" id="tarjeta-captura">
+      <div class="res-head">
+        <div>
+          <p class="eyebrow">Resultado · Molde o Galleta</p>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;margin:0;font-weight:600" id="r-nombre">—</h2>
+        </div>
+        <div class="score" id="r-score">0<span>/25</span></div>
+      </div>
+      <div class="grid25" id="r-grid"></div>
+      <dl class="datos">
+        <div class="dato"><dt>Aciertos</dt><dd id="r-pct">0 %</dd></div>
+        <div class="dato"><dt>Tiempo</dt><dd id="r-tiempo">0:00</dd></div>
+        <div class="dato"><dt>Fecha</dt><dd id="r-fecha">—</dd></div>
+        <div class="dato"><dt>Código</dt><dd class="mono" id="r-codigo">—</dd></div>
+      </dl>
+      <div class="aviso">
+        <strong>Tomá una captura de esta tarjeta</strong> y adjuntala donde lo indique el curso.
+        El código de verificación se calcula con tu nombre, tu puntaje y la fecha.
+      </div>
+    </div>
+
+    <div class="card repaso" id="bloque-repaso" hidden>
+      <h3>Las que fallaste, para repasarlas</h3>
+      <ol id="lista-fallos"></ol>
+    </div>
+
+    <div class="card entrega" id="bloque-entrega" hidden>
+      <h3>Tu reflexión</h3>
+      <p class="pregunta-pdf">Explicá con tus palabras qué es una clase y qué es una instancia, como si se lo explicaras a alguien que va en FP1. Usá un ejemplo tuyo.</p>
+      <textarea id="reflexion" placeholder="Escribí aquí tu respuesta…"></textarea>
+      <p class="cuenta"><span id="n-palabras">0</span> palabras</p>
+      <div class="row">
+        <button class="btn" id="bajar-pdf" type="button">Descargar mi PDF de entrega</button>
+        <span class="hint">Se arma solo, con tu cabecera y tu resultado. Después lo subís a Moodle.</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="btn" id="reiniciar" type="button">Jugar de nuevo</button>
+    </div>
+  </section>
+
+  <footer>Fundamentos de Programación 2 · Universidad Da Vinci de Guatemala · Ing. Brandon Chitay</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var M="molde", G="galleta";
+  var CARTAS=[
+    {c:'class Perro:\n    pass', r:M, e:'La palabra <code>class</code> abre una definición. Es el plano del perro; todavía no existe ningún perro.'},
+    {c:'firulais = Perro("Firulais")', r:G, e:'Los paréntesis fabrican. Aquí nació un objeto concreto y quedó guardado en <code>firulais</code>.'},
+    {c:'Perro', r:M, e:'El nombre solo, sin paréntesis, es el molde. Es lo que usás para fabricar, no lo fabricado.'},
+    {c:'firulais', r:G, e:'Una variable que guarda una instancia. Tiene su propio nombre, su propia edad, sus propios datos.'},
+    {c:'canela = Perro("Canela")', r:G, e:'Segunda galleta del mismo molde. <code>canela</code> y <code>firulais</code> son independientes: cambiar una no toca a la otra.'},
+    {c:'class CuentaBancaria:\n    def __init__(self, titular):\n        self.titular = titular', r:M, e:'Todo el bloque describe cómo se fabricará cada cuenta. Ninguna cuenta existe todavía.'},
+    {c:'def __init__(self, valor):', r:M, e:'El constructor es parte del molde: son las instrucciones de fabricación, no una pieza fabricada.'},
+    {c:'int', r:M, e:'Sorpresa: <code>int</code> es una clase de Python. Los tipos también son moldes.'},
+    {c:'42', r:G, e:'Todo valor en Python es un objeto. <code>42</code> es una instancia de <code>int</code> — probalo con <code>type(42)</code>.'},
+    {c:'str', r:M, e:'Otra clase incorporada. <code>str</code> es el molde de todos los textos.'},
+    {c:'"buenos días"', r:G, e:'Una instancia de <code>str</code>. Por eso podés pedirle métodos: <code>"hola".upper()</code>.'},
+    {c:'list', r:M, e:'El molde de las listas. <code>list()</code> con paréntesis fabricaría una.'},
+    {c:'[1, 2, 3]', r:G, e:'Una lista concreta, ya construida en memoria. Es una galleta de tipo <code>list</code>.'},
+    {c:'oakland = Parqueo("Oakland Mall", 3)', r:G, e:'Instancia con sus propios datos: nombre y capacidad propios, contador propio.'},
+    {c:'oakland.entrar()', r:G, e:'Le estás pidiendo a un objeto que actúe. Quien ejecuta el método es la galleta, no el molde.'},
+    {c:'Parqueo.entrar', r:M, e:'Accedido desde la clase es la función del molde, sin ningún objeto asociado. Le faltaría el <code>self</code>.'},
+    {c:'self', r:G, e:'Dentro de un método, <code>self</code> es la galleta que llamó. En <code>ana.saludar()</code>, <code>self</code> es <code>ana</code>.'},
+    {c:'class Parqueo:\n    iva = 0.12   # atributo de clase', r:M, e:'Vive en el molde, así que TODAS las galletas lo comparten. Cambiarlo en la clase las cambia a todas.'},
+    {c:'firulais.nombre', r:G, e:'Atributo de instancia: vive dentro de esa galleta. Cada perro tiene el suyo.'},
+    {c:'NumeroEntero(7)', r:G, e:'Aunque no la guardes en una variable, la instancia se creó. Sin asignarla, Python la descarta después.'},
+    {c:'Estudiante.presentarse(ana)', r:M, e:'Llamada desde el molde pasándole la galleta a mano. Es exactamente lo que <code>ana.presentarse()</code> hace por debajo.'},
+    {c:'bool', r:M, e:'Sí, también es una clase. En Python casi todo lo que nombrás en mayúscula inicial —y varios en minúscula— es un molde.'},
+    {c:'True', r:G, e:'Instancia de <code>bool</code>. Python solo mantiene dos de estas galletas en todo el programa.'},
+    {c:'type(firulais)', r:M, e:'Devuelve <code>&lt;class \'Perro\'&gt;</code>: te está entregando el molde con el que se horneó esa galleta.'},
+    {c:'CuentaBancaria("Ana", 500.0)', r:G, e:'La última: paréntesis con argumentos, un objeto nuevo. Es literalmente la primera línea de prueba de tu tarea.'}
+  ];
+
+  var LS="fp2_molde_galleta_v1";
+  var q=function(s){return document.getElementById(s)};
+  var idx=0, aciertos=0, respuestas=[], t0=0, nombre="";
+
+  /* ---- tema ---- */
+  q("tema").addEventListener("click",function(){
+    var r=document.documentElement;
+    var oscuro = r.getAttribute("data-theme")==="dark" ||
+      (!r.getAttribute("data-theme") && matchMedia("(prefers-color-scheme:dark)").matches);
+    r.setAttribute("data-theme", oscuro?"light":"dark");
+  });
+
+  /* ---- persistencia (best-effort) ---- */
+  function guardar(){
+    try{ localStorage.setItem(LS, JSON.stringify(
+      {nombre:nombre, carne:carne, grupo:grupo, idx:idx, aciertos:aciertos, respuestas:respuestas, t0:t0})); }catch(e){}
+  }
+  function leer(){ try{ return JSON.parse(localStorage.getItem(LS)||"null"); }catch(e){ return null; } }
+  function borrar(){ try{ localStorage.removeItem(LS); }catch(e){} }
+
+  /* ---- riel ---- */
+  var rail=q("rail");
+  for(var i=0;i<25;i++){ var d=document.createElement("div"); d.className="seg"; rail.appendChild(d); }
+  function pintarRiel(){
+    var segs=rail.children;
+    for(var i=0;i<25;i++){
+      segs[i].className="seg" + (respuestas[i]===undefined ? (i===idx?" now":"")
+        : (respuestas[i].ok?" bien":" mal"));
+    }
+  }
+
+  /* ---- render ---- */
+  function mostrar(){
+    var c=CARTAS[idx];
+    q("n-actual").textContent=idx+1;
+    q("marcador").textContent=aciertos+(aciertos===1?" correcta":" correctas");
+    q("enunciado").textContent="Lo que ves aquí, ¿es molde o galleta?";
+    var pre=q("codigo");
+    pre.className = c.c.length>44 && c.c.indexOf("\n")===-1 ? "prosa" : "";
+    pre.textContent=c.c;
+    q("fb").innerHTML="";
+    q("fila-siguiente").hidden=true;
+    ["btn-molde","btn-galleta"].forEach(function(id){
+      var b=q(id); b.disabled=false;
+      b.className="opt "+(id==="btn-molde"?"opt-molde":"opt-galleta");
+    });
+    pintarRiel();
+  }
+
+  function responder(elegida){
+    if(q("btn-molde").disabled) return;
+    var c=CARTAS[idx], ok = elegida===c.r;
+    if(ok) aciertos++;
+    respuestas[idx]={ok:ok, elegida:elegida, i:idx};
+    q("btn-molde").disabled=true; q("btn-galleta").disabled=true;
+    var bE = elegida===M ? q("btn-molde") : q("btn-galleta");
+    bE.classList.add("elegida", ok?"correcta":"incorrecta");
+    if(!ok){ (c.r===M?q("btn-molde"):q("btn-galleta")).classList.add("correcta"); }
+    q("fb").innerHTML='<div class="fb '+(ok?"bien":"mal")+'">'+
+      '<span class="veredicto">'+(ok?"Correcto: "+(c.r===M?"molde":"galleta"):
+      "Era "+(c.r===M?"molde":"galleta"))+'</span><p>'+c.e+'</p></div>';
+    q("marcador").textContent=aciertos+(aciertos===1?" correcta":" correctas");
+    q("fila-siguiente").hidden=false;
+    q("siguiente").textContent = idx===24 ? "Ver mi resultado" : "Siguiente";
+    q("siguiente").focus();
+    pintarRiel(); guardar();
+  }
+
+  function siguiente(){
+    if(idx>=24){ terminar(); return; }
+    idx++; guardar(); mostrar();
+  }
+
+  /* ---- resultados ---- */
+  function codigoVerif(nom, ac, fechaISO){
+    var s=nom.trim().toLowerCase()+"|"+ac+"|"+fechaISO, h=5381;
+    for(var i=0;i<s.length;i++){ h=((h*33) ^ s.charCodeAt(i)) >>> 0; }
+    var b=h.toString(36).toUpperCase();
+    while(b.length<6) b="0"+b;
+    return b.slice(0,6);
+  }
+  function dos(n){ return n<10?"0"+n:""+n }
+
+  function terminar(){
+    var ahora=new Date();
+    var fecha=ahora.getFullYear()+"-"+dos(ahora.getMonth()+1)+"-"+dos(ahora.getDate());
+    var seg=Math.max(0, Math.round((Date.now()-t0)/1000));
+    q("r-nombre").textContent=nombre||"Sin nombre";
+    q("r-score").innerHTML=aciertos+'<span>/25</span>';
+    q("r-pct").textContent=Math.round(aciertos/25*100)+" %";
+    q("r-tiempo").textContent=Math.floor(seg/60)+":"+dos(seg%60);
+    q("r-fecha").textContent=fecha+" "+dos(ahora.getHours())+":"+dos(ahora.getMinutes());
+    q("r-codigo").textContent=codigoVerif(nombre, aciertos, fecha);
+    var g=q("r-grid"); g.innerHTML="";
+    for(var i=0;i<25;i++){
+      var cel=document.createElement("div");
+      var r=respuestas[i];
+      cel.className="g-cell"+(r&&r.ok?"":" mal");
+      cel.textContent=i+1;
+      g.appendChild(cel);
+    }
+    var fallos=respuestas.filter(function(r){return r&&!r.ok});
+    if(fallos.length){
+      q("bloque-repaso").hidden=false;
+      var ol=q("lista-fallos"); ol.innerHTML="";
+      fallos.forEach(function(r){
+        var c=CARTAS[r.i], li=document.createElement("li");
+        li.innerHTML='<code>'+c.c.replace(/</g,"&lt;").replace(/\n/g," ⏎ ")+'</code> → era <strong>'+
+          (c.r===M?"molde":"galleta")+'</strong>. '+c.e;
+        ol.appendChild(li);
+      });
+    } else { q("bloque-repaso").hidden=true; }
+    q("pantalla-juego").hidden=true;
+    q("pantalla-fin").hidden=false;
+    q("bloque-entrega").hidden=false;
+    borrar();
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  /* ---- arranque ---- */
+  function iniciar(reanudar){
+    var g=reanudar?leer():null;
+    if(g){ nombre=g.nombre; carne=g.carne||""; grupo=g.grupo||""; idx=g.idx; aciertos=g.aciertos; respuestas=g.respuestas||[]; t0=g.t0||Date.now(); }
+    else { nombre=q("nombre").value.trim(); carne=(q("carne")||{value:""}).value.trim(); grupo=(q("grupo")||{value:""}).value; idx=0; aciertos=0; respuestas=[]; t0=Date.now(); }
+    if(!nombre){ q("nombre").focus(); q("nombre").style.borderColor="var(--mal)"; return; }
+    q("pantalla-inicio").hidden=true;
+    q("pantalla-fin").hidden=true;
+    q("pantalla-juego").hidden=false;
+    guardar(); mostrar();
+  }
+
+  q("empezar").addEventListener("click",function(){ iniciar(false) });
+  q("continuar").addEventListener("click",function(){ iniciar(true) });
+  q("btn-molde").addEventListener("click",function(){ responder(M) });
+  q("btn-galleta").addEventListener("click",function(){ responder(G) });
+  q("siguiente").addEventListener("click", siguiente);
+  q("reiniciar").addEventListener("click",function(){
+    borrar(); q("pantalla-fin").hidden=true; q("pantalla-inicio").hidden=false;
+    q("nombre").value=nombre; q("continuar").hidden=true;
+  });
+  q("nombre").addEventListener("keydown",function(e){ if(e.key==="Enter") iniciar(false) });
+
+  document.addEventListener("keydown",function(e){
+    if(q("pantalla-juego").hidden) return;
+    var k=e.key.toLowerCase();
+    if(k==="m") responder(M);
+    else if(k==="g") responder(G);
+    else if(e.key==="Enter" && !q("fila-siguiente").hidden){ e.preventDefault(); siguiente(); }
+  });
+
+  var prev=leer();
+  if(prev && prev.nombre && prev.idx>0){
+    q("continuar").hidden=false;
+    q("continuar").textContent="Continuar de "+prev.nombre.split(" ")[0]+" (tarjeta "+(prev.idx+1)+")";
+    q("nombre").value=prev.nombre;
+  }
+
+/* ═══════ PDF de entrega ═══════ */
+var carne="", grupo="";
+function palabras(t){ return (t.trim().match(/\S+/g)||[]).length; }
+var ta=q("reflexion");
+if(ta) ta.addEventListener("input", function(){ q("n-palabras").textContent=palabras(ta.value); });
+
+function cargarJsPDF(){
+  if(window.jspdf && window.jspdf.jsPDF) return Promise.resolve();
+  return new Promise(function(ok,mal){
+    var s=document.createElement("script");
+    s.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    s.onload=ok; s.onerror=function(){ mal(new Error("no cargo jsPDF")); };
+    document.head.appendChild(s);
+  });
+}
+function slug(t){
+  return (t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z]/g,"") || "Estudiante";
+}
+function armarPDF(){
+  var btn=q("bajar-pdf");
+  var texto=(q("reflexion")||{value:""}).value.trim();
+  if(!texto){ q("reflexion").focus(); q("reflexion").style.borderColor="var(--mal)"; return; }
+  btn.disabled=true; var etiqueta=btn.textContent; btn.textContent="Armando el PDF…";
+  cargarJsPDF().then(function(){
+    var doc=new window.jspdf.jsPDF({unit:"pt", format:"letter"});
+    var M=56, y=M, A=doc.internal.pageSize.getWidth()-M*2;
+    var fecha=q("r-fecha").textContent, cod=q("r-codigo").textContent;
+
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("FUNDAMENTOS DE PROGRAMACION 2  ·  UNIVERSIDAD DA VINCI DE GUATEMALA", M, y); y+=22;
+    doc.setFontSize(17); doc.setTextColor(20);
+    doc.text("Molde o Galleta", M, y); y+=20;
+    doc.setFont("helvetica","normal"); doc.setFontSize(10.5); doc.setTextColor(70);
+    doc.text(nombre, M, y); y+=14;
+    doc.text("Carne: "+(carne||"(sin carne)")+"    Grupo: "+(grupo||"—")+"    Fecha: "+fecha, M, y); y+=20;
+    doc.setDrawColor(200); doc.line(M, y, M+A, y); y+=26;
+
+    // --- tarjeta de resultado, dibujada ---
+    doc.setFillColor(244,247,251); doc.roundedRect(M, y, A, 96, 8, 8, "F");
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("RESULTADO DEL JUEGO", M+16, y+22);
+    doc.setFontSize(30); doc.setTextColor(20);
+    doc.text(String(aciertos)+" / "+String(25), M+16, y+56);
+    doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.setTextColor(70);
+    doc.text("Aciertos: "+q("r-pct").textContent, M+A-190, y+30);
+    doc.text("Tiempo: "+q("r-tiempo").textContent, M+A-190, y+48);
+    doc.text("Codigo de verificacion: "+cod, M+A-190, y+66);
+    // rejilla de resultados
+    var celdas=document.querySelectorAll("#r-grid .g-cell"), n=celdas.length;
+    var cx=M+150, cy=y+40, lado=11, sep=3, porFila=Math.min(n,10);
+    for(var i=0;i<n;i++){
+      var f=Math.floor(i/porFila), c=i%porFila;
+      var malo=celdas[i].classList.contains("mal");
+      if(malo) doc.setFillColor(232,150,142); else doc.setFillColor(122,190,152);
+      doc.roundedRect(cx+c*(lado+sep), cy+f*(lado+sep), lado, lado, 2, 2, "F");
+    }
+    y+=118;
+
+    doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(20);
+    doc.text("Respuesta", M, y); y+=8;
+    doc.setFont("helvetica","normal"); doc.setFontSize(11); doc.setTextColor(40);
+    var lineas=doc.splitTextToSize(texto, A);
+    var alto=doc.internal.pageSize.getHeight()-M;
+    for(var j=0;j<lineas.length;j++){
+      y+=16;
+      if(y>alto){ doc.addPage(); y=M+16; }
+      doc.text(lineas[j], M, y);
+    }
+    doc.setFontSize(8); doc.setTextColor(150);
+    doc.text("Generado por "+"Molde o Galleta"+" · codersatelier.com", M, doc.internal.pageSize.getHeight()-28);
+
+    var _t=nombre.trim().split(/\s+/);
+    var _ape=_t[Math.min(2,_t.length-1)], _nom=_t[0];
+    doc.save("FP2_U2_Reflexion_"+slug(_ape)+"_"+slug(_nom)+".pdf");
+    btn.disabled=false; btn.textContent=etiqueta;
+  }).catch(function(){
+    btn.disabled=false; btn.textContent=etiqueta;
+    alert("No se pudo generar el PDF. Tomale captura a la tarjeta y armalo a mano.");
+  });
+}
+var bp=q("bajar-pdf"); if(bp) bp.addEventListener("click", armarPDF);
+
+})();
+</script>
+</body>
+</html>
