@@ -584,7 +584,7 @@ function cargarJsPDF(){
   });
 }
 function slug(t){
-  return (t||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^A-Za-z]/g,"") || "Estudiante";
+  return (t||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z]/g,"") || "Estudiante";
 }
 function armarPDF(){
   var btn=q("bajar-pdf");
