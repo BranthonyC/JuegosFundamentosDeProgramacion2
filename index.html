@@ -31,6 +31,7 @@ a.tarjeta{display:flex;gap:18px;align-items:center;text-decoration:none;color:in
   box-shadow:var(--shadow);transition:transform .12s,border-color .12s}
 a.tarjeta:hover{transform:translateY(-2px)}
 a.tarjeta.uno:hover{border-color:var(--a)} a.tarjeta.dos:hover{border-color:var(--b)}
+a.tarjeta.tres:hover{border-color:#5B4BC4}
 @media (prefers-reduced-motion:reduce){a.tarjeta{transition:none}a.tarjeta:hover{transform:none}}
 .emoji{flex:none;width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-size:27px}
 .uno .emoji{background:var(--a-soft)} .dos .emoji{background:var(--b-soft)}
@@ -46,7 +47,7 @@ footer a{color:var(--a)}
 <div class="wrap">
   <header>
     <p class="eyebrow">Fundamentos de Programación 2 · Universidad Da Vinci de Guatemala</p>
-    <h1>Dos juegos para entender objetos</h1>
+    <h1>Tres juegos para entender objetos</h1>
   </header>
   <p class="lead">Corren enteros en tu navegador. No hay servidor, no se envía nada: tu nombre y
     tu avance viven solo en tu equipo. El código está acá mismo, para que lo abras y veas cómo funciona.</p>
@@ -68,6 +69,16 @@ footer a{color:var(--a)}
       <span class="dd">Veinte retos. Colocás piezas de código en su hueco y ves qué imprime —o qué error da—,
         y separás lo que un objeto <em>tiene</em> de lo que <em>hace</em>.</span>
       <span class="pill">20 retos</span>
+    </span>
+  </a>
+
+  <a class="tarjeta tres" href="que-imprime/">
+    <span class="emoji">🖨</span>
+    <span>
+      <span class="tt">¿Qué Imprime?</span>
+      <span class="dd">Doce retos. Ocho veces predecís la salida de un programa antes de verla, y cuatro
+        veces escribís vos el código que falta. Las salidas salieron de correr cada programa en Python real.</span>
+      <span class="pill">12 retos</span>
     </span>
   </a>
 

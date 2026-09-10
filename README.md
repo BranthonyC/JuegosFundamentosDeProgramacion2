@@ -1,6 +1,6 @@
 # Juegos · Fundamentos de Programación 2
 
-Dos juegos para entender **programación orientada a objetos** con Python, del curso
+Tres juegos para entender **programación orientada a objetos** con Python, del curso
 Fundamentos de Programación 2 de la **Universidad Da Vinci de Guatemala**.
 
 Corren enteros en el navegador. **No hay servidor y no se envía nada a ninguna parte:**
@@ -12,6 +12,36 @@ tu nombre y tu avance viven solo en tu equipo, en `localStorage`.
 | 🧩 [**Armá la Clase**](armar-la-clase/) — 20 retos | Armar una clase pieza por pieza y separar **propiedades** de **métodos** |
 
 ---
+
+### `que-imprime/retos.py` — Python de verdad, no simulado
+
+El tercer juego, **¿Qué Imprime?**, tiene doce retos: ocho donde predecís la salida de un
+programa y cuatro donde escribís el código que falta.
+
+Ninguna de las salidas está escrita a mano. `retos.py` **ejecuta cada programa en un
+subproceso de Python** y se queda con lo que imprimió más, si revienta, la última línea
+del traceback — la que uno lee de verdad. Después verifica tres cosas y falla si alguna no
+se cumple:
+
+- la opción marcada como correcta **es** lo que el programa imprime;
+- **ningún distractor produce la misma salida** que la correcta (si dos coinciden, el reto
+  no distingue nada y hay que rediseñarlo);
+- para cada reto de escribir código: **toda** variante aceptada corre y da la salida
+  esperada, y **toda** trampa da algo distinto.
+
+Ese último invariante tumbó un reto mientras se armaba. El de las dos guardas de
+`retirar()` tenía como trampa `monto < 0` frente a la correcta `monto <= 0`, y las dos
+imprimían exactamente lo mismo: el programa de prueba nunca retiraba **cero**, así que la
+diferencia era invisible. Se agregó un `retirar(0.0)` a la secuencia.
+
+Hay un caso a propósito: en `es_impar`, la respuesta `self.valor % 2 == 1` corre y da la
+salida correcta, pero la consigna pide *reusar* `es_par()`. Está marcada con
+`misma_salida=True`, que es la forma de decirle al verificador «esta coincidencia es
+deliberada, no es un reto roto».
+
+Y los retos se **declaran** con la correcta en el índice 0, para poder leer el archivo; si
+se publicaran así, la respuesta sería siempre la A. `barajar_opciones()` las permuta con
+una semilla fija derivada del título: mezclado, pero igual para todos.
 
 ## Cómo abrirlos
 
