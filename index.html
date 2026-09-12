@@ -32,6 +32,7 @@ a.tarjeta{display:flex;gap:18px;align-items:center;text-decoration:none;color:in
 a.tarjeta:hover{transform:translateY(-2px)}
 a.tarjeta.uno:hover{border-color:var(--a)} a.tarjeta.dos:hover{border-color:var(--b)}
 a.tarjeta.tres:hover{border-color:#5B4BC4}
+a.tarjeta.cuatro:hover{border-color:#B2560D} a.tarjeta.cinco:hover{border-color:#1E6FBF}
 @media (prefers-reduced-motion:reduce){a.tarjeta{transition:none}a.tarjeta:hover{transform:none}}
 .emoji{flex:none;width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-size:27px}
 .uno .emoji{background:var(--a-soft)} .dos .emoji{background:var(--b-soft)}
@@ -47,7 +48,7 @@ footer a{color:var(--a)}
 <div class="wrap">
   <header>
     <p class="eyebrow">Fundamentos de Programación 2 · Universidad Da Vinci de Guatemala</p>
-    <h1>Tres juegos para entender objetos</h1>
+    <h1>Cinco juegos para entender objetos</h1>
   </header>
   <p class="lead">Corren enteros en tu navegador. No hay servidor, no se envía nada: tu nombre y
     tu avance viven solo en tu equipo. El código está acá mismo, para que lo abras y veas cómo funciona.</p>
@@ -79,6 +80,28 @@ footer a{color:var(--a)}
       <span class="dd">Doce retos. Ocho veces predecís la salida de un programa antes de verla, y cuatro
         veces escribís vos el código que falta. Las salidas salieron de correr cada programa en Python real.</span>
       <span class="pill">12 retos</span>
+    </span>
+  </a>
+
+  <a class="tarjeta cuatro" href="quien-responde/">
+    <span class="emoji">👨‍👦</span>
+    <span>
+      <span class="tt">¿Quién Responde?</span>
+      <span class="dd">Doce retos sobre herencia y polimorfismo, todos sobre la misma planilla: quién
+        hereda de quién, qué pasa si falta <code>super()</code> y por qué el <code>for</code> nunca
+        pregunta el tipo.</span>
+      <span class="pill">12 retos</span>
+    </span>
+  </a>
+
+  <a class="tarjeta cinco" href="cual-pilar/">
+    <span class="emoji">🏛</span>
+    <span>
+      <span class="tt">¿Cuál Pilar?</span>
+      <span class="dd">Dieciséis fragmentos. Ves el código y lo que imprime, y decidís cuál de los cuatro
+        pilares se está mostrando. Casi todos tienen los cuatro de fondo: la gracia es distinguir cuál
+        se está <em>mostrando</em>.</span>
+      <span class="pill">16 fragmentos</span>
     </span>
   </a>
 

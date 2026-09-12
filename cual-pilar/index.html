@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Dieciseis fragmentos de Python: adivina cual de los cuatro pilares de la POO se esta mostrando. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%9B%3C/text%3E%3C/svg%3E">
+<title>¿Cuál Pilar?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#EFF2F7; --surface:#FFFFFF; --sunken:#E4E8F0;
+  --ink:#141821; --ink-2:#454C5C; --ink-3:#767E90; --line:#D3D9E4;
+  --abs:#1E6FBF; --abs-soft:#E2EEFA;
+  --enc:#0F7B78; --enc-soft:#DDF1F0;
+  --her:#5B4BC4; --her-soft:#EAE7FA;
+  --pol:#B2560D; --pol-soft:#FBEADB;
+  --bien:#2F7D52; --bien-soft:#E3F2E9;
+  --mal:#B8403A;  --mal-soft:#FBE7E5;
+  --term:#0B0D12; --term-ink:#EDF0F5;
+  --shadow:0 1px 2px rgba(20,24,33,.06), 0 8px 24px -12px rgba(20,24,33,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --abs:#6BB2F0; --abs-soft:#12263B; --enc:#5CC8C4; --enc-soft:#0F2B2A;
+  --her:#A99BF0; --her-soft:#221C3D; --pol:#E8A56A; --pol-soft:#33220F;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --abs:#6BB2F0; --abs-soft:#12263B; --enc:#5CC8C4; --enc-soft:#0F2B2A;
+  --her:#A99BF0; --her-soft:#221C3D; --pol:#E8A56A; --pol-soft:#33220F;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%}
+.wrap{max-width:840px;margin:0 auto;padding:22px 18px 64px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 2px;font-weight:600}
+h1.brand{font-family:"Bricolage Grotesque",sans-serif;font-size:34px;line-height:1.05;margin:0;font-weight:800;letter-spacing:-.02em}
+h1.brand em{font-style:normal;color:var(--her)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin:0 0 5px}
+input,select,textarea{width:100%;padding:11px 13px;border-radius:10px;border:1.5px solid var(--line);
+  background:var(--surface);color:var(--ink);font-family:inherit;font-size:15px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--her);box-shadow:0 0 0 3px var(--her-soft)}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.campos{grid-template-columns:1fr}}
+.btn{appearance:none;border:none;border-radius:10px;padding:11px 18px;font-family:inherit;font-size:15px;
+  font-weight:600;background:var(--ink);color:var(--ground);cursor:pointer}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink-2);border:1.5px solid var(--line)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.hint{font-size:13px;color:var(--ink-3)}
+.reglas{list-style:none;padding:0;margin:14px 0 18px;display:grid;gap:10px}
+.reglas li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--ink-2)}
+.chip{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+  font-size:13px;font-weight:700;background:var(--her-soft);color:var(--her)}
+.rail{display:flex;gap:4px}
+.rail i{flex:1;height:5px;border-radius:3px;background:var(--sunken)}
+.rail i.hecho{background:var(--bien)} .rail i.falló{background:var(--mal)} .rail i.acá{background:var(--ink-3)}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-3);margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.enun{font-family:"Bricolage Grotesque",sans-serif;font-size:21px;margin:0 0 14px;font-weight:600;letter-spacing:-.01em}
+pre.code{background:var(--term);color:var(--term-ink);border-radius:12px;padding:16px 18px;overflow-x:auto;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:13.5px;line-height:1.62;margin:0 0 8px}
+.salida{background:var(--sunken);border-radius:10px;padding:11px 14px;margin:0 0 16px;
+  font-family:"JetBrains Mono",monospace;font-size:13px;white-space:pre-wrap;color:var(--ink-2)}
+.salida b{display:block;font-family:"IBM Plex Sans",sans-serif;font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;font-weight:600}
+.pilares{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.pilares{grid-template-columns:1fr}}
+.pil{appearance:none;text-align:left;cursor:pointer;border-radius:12px;padding:14px 16px;
+  border:1.8px solid var(--line);background:var(--surface);color:var(--ink);font-family:inherit;font-size:16px;font-weight:600}
+.pil small{display:block;font-weight:400;font-size:12.5px;color:var(--ink-3);margin-top:3px}
+.pil:hover:not(:disabled){border-color:var(--ink-3)}
+.pil:disabled{cursor:default;opacity:.55}
+.pil[data-p="0"] b{color:var(--abs)} .pil[data-p="1"] b{color:var(--enc)}
+.pil[data-p="2"] b{color:var(--her)} .pil[data-p="3"] b{color:var(--pol)}
+.pil.elegida{opacity:1}
+.pil.buena{border-color:var(--bien);background:var(--bien-soft);opacity:1}
+.pil.mala{border-color:var(--mal);background:var(--mal-soft);opacity:1}
+.fb{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14.5px;border:1.5px solid}
+.fb.ok{background:var(--bien-soft);border-color:var(--bien)}
+.fb.no{background:var(--mal-soft);border-color:var(--mal)}
+.fb b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:16px;margin-bottom:5px}
+.fb p{margin:0 0 9px} .fb p:last-child{margin-bottom:0}
+.fb .otro{font-size:13.5px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:9px;margin-top:10px}
+code{font-family:"JetBrains Mono",monospace;font-size:.9em;background:var(--sunken);padding:1px 5px;border-radius:5px}
+.fb code{background:rgba(0,0,0,.07)}
+.res-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.score{font-family:"Bricolage Grotesque",sans-serif;font-size:40px;font-weight:800;line-height:1;color:var(--her)}
+.score span{font-size:19px;color:var(--ink-3)}
+.grid16{display:grid;grid-template-columns:repeat(16,1fr);gap:4px;margin-bottom:12px}
+@media(max-width:560px){.grid16{grid-template-columns:repeat(8,1fr)}}
+.grid16 i{height:24px;border-radius:5px;background:var(--sunken);display:grid;place-items:center;
+  font-size:10px;font-weight:700;color:var(--ink-3);font-style:normal}
+.grid16 i.b{background:var(--bien-soft);color:var(--bien)} .grid16 i.m{background:var(--mal-soft);color:var(--mal)}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin:0}
+.dato{background:var(--sunken);border-radius:10px;padding:9px 12px}
+.dato dt{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.dato dd{margin:2px 0 0;font-size:17px;font-weight:600;font-family:"Bricolage Grotesque",sans-serif}
+.porpilar{display:grid;gap:8px;margin-top:14px}
+.pp{display:flex;align-items:center;gap:10px;font-size:14px}
+.pp .nm{width:132px;font-weight:600} .pp .barra{flex:1;height:9px;background:var(--sunken);border-radius:5px;overflow:hidden}
+.pp .barra i{display:block;height:100%;border-radius:5px}
+.pp .n{font-size:13px;color:var(--ink-3);width:36px;text-align:right}
+h3{font-family:"Bricolage Grotesque",sans-serif;font-size:17px;margin:0 0 4px;font-weight:600}
+.cuenta{font-size:12.5px;color:var(--ink-3);margin:6px 0 0}
+.aviso{background:var(--her-soft);border-radius:10px;padding:11px 14px;font-size:13.5px;color:var(--ink-2);margin-top:14px}
+ol{margin:0 0 12px;padding-left:20px;font-size:14px;color:var(--ink-2)}
+ol li{margin-bottom:5px}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">FP2 · Unidad 2 · Semana 4 · los cuatro pilares</p>
+      <h1 class="brand">¿Cuál <em>Pilar</em>?</h1>
+    </div>
+    <button class="btn ghost" id="tema" type="button">Tema</button>
+  </header>
+
+  <section class="card" id="p-inicio">
+    <p style="font-size:15.5px;margin:0 0 4px">
+      Dieciséis fragmentos de Python. En cada uno decidís <strong>cuál de los cuatro pilares</strong>
+      se está mostrando. Cuatro fragmentos por pilar.
+    </p>
+    <ul class="reglas">
+      <li><span class="chip">1</span><span><strong>Leé el código y la salida antes de elegir.</strong> Los cuatro pilares suelen estar presentes de fondo; la pregunta es cuál se está <em>mostrando</em>.</span></li>
+      <li><span class="chip">2</span><span><strong>Los dos pares que cuestan.</strong> Abstracción vs. encapsulamiento, y herencia vs. polimorfismo. Ahí es donde se decide el parcial.</span></li>
+      <li><span class="chip">3</span><span>Todo corre en tu navegador. Nada se envía a ningún servidor. Al final baja tu PDF con el resultado.</span></li>
+    </ul>
+    <label for="nombre">Tu nombre completo</label>
+    <input type="text" id="nombre" placeholder="Ana María López Chacón" autocomplete="name" spellcheck="false">
+    <div class="campos" style="margin-top:12px">
+      <div><label for="carne">Carné</label>
+        <input type="text" id="carne" placeholder="202612345" inputmode="numeric" spellcheck="false"></div>
+      <div><label for="grupo">Grupo</label>
+        <select id="grupo">
+          <option value="II24-FP2">II24-FP2 — presencial / remoto síncrono</option>
+          <option value="IS24-FP2">IS24-FP2 — e-learning</option>
+        </select></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="empezar" type="button">Empezar los 16</button>
+      <button class="btn ghost" id="continuar" type="button" hidden>Continuar</button>
+    </div>
+  </section>
+
+  <section id="p-juego" hidden>
+    <div class="rail" id="rail"></div>
+    <div class="card" style="margin-top:16px">
+      <div class="meta">
+        <span>Fragmento <strong id="n-actual">1</strong> de 16</span>
+        <span id="marcador">0 correctos</span>
+      </div>
+      <h2 class="enun" id="enunciado">—</h2>
+      <pre class="code" id="codigo"></pre>
+      <div class="salida" id="salida"></div>
+      <p style="font-weight:600;font-size:14px;margin:0 0 10px">¿Qué pilar se está mostrando?</p>
+      <div class="pilares" id="pilares"></div>
+      <div id="fb"></div>
+      <div class="row"><button class="btn" id="siguiente" type="button" hidden>Siguiente</button></div>
+    </div>
+  </section>
+
+  <section id="p-fin" hidden>
+    <div class="card">
+      <div class="res-head">
+        <div>
+          <p class="eyebrow">Resultado · ¿Cuál Pilar?</p>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;margin:0;font-weight:600" id="r-nombre">—</h2>
+        </div>
+        <div class="score" id="r-score">0<span>/16</span></div>
+      </div>
+      <div class="grid16" id="r-grid"></div>
+      <dl class="datos">
+        <div class="dato"><dt>Aciertos</dt><dd id="r-pct">0 %</dd></div>
+        <div class="dato"><dt>Tiempo</dt><dd id="r-tiempo">0:00</dd></div>
+        <div class="dato"><dt>Fecha</dt><dd id="r-fecha">—</dd></div>
+        <div class="dato"><dt>Código</dt><dd id="r-codigo" style="font-family:'JetBrains Mono',monospace;font-size:14px">—</dd></div>
+      </dl>
+      <h3 style="margin-top:18px">Cómo te fue en cada pilar</h3>
+      <div class="porpilar" id="r-pilares"></div>
+      <div class="aviso"><strong>Mirá la barra más corta.</strong> Ese es el pilar que tenés que repasar
+        antes del parcial — no el que más fallaste en total, sino el que peor proporción tiene.</div>
+    </div>
+
+    <div class="card" id="bloque-fallos" hidden>
+      <h3>Lo que fallaste, para repasarlo</h3>
+      <div id="lista-fallos"></div>
+    </div>
+
+    <div class="card">
+      <h3>Tu respuesta escrita</h3>
+      <p class="hint" style="margin:0 0 12px">Respondé las dos, en 150 a 250 palabras en total:</p>
+      <ol>
+        <li><strong>El par que más te costó.</strong> ¿Abstracción vs. encapsulamiento, o herencia vs.
+          polimorfismo? Explicá con tus palabras cómo los distinguís ahora.</li>
+        <li><strong>Tu propio fragmento.</strong> Escribí tres o cuatro líneas de código tuyas que
+          muestren un pilar, y decí cuál es y por qué.</li>
+      </ol>
+      <textarea id="reflexion" rows="8" placeholder="Escribí aquí tu respuesta…"></textarea>
+      <p class="cuenta"><span id="n-palabras">0</span> palabras</p>
+      <div class="row">
+        <button class="btn" id="bajar-pdf" type="button">Descargar mi PDF</button>
+        <span class="hint">Es tu hoja de estudio para el parcial.</span>
+      </div>
+    </div>
+    <div class="row"><button class="btn ghost" id="reiniciar" type="button">Jugar de nuevo</button></div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+var DATOS={"retos": [{"titulo": "El concierto", "pilar": 3, "codigo": "class Instrumento:\n    def sonar(self):\n        print(\"...\")\n\nclass Marimba(Instrumento):\n    def sonar(self):\n        print(\"Tan tan tan\")\n\nclass Tambor(Instrumento):\n    def sonar(self):\n        print(\"Pum pum\")\n\nfor i in [Marimba(), Tambor(), Marimba()]:\n    i.sonar()", "porque": "El <code>for</code> manda <strong>el mismo mensaje</strong> (<code>sonar()</code>) y cada objeto contesta segun lo que es. El ciclo <strong>nunca pregunta el tipo</strong>: ese es el fenomeno.", "tientan": {"2": "La herencia esta ahi y es el <em>vehiculo</em> que lo hace posible — pero lo que se esta mostrando es el resultado: un mensaje, tres respuestas distintas. Si las hijas no redefinieran <code>sonar()</code>, habria herencia y NO habria polimorfismo.", "0": "No se esta recortando ningun modelo.", "1": "No hay ningun dato protegido."}, "orden": ["2", "0", "1"], "salida": "Tan tan tan\nPum pum\nTan tan tan"}, {"titulo": "El saldo de solo lectura", "pilar": 1, "codigo": "class Cuenta:\n    def __init__(self, saldo):\n        self._saldo = saldo\n\n    @property\n    def saldo(self):\n        return self._saldo\n\nc = Cuenta(500)\nprint(c.saldo)\nc.saldo = 999999", "porque": "El <code>@property</code> sin <code>setter</code> deja <strong>leer pero no escribir</strong>. Intentar asignar revienta con <code>AttributeError</code>. El estado esta protegido de que alguien lo cambie desde afuera sin pasar por las reglas.", "tientan": {"0": "El recorte del modelo seria decidir <em>que</em> guarda una cuenta. Aqui se esta protegiendo un dato que ya se decidio guardar.", "2": "No hay clase padre.", "3": "Un solo tipo de objeto."}, "orden": ["0", "2", "3"], "salida": "500\nAttributeError: property 'saldo' of 'Cuenta' object has no setter"}, {"titulo": "La cafetera", "pilar": 0, "codigo": "class Cafetera:\n    def preparar(self):\n        self._calentar_agua()\n        self._moler_grano()\n        self._filtrar()\n        print(\"Cafe listo\")\n\n    def _calentar_agua(self): pass\n    def _moler_grano(self): pass\n    def _filtrar(self): pass\n\nCafetera().preparar()", "porque": "Vos apretas <strong>un</strong> boton y por dentro pasan tres cosas. La clase ofrece una <strong>interfaz simple</strong> (<code>preparar()</code>) y esconde los pasos. Eso es el iceberg del cajero automatico: lo que usas arriba, el detalle abajo.", "tientan": {"1": "Es la confusion mas cara de la unidad. Aqui no se esta <em>protegiendo un dato</em> de que lo cambien: se esta <em>simplificando</em> lo que el usuario ve. La abstraccion dibuja la puerta; el encapsulamiento le pone chapa.", "2": "No hay clase padre ni <code>super()</code> por ningun lado.", "3": "Un solo objeto, un solo metodo. Nadie responde distinto al mismo mensaje."}, "orden": ["1", "2", "3"], "salida": "Cafe listo"}, {"titulo": "La prueba del 'es un'", "pilar": 2, "codigo": "class Empleado:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\nclass Barista(Empleado):\n    pass\n\nana = Barista(\"Ana Lopez\")\nprint(isinstance(ana, Empleado), type(ana) == Empleado)", "porque": "<code>isinstance</code> dice <code>True</code> porque una Barista <strong>es un</strong> Empleado — esa relacion es la herencia. <code>type()</code> dice <code>False</code> porque su clase exacta es <code>Barista</code>.", "tientan": {"3": "El polimorfismo se veria si varios tipos respondieran al mismo metodo. Aqui solo se esta consultando el parentesco.", "0": "No hay decision de que modelar.", "1": "<code>nombre</code> es publico."}, "orden": ["3", "0", "1"], "salida": "True False"}, {"titulo": "El mapa del Transmetro", "pilar": 0, "codigo": "class Ruta:\n    def __init__(self, nombre, paradas):\n        self.nombre = nombre\n        self.paradas = paradas\n\n    def cuantas_paradas(self):\n        return len(self.paradas)\n\nl1 = Ruta(\"Linea 1\", [\"Centra Sur\", \"Plaza Barrios\", \"Tipografia\"])\nprint(l1.nombre, \"tiene\", l1.cuantas_paradas(), \"paradas\")", "porque": "El mapa del Transmetro no dibuja calles, ni distancias reales, ni el trafico. Dibuja <strong>paradas y orden</strong>, porque es lo unico que el pasajero necesita. Un buen modelo se mide por lo que deja fuera.", "tientan": {"1": "Nada esta protegido: <code>paradas</code> es una lista publica que cualquiera puede vaciar.", "2": "No hay jerarquia: ninguna clase hereda de otra.", "3": "Un solo tipo de objeto. No hay varios respondiendo al mismo mensaje."}, "orden": ["1", "2", "3"], "salida": "Linea 1 tiene 3 paradas"}, {"titulo": "Tres niveles", "pilar": 2, "codigo": "class Vehiculo:\n    def __init__(self, placa):\n        self.placa = placa\n\nclass Carro(Vehiculo):\n    ruedas = 4\n\nclass Taxi(Carro):\n    def __init__(self, placa, tarifa):\n        super().__init__(placa)\n        self.tarifa = tarifa\n\nt = Taxi(\"P-123ABC\", 8.5)\nprint(t.placa, t.ruedas, t.tarifa)", "porque": "<code>Taxi</code> saca <code>placa</code> del abuelo <code>Vehiculo</code> y <code>ruedas</code> del padre <code>Carro</code>. Python sube por la cadena hasta encontrar cada cosa: es una <strong>familia de clases</strong>.", "tientan": {"3": "Nadie redefine un metodo ni manda el mismo mensaje a tipos distintos.", "0": "No se esta recortando un modelo.", "1": "Todo es publico."}, "orden": ["3", "0", "1"], "salida": "P-123ABC 4 8.5"}, {"titulo": "El padre que llama a la hija", "pilar": 3, "codigo": "class Figura:\n    def area(self):\n        return 0\n\n    def describir(self):\n        print(f\"{type(self).__name__}: area = {self.area()}\")\n\nclass Cuadrado(Figura):\n    def __init__(self, lado):\n        self.lado = lado\n\n    def area(self):\n        return self.lado ** 2\n\nCuadrado(5).describir()", "porque": "<code>describir()</code> esta escrito en <code>Figura</code> y nunca se modifico, y aun asi imprime 25. Python busca <code>area()</code> <strong>en la clase del objeto primero</strong>: el padre termina llamando a la version de la hija sin saberlo.", "tientan": {"2": "La herencia es la que pone <code>describir()</code> al alcance del Cuadrado — pero lo asombroso es <em>cual</em> <code>area()</code> termina corriendo. Eso es polimorfismo.", "0": "No se esta recortando un modelo.", "1": "<code>lado</code> es publico."}, "orden": ["2", "0", "1"], "salida": "Cuadrado: area = 25"}, {"titulo": "El producto con descuento", "pilar": 2, "codigo": "class Producto:\n    def __init__(self, nombre, precio):\n        self.nombre = nombre\n        self.precio = precio\n\n    def mostrar(self):\n        print(f\"{self.nombre}: Q{self.precio:.2f}\")\n\nclass ProductoConDescuento(Producto):\n    pass\n\np = ProductoConDescuento(\"Cafe\", 35.0)\np.mostrar()", "porque": "La hija no define <strong>nada</strong> y aun asi tiene constructor y metodo: los recibio del padre. Ese traspaso es la herencia pura, sin nada encima.", "tientan": {"3": "Es el par que mas se confunde. Para polimorfismo haria falta que la hija <strong>redefina</strong> <code>mostrar()</code> y que alguien mande el mismo mensaje a varios tipos. Aqui no redefine nada: la herencia es el vehiculo, el polimorfismo es el fenomeno.", "0": "No se esta recortando un modelo, se esta reusando uno.", "1": "Los dos atributos son publicos; no hay ninguna proteccion."}, "orden": ["3", "0", "1"], "salida": "Cafe: Q35.00"}, {"titulo": "La ficha del estudiante", "pilar": 0, "codigo": "class Estudiante:\n    def __init__(self, carne, nombre, carrera):\n        self.carne = carne\n        self.nombre = nombre\n        self.carrera = carrera\n\nana = Estudiante(\"202612345\", \"Ana Lopez\", \"Industrial\")\nprint(ana.nombre, \"-\", ana.carrera)", "porque": "De una persona se puede guardar TODO: estatura, tipo de sangre, equipo de futbol, el nombre del perro. Esta clase guarda <strong>tres</strong> datos. Decidir que se queda fuera es exactamente abstraer: el modelo es bueno por lo que <em>omite</em>.", "tientan": {"1": "No hay nada protegido: los tres atributos son publicos y cualquiera los cambia. Si hubiera un <code>_</code> o un <code>@property</code>, si.", "2": "No hay ninguna clase padre. <code>Estudiante</code> no hereda de nadie.", "3": "Hay un solo tipo de objeto y un solo <code>print</code>. Para polimorfismo hacen falta varios tipos respondiendo al mismo mensaje."}, "orden": ["1", "2", "3"], "salida": "Ana Lopez - Industrial"}, {"titulo": "El setter que valida", "pilar": 1, "codigo": "class Producto:\n    def __init__(self, precio):\n        self._precio = precio\n\n    @property\n    def precio(self):\n        return self._precio\n\n    @precio.setter\n    def precio(self, nuevo):\n        if nuevo < 0:\n            raise ValueError(\"El precio no puede ser negativo\")\n        self._precio = nuevo\n\np = Producto(25)\np.precio = 30\nprint(p.precio)\np.precio = -10", "porque": "Se ve igual que asignar un atributo comun (<code>p.precio = 30</code>) pero por dentro pasa por una <strong>revision</strong>. El objeto controla las reglas de su propio estado: nadie le mete un precio negativo.", "tientan": {"0": "No se esta eligiendo que modelar de un producto, se esta poniendo una regla sobre un dato.", "2": "Ninguna clase hereda de otra aqui.", "3": "Un solo tipo, un solo objeto."}, "orden": ["0", "2", "3"], "salida": "30\nValueError: El precio no puede ser negativo"}, {"titulo": "La ubicacion del repartidor", "pilar": 0, "codigo": "class Ubicacion:\n    def __init__(self, lat, lon):\n        self.lat = lat\n        self.lon = lon\n\n    def distancia_a(self, otra):\n        return round(((self.lat - otra.lat) ** 2 + (self.lon - otra.lon) ** 2) ** 0.5, 4)\n\ntienda = Ubicacion(14.6349, -90.5069)\ncasa = Ubicacion(14.6100, -90.4900)\nprint(\"Distancia:\", tienda.distancia_a(casa))", "porque": "Un punto en la Tierra tiene altitud, clima, zona horaria, nombre de barrio. Para calcular una entrega alcanza con <strong>dos numeros</strong>. El modelo se recorta a la medida del problema — ese recorte es la abstraccion.", "tientan": {"1": "Los dos atributos estan expuestos sin <code>_</code> ni <code>@property</code>: no hay nada encapsulado.", "2": "<code>Ubicacion</code> no deriva de ninguna clase.", "3": "Los dos objetos son del <strong>mismo</strong> tipo. Polimorfismo es que tipos <em>distintos</em> contesten al mismo mensaje."}, "orden": ["1", "2", "3"], "salida": "Distancia: 0.0301"}, {"titulo": "El termometro", "pilar": 1, "codigo": "class Termometro:\n    def __init__(self):\n        self._celsius = 20\n\n    @property\n    def celsius(self):\n        return self._celsius\n\n    def calentar(self, grados):\n        if grados <= 0:\n            print(\"Rechazado: hay que calentar con un numero positivo.\")\n            return\n        self._celsius += grados\n\nt = Termometro()\nt.calentar(-5)\nt.calentar(10)\nprint(t.celsius)", "porque": "El dato vive protegido en <code>_celsius</code>, se lee por <code>@property</code> y solo se modifica por un metodo que <strong>valida antes de tocar el estado</strong>. Esa guarda es la chapa de la puerta.", "tientan": {"0": "Tambien hay abstraccion (se modela solo la temperatura), pero lo que la lamina <em>subraya</em> es la guarda que rechaza el valor invalido. La pregunta es que pilar se esta mostrando, no cual esta presente de fondo.", "2": "No hay clase padre.", "3": "Un solo tipo de objeto respondiendo."}, "orden": ["0", "2", "3"], "salida": "Rechazado: hay que calentar con un numero positivo.\n30"}, {"titulo": "El reloj y el doble guion bajo", "pilar": 1, "codigo": "class Reloj:\n    def __init__(self, hora):\n        self.__hora = hora\n\nr = Reloj(\"08:00\")\nprint(r._Reloj__hora)", "porque": "El doble guion bajo dispara el <em>name mangling</em>: Python renombra el atributo a <code>_Reloj__hora</code>. Es encapsulamiento, pero el ejemplo muestra que en Python <strong>es un acuerdo, no un candado</strong>: quien sabe el truco entra igual.", "tientan": {"0": "No se esta decidiendo que modelar: se esta decidiendo quien puede tocar un dato que ya existe.", "2": "No hay herencia; el <code>_Reloj__</code> del nombre es el mangling, no un padre.", "3": "Un solo objeto y un solo <code>print</code>."}, "orden": ["0", "2", "3"], "salida": "08:00"}, {"titulo": "La planilla", "pilar": 3, "codigo": "class Empleado:\n    def __init__(self, nombre, base):\n        self.nombre = nombre\n        self.base = base\n\n    def pago(self):\n        return self.base / 4\n\nclass Barista(Empleado):\n    def pago(self):\n        return super().pago() + 150\n\nclass Gerente(Empleado):\n    def pago(self):\n        return super().pago() + 400\n\nequipo = [Barista(\"Ana\", 3200), Gerente(\"Lucia\", 6000), Empleado(\"Kevin\", 3200)]\nfor e in equipo:\n    print(f\"{e.nombre}: Q{e.pago():.2f}\")", "porque": "Un <code>for</code>, un mensaje (<code>pago()</code>), tres resultados distintos — y <strong>cero <code>if</code> por tipo</strong>. Contratar a alguien nuevo no cambia ni una linea del ciclo.", "tientan": {"2": "La herencia y el <code>super()</code> estan ahi, si — pero son el andamio. Lo que la lamina muestra es el <code>for</code> que trata a los tres por igual y obtiene tres respuestas.", "0": "El modelo ya esta decidido; no es lo que se esta ilustrando.", "1": "<code>base</code> es publico, sin guion bajo ni property."}, "orden": ["2", "0", "1"], "salida": "Ana: Q950.00\nLucia: Q1900.00\nKevin: Q800.00"}, {"titulo": "Los canales de la plataforma", "pilar": 3, "codigo": "class SMS:\n    def enviar(self, texto):\n        print(\"SMS:\", texto)\n\nclass WhatsApp:\n    def enviar(self, texto):\n        print(\"WhatsApp:\", texto)\n\nclass Correo:\n    def enviar(self, texto):\n        print(\"Correo:\", texto)\n\nfor canal in [SMS(), WhatsApp(), Correo()]:\n    canal.enviar(\"Su pedido va en camino\")", "porque": "Y aqui ni siquiera hay clase padre: las tres clases son independientes y solo <strong>comparten el nombre del metodo</strong>. Python no exige parentesco, solo que el objeto sepa responder. Agregar Telegram no toca ese <code>for</code>.", "tientan": {"2": "Justo lo que hace especial a este caso: <strong>no hay herencia</strong>. Ninguna clase deriva de otra y aun asi el polimorfismo funciona. La herencia ayuda, pero no es obligatoria.", "0": "No se esta decidiendo que modelar.", "1": "Ningun atributo protegido."}, "orden": ["2", "0", "1"], "salida": "SMS: Su pedido va en camino\nWhatsApp: Su pedido va en camino\nCorreo: Su pedido va en camino"}, {"titulo": "super() en el constructor", "pilar": 2, "codigo": "class Animal:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\nclass Perro(Animal):\n    def __init__(self, nombre, raza):\n        super().__init__(nombre)\n        self.raza = raza\n\nrocky = Perro(\"Rocky\", \"labrador\")\nprint(rocky.nombre, \"-\", rocky.raza)", "porque": "<code>super().__init__(nombre)</code> le pasa al padre lo que es del padre, y la hija agrega lo suyo. Lo <strong>comun se escribe una vez</strong> arriba; cada hija extiende.", "tientan": {"3": "No hay ningun metodo redefinido ni ningun mensaje comun a varios tipos. Solo se esta construyendo.", "0": "No se esta decidiendo que dejar fuera del modelo.", "1": "<code>nombre</code> y <code>raza</code> estan al aire, sin guion bajo ni property."}, "orden": ["3", "0", "1"], "salida": "Rocky - labrador"}], "pilares": ["Abstraccion", "Encapsulamiento", "Herencia", "Polimorfismo"], "python": "3.12.3"};
+var RETOS=DATOS.retos, PILARES=DATOS.pilares, TOTAL=RETOS.length;
+var LS="fp2_cual_pilar_v1";
+var SUB=["qué se modela y qué se deja fuera","quién puede tocar el estado",
+         "una clase que reusa a otra","un mensaje, respuestas distintas"];
+var CLASES=["abs","enc","her","pol"];
+var i=0, elegidas=[], t0=Date.now();
+
+function q(id){return document.getElementById(id)}
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+
+/* ---------- tema ---------- */
+q("tema").onclick=function(){
+  var r=document.documentElement;
+  var actual=r.getAttribute("data-theme");
+  var oscuro = actual ? actual==="dark"
+    : matchMedia("(prefers-color-scheme:dark)").matches;
+  r.setAttribute("data-theme", oscuro?"light":"dark");
+  try{localStorage.setItem(LS+"_tema", oscuro?"light":"dark")}catch(e){}
+};
+try{var tg=localStorage.getItem(LS+"_tema"); if(tg)document.documentElement.setAttribute("data-theme",tg)}catch(e){}
+
+/* ---------- guardar / recuperar ---------- */
+function guardar(){
+  try{localStorage.setItem(LS,JSON.stringify({i:i,el:elegidas,t0:t0,
+    n:q("nombre").value,c:q("carne").value,g:q("grupo").value}))}catch(e){}
+}
+function recuperar(){
+  try{var d=JSON.parse(localStorage.getItem(LS)||"null");
+    if(d&&d.el&&d.el.length){q("nombre").value=d.n||"";q("carne").value=d.c||"";
+      if(d.g)q("grupo").value=d.g; q("continuar").hidden=false;
+      q("continuar").onclick=function(){i=d.i;elegidas=d.el;t0=d.t0||Date.now();arrancar()};}
+  }catch(e){}
+}
+recuperar();
+
+/* ---------- arranque ---------- */
+q("empezar").onclick=function(){
+  if(!q("nombre").value.trim()){q("nombre").focus();q("nombre").style.borderColor="var(--mal)";return}
+  i=0;elegidas=[];t0=Date.now();arrancar();
+};
+function arrancar(){q("p-inicio").hidden=true;q("p-juego").hidden=false;pintarRail();pintar()}
+
+function pintarRail(){
+  var r=q("rail");r.innerHTML="";
+  for(var k=0;k<TOTAL;k++){
+    var e=document.createElement("i");
+    if(elegidas[k]!=null) e.className = elegidas[k]===RETOS[k].pilar?"hecho":"falló";
+    else if(k===i) e.className="acá";
+    r.appendChild(e);
+  }
+}
+
+function pintar(){
+  var r=RETOS[i];
+  q("n-actual").textContent=i+1;
+  var ok=elegidas.filter(function(v,k){return v===RETOS[k].pilar}).length;
+  q("marcador").textContent=ok+" correcto"+(ok===1?"":"s");
+  q("enunciado").textContent=r.titulo;
+  q("codigo").textContent=r.codigo;
+  q("salida").innerHTML="<b>Lo que imprime</b>"+esc(r.salida);
+  q("fb").innerHTML="";
+  q("siguiente").hidden=true;
+  var cont=q("pilares");cont.innerHTML="";
+  for(var p=0;p<4;p++){
+    var b=document.createElement("button");
+    b.type="button";b.className="pil";b.setAttribute("data-p",p);
+    b.innerHTML="<b>"+PILARES[p]+"</b><small>"+SUB[p]+"</small>";
+    b.onclick=(function(pp){return function(){responder(pp)}})(p);
+    cont.appendChild(b);
+  }
+  pintarRail();guardar();
+}
+
+function responder(p){
+  var r=RETOS[i], bien=(p===r.pilar);
+  elegidas[i]=p;
+  var bs=q("pilares").children;
+  for(var k=0;k<bs.length;k++){
+    bs[k].disabled=true;
+    if(k===r.pilar) bs[k].className="pil buena";
+    else if(k===p)  bs[k].className="pil mala";
+  }
+  var h='<div class="fb '+(bien?"ok":"no")+'">';
+  h+="<b>"+(bien?"Correcto — "+PILARES[r.pilar]:"Es "+PILARES[r.pilar]+", no "+PILARES[p])+"</b>";
+  h+="<p>"+r.porque+"</p>";
+  if(!bien && r.tientan[p]) h+='<p class="otro"><strong>Por qué '+PILARES[p]+' tienta aquí:</strong> '+r.tientan[p]+"</p>";
+  else if(bien){
+    var otro=(r.orden||Object.keys(r.tientan))[0];   // el par confundible, no el de indice menor
+    if(otro!=null) h+='<p class="otro"><strong>Por qué '+PILARES[otro]+' tienta aquí:</strong> '+r.tientan[otro]+"</p>";
+  }
+  h+="</div>";
+  q("fb").innerHTML=h;
+  q("siguiente").hidden=false;
+  q("siguiente").textContent = i<TOTAL-1 ? "Siguiente" : "Ver mi resultado";
+  pintarRail();guardar();
+}
+
+q("siguiente").onclick=function(){
+  if(i<TOTAL-1){i++;pintar();window.scrollTo({top:0,behavior:"smooth"})}
+  else terminar();
+};
+
+/* ---------- resultado ---------- */
+function codigoVerif(nombre,ok,fecha){
+  var s=nombre+"|"+ok+"|"+fecha, h=0;
+  for(var k=0;k<s.length;k++){h=((h<<5)-h+s.charCodeAt(k))|0}
+  return Math.abs(h).toString(36).toUpperCase().slice(0,6).padStart(6,"0");
+}
+var RES={};
+function terminar(){
+  q("p-juego").hidden=true;q("p-fin").hidden=false;window.scrollTo({top:0});
+  var nombre=q("nombre").value.trim();
+  var ok=elegidas.filter(function(v,k){return v===RETOS[k].pilar}).length;
+  var seg=Math.round((Date.now()-t0)/1000);
+  var fecha=new Date().toLocaleDateString("es-GT",{day:"2-digit",month:"short",year:"numeric"});
+  RES={nombre:nombre,ok:ok,fecha:fecha,cod:codigoVerif(nombre,ok,fecha)};
+  q("r-nombre").textContent=nombre;
+  q("r-score").innerHTML=ok+"<span>/"+TOTAL+"</span>";
+  q("r-pct").textContent=Math.round(ok*100/TOTAL)+" %";
+  q("r-tiempo").textContent=Math.floor(seg/60)+":"+("0"+(seg%60)).slice(-2);
+  q("r-fecha").textContent=fecha;
+  q("r-codigo").textContent=RES.cod;
+  var g=q("r-grid");g.innerHTML="";
+  for(var k=0;k<TOTAL;k++){
+    var e=document.createElement("i");
+    var b=elegidas[k]===RETOS[k].pilar;
+    e.className=b?"b":"m";e.textContent=PILARES[RETOS[k].pilar][0];
+    e.title=RETOS[k].titulo;g.appendChild(e);
+  }
+  var cont=q("r-pilares");cont.innerHTML="";RES.porpilar=[];
+  for(var p=0;p<4;p++){
+    var tot=0,ac=0;
+    for(var k=0;k<TOTAL;k++) if(RETOS[k].pilar===p){tot++; if(elegidas[k]===p)ac++}
+    RES.porpilar.push(PILARES[p]+": "+ac+"/"+tot);
+    var pct=tot?Math.round(ac*100/tot):0;
+    var d=document.createElement("div");d.className="pp";
+    d.innerHTML='<span class="nm">'+PILARES[p]+'</span>'+
+      '<span class="barra"><i style="width:'+pct+'%;background:var(--'+CLASES[p]+')"></i></span>'+
+      '<span class="n">'+ac+"/"+tot+"</span>";
+    cont.appendChild(d);
+  }
+  var fallos=[];
+  for(var k=0;k<TOTAL;k++) if(elegidas[k]!==RETOS[k].pilar)
+    fallos.push("<p><strong>"+esc(RETOS[k].titulo)+"</strong> — es <strong>"+
+      PILARES[RETOS[k].pilar]+"</strong>, vos pusiste "+PILARES[elegidas[k]]+".<br>"+RETOS[k].porque+"</p>");
+  if(fallos.length){q("bloque-fallos").hidden=false;q("lista-fallos").innerHTML=fallos.join("");}
+  RES.fallos=fallos.length;
+  try{localStorage.removeItem(LS)}catch(e){}
+}
+
+q("reiniciar").onclick=function(){
+  try{localStorage.removeItem(LS)}catch(e){}
+  i=0;elegidas=[];t0=Date.now();
+  q("p-fin").hidden=true;q("p-inicio").hidden=false;q("continuar").hidden=true;
+  window.scrollTo({top:0});
+};
+
+/* ---------- contador de palabras ---------- */
+var ta=q("reflexion");
+ta.addEventListener("input",function(){
+  var n=ta.value.trim()?ta.value.trim().split(/\s+/).length:0;
+  q("n-palabras").textContent=n;
+});
+
+/* ---------- PDF ---------- */
+function slug(s){
+  return (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[^A-Za-z0-9]/g,"") || "Estudiante";
+}
+q("bajar-pdf").onclick=function(){
+  var texto=ta.value.trim();
+  if(!texto){ta.focus();ta.style.borderColor="var(--mal)";return}
+  var jsPDF=(window.jspdf||{}).jsPDF; if(!jsPDF){alert("No se pudo cargar el generador de PDF.");return}
+  var doc=new jsPDF({unit:"pt",format:"letter"});
+  var M=54, A=doc.internal.pageSize.getWidth()-M*2, ALTO=doc.internal.pageSize.getHeight(), y=58;
+  function salto(n){if(y+n>ALTO-54){doc.addPage();y=58}}
+  function parrafo(t,sz,col,mono){
+    doc.setFont(mono?"courier":"helvetica","normal");doc.setFontSize(sz);doc.setTextColor(col);
+    var ls=doc.splitTextToSize(t,A);
+    for(var k=0;k<ls.length;k++){salto(16);doc.text(ls[k],M,y);y+=sz+4}
+  }
+  doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(120);
+  doc.text("FUNDAMENTOS DE PROGRAMACION 2  ·  UNIVERSIDAD DA VINCI DE GUATEMALA",M,y);y+=22;
+  doc.setFontSize(17);doc.setTextColor(20);
+  doc.text("Cual Pilar?  ·  Unidad 2, Semana 4",M,y);y+=20;
+  doc.setFont("helvetica","normal");doc.setFontSize(10.5);doc.setTextColor(70);
+  doc.text(RES.nombre,M,y);y+=14;
+  doc.text("Carne: "+(q("carne").value.trim()||"(sin carne)")+"    Grupo: "+q("grupo").value+
+           "    Fecha: "+RES.fecha,M,y);y+=20;
+  doc.setDrawColor(200);doc.line(M,y,M+A,y);y+=26;
+
+  doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(20);
+  doc.text("Resultado: "+RES.ok+" de "+TOTAL+"   ·   Codigo "+RES.cod,M,y);y+=20;
+  doc.setFont("helvetica","normal");doc.setFontSize(10.5);doc.setTextColor(70);
+  doc.text("Por pilar —  "+RES.porpilar.join("    "),M,y);y+=24;
+
+  salto(30);doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(20);
+  doc.text("Mi respuesta escrita",M,y);y+=8;
+  parrafo(texto,11,40);
+
+  if(RES.fallos){
+    salto(34);y+=10;doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(20);
+    doc.text("Los que falle, para repasar",M,y);y+=8;
+    for(var k=0;k<TOTAL;k++) if(elegidas[k]!==RETOS[k].pilar){
+      salto(30);y+=10;doc.setFont("helvetica","bold");doc.setFontSize(10.5);doc.setTextColor(40);
+      doc.text(RETOS[k].titulo+"  ->  "+PILARES[RETOS[k].pilar],M,y);y+=4;
+      parrafo(RETOS[k].codigo,9,90,true);
+    }
+  }
+  doc.setFontSize(8);doc.setTextColor(150);
+  doc.text("Generado por ¿Cual Pilar? · codersatelier.com",M,ALTO-28);
+  var t=RES.nombre.trim().split(/\s+/);
+  doc.save("FP2_U2_Pilar_"+slug(t[Math.min(2,t.length-1)])+"_"+slug(t[0])+".pdf");
+};
+</script>
+
+</body>
+</html>
