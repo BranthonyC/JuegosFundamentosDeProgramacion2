@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Quince fragmentos de Python: adivina que relacion UML hay entre las clases. Asociacion, agregacion, composicion o herencia. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%97%3C/text%3E%3C/svg%3E">
+<title>¿Qué Relación Es?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#EFF2F7; --surface:#FFFFFF; --sunken:#E4E8F0;
+  --ink:#141821; --ink-2:#454C5C; --ink-3:#767E90; --line:#D3D9E4;
+  --aso:#1E6FBF; --aso-soft:#E2EEFA;
+  --agr:#0F7B78; --agr-soft:#DDF1F0;
+  --com:#5B4BC4; --com-soft:#EAE7FA;
+  --her:#B2560D; --her-soft:#FBEADB;
+  --bien:#2F7D52; --bien-soft:#E3F2E9;
+  --mal:#B8403A;  --mal-soft:#FBE7E5;
+  --term:#0B0D12; --term-ink:#EDF0F5;
+  --shadow:0 1px 2px rgba(20,24,33,.06), 0 8px 24px -12px rgba(20,24,33,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --aso:#6BB2F0; --aso-soft:#12263B; --agr:#5CC8C4; --agr-soft:#0F2B2A;
+  --com:#A99BF0; --com-soft:#221C3D; --her:#E8A56A; --her-soft:#33220F;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --aso:#6BB2F0; --aso-soft:#12263B; --agr:#5CC8C4; --agr-soft:#0F2B2A;
+  --com:#A99BF0; --com-soft:#221C3D; --her:#E8A56A; --her-soft:#33220F;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%}
+.wrap{max-width:840px;margin:0 auto;padding:22px 18px 64px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 2px;font-weight:600}
+h1.brand{font-family:"Bricolage Grotesque",sans-serif;font-size:34px;line-height:1.05;margin:0;font-weight:800;letter-spacing:-.02em}
+h1.brand em{font-style:normal;color:var(--com)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin:0 0 5px}
+input,select,textarea{width:100%;padding:11px 13px;border-radius:10px;border:1.5px solid var(--line);
+  background:var(--surface);color:var(--ink);font-family:inherit;font-size:15px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--com);box-shadow:0 0 0 3px var(--com-soft)}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.campos{grid-template-columns:1fr}}
+.btn{appearance:none;border:none;border-radius:10px;padding:11px 18px;font-family:inherit;font-size:15px;
+  font-weight:600;background:var(--ink);color:var(--ground);cursor:pointer}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink-2);border:1.5px solid var(--line)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.hint{font-size:13px;color:var(--ink-3)}
+.reglas{list-style:none;padding:0;margin:14px 0 18px;display:grid;gap:10px}
+.reglas li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--ink-2)}
+.chip{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+  font-size:13px;font-weight:700;background:var(--com-soft);color:var(--com)}
+.rail{display:flex;gap:4px}
+.rail i{flex:1;height:5px;border-radius:3px;background:var(--sunken)}
+.rail i.hecho{background:var(--bien)} .rail i.falló{background:var(--mal)} .rail i.acá{background:var(--ink-3)}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-3);margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.enun{font-family:"Bricolage Grotesque",sans-serif;font-size:21px;margin:0 0 14px;font-weight:600;letter-spacing:-.01em}
+pre.code{background:var(--term);color:var(--term-ink);border-radius:12px;padding:16px 18px;overflow-x:auto;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:13.5px;line-height:1.62;margin:0 0 8px}
+.salida{background:var(--sunken);border-radius:10px;padding:11px 14px;margin:0 0 16px;
+  font-family:"JetBrains Mono",monospace;font-size:13px;white-space:pre-wrap;color:var(--ink-2)}
+.salida b{display:block;font-family:"IBM Plex Sans",sans-serif;font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;font-weight:600}
+.relaciones{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.relaciones{grid-template-columns:1fr}}
+.rel{appearance:none;text-align:left;cursor:pointer;border-radius:12px;padding:14px 16px;
+  border:1.8px solid var(--line);background:var(--surface);color:var(--ink);font-family:inherit;font-size:16px;font-weight:600}
+.rel small{display:block;font-weight:400;font-size:12.5px;color:var(--ink-3);margin-top:3px}
+.rel:hover:not(:disabled){border-color:var(--ink-3)}
+.rel:disabled{cursor:default;opacity:.55}
+.rel[data-p="0"] b{color:var(--aso)} .rel[data-p="1"] b{color:var(--agr)}
+.rel[data-p="2"] b{color:var(--com)} .rel[data-p="3"] b{color:var(--her)}
+.rel.elegida{opacity:1}
+.rel.buena{border-color:var(--bien);background:var(--bien-soft);opacity:1}
+.rel.mala{border-color:var(--mal);background:var(--mal-soft);opacity:1}
+.fb{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:14.5px;border:1.5px solid}
+.fb.ok{background:var(--bien-soft);border-color:var(--bien)}
+.fb.no{background:var(--mal-soft);border-color:var(--mal)}
+.fb b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:16px;margin-bottom:5px}
+.fb p{margin:0 0 9px} .fb p:last-child{margin-bottom:0}
+.fb .otro{font-size:13.5px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:9px;margin-top:10px}
+code{font-family:"JetBrains Mono",monospace;font-size:.9em;background:var(--sunken);padding:1px 5px;border-radius:5px}
+.fb code{background:rgba(0,0,0,.07)}
+.res-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.score{font-family:"Bricolage Grotesque",sans-serif;font-size:40px;font-weight:800;line-height:1;color:var(--com)}
+.score span{font-size:19px;color:var(--ink-3)}
+.grid16{display:grid;grid-template-columns:repeat(16,1fr);gap:4px;margin-bottom:12px}
+@media(max-width:560px){.grid16{grid-template-columns:repeat(8,1fr)}}
+.grid16 i{height:24px;border-radius:5px;background:var(--sunken);display:grid;place-items:center;
+  font-size:10px;font-weight:700;color:var(--ink-3);font-style:normal}
+.grid16 i.b{background:var(--bien-soft);color:var(--bien)} .grid16 i.m{background:var(--mal-soft);color:var(--mal)}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin:0}
+.dato{background:var(--sunken);border-radius:10px;padding:9px 12px}
+.dato dt{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.dato dd{margin:2px 0 0;font-size:17px;font-weight:600;font-family:"Bricolage Grotesque",sans-serif}
+.porrelacion{display:grid;gap:8px;margin-top:14px}
+.pp{display:flex;align-items:center;gap:10px;font-size:14px}
+.pp .nm{width:132px;font-weight:600} .pp .barra{flex:1;height:9px;background:var(--sunken);border-radius:5px;overflow:hidden}
+.pp .barra i{display:block;height:100%;border-radius:5px}
+.pp .n{font-size:13px;color:var(--ink-3);width:36px;text-align:right}
+h3{font-family:"Bricolage Grotesque",sans-serif;font-size:17px;margin:0 0 4px;font-weight:600}
+.cuenta{font-size:12.5px;color:var(--ink-3);margin:6px 0 0}
+.aviso{background:var(--com-soft);border-radius:10px;padding:11px 14px;font-size:13.5px;color:var(--ink-2);margin-top:14px}
+ol{margin:0 0 12px;padding-left:20px;font-size:14px;color:var(--ink-2)}
+ol li{margin-bottom:5px}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">FP2 · Unidad 3 · Semana 5 · relaciones entre clases</p>
+      <h1 class="brand">¿Qué <em>Relación</em> Es?</h1>
+    </div>
+    <button class="btn ghost" id="tema" type="button">Tema</button>
+  </header>
+
+  <section class="card" id="p-inicio">
+    <p style="font-size:15.5px;margin:0 0 4px">
+      Quince fragmentos de Python. En cada uno decidís <strong>qué relación</strong> hay entre
+      las clases: asociación, agregación, composición o herencia.
+    </p>
+    <ul class="reglas">
+      <li><span class="chip">1</span><span><strong>No te guíes por si hay una lista.</strong> Agregación y composición se escriben casi igual. Lo que las separa es <em>dónde nace</em> la parte.</span></li>
+      <li><span class="chip">2</span><span><strong>La pregunta que resuelve casi todo:</strong> si destruyo el todo, ¿la parte sobrevive? Sobrevive → agregación ◇. Muere → composición ◆.</span></li>
+      <li><span class="chip">3</span><span>Todo corre en tu navegador. Nada se envía a ningún servidor. Al final baja tu PDF, y <strong>ese PDF es el que se entrega en Moodle</strong>.</span></li>
+    </ul>
+    <label for="nombre">Tu nombre completo</label>
+    <input type="text" id="nombre" placeholder="Ana María López Chacón" autocomplete="name" spellcheck="false">
+    <div class="campos" style="margin-top:12px">
+      <div><label for="carne">Carné</label>
+        <input type="text" id="carne" placeholder="202612345" inputmode="numeric" spellcheck="false"></div>
+      <div><label for="grupo">Grupo</label>
+        <select id="grupo">
+          <option value="II24-FP2">II24-FP2 — presencial / remoto síncrono</option>
+          <option value="IS24-FP2">IS24-FP2 — e-learning</option>
+        </select></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="empezar" type="button">Empezar los 16</button>
+      <button class="btn ghost" id="continuar" type="button" hidden>Continuar</button>
+    </div>
+  </section>
+
+  <section id="p-juego" hidden>
+    <div class="rail" id="rail"></div>
+    <div class="card" style="margin-top:16px">
+      <div class="meta">
+        <span>Fragmento <strong id="n-actual">1</strong> de <span id="n-total">—</span></span>
+        <span id="marcador">0 correctos</span>
+      </div>
+      <h2 class="enun" id="enunciado">—</h2>
+      <pre class="code" id="codigo"></pre>
+      <div class="salida" id="salida"></div>
+      <p style="font-weight:600;font-size:14px;margin:0 0 10px">¿Qué relación hay entre estas clases?</p>
+      <div class="relaciones" id="relaciones"></div>
+      <div id="fb"></div>
+      <div class="row"><button class="btn" id="siguiente" type="button" hidden>Siguiente</button></div>
+    </div>
+  </section>
+
+  <section id="p-fin" hidden>
+    <div class="card">
+      <div class="res-head">
+        <div>
+          <p class="eyebrow">Resultado · ¿Qué Relación Es?</p>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;margin:0;font-weight:600" id="r-nombre">—</h2>
+        </div>
+        <div class="score" id="r-score">0<span id="r-total">/15</span></div>
+      </div>
+      <div class="grid16" id="r-grid"></div>
+      <dl class="datos">
+        <div class="dato"><dt>Aciertos</dt><dd id="r-pct">0 %</dd></div>
+        <div class="dato"><dt>Tiempo</dt><dd id="r-tiempo">0:00</dd></div>
+        <div class="dato"><dt>Fecha</dt><dd id="r-fecha">—</dd></div>
+        <div class="dato"><dt>Código</dt><dd id="r-codigo" style="font-family:'JetBrains Mono',monospace;font-size:14px">—</dd></div>
+      </dl>
+      <h3 style="margin-top:18px">Cómo te fue en cada relación</h3>
+      <div class="porrelacion" id="r-relaciones"></div>
+      <div class="aviso"><strong>Mirá la barra más corta.</strong> Esa es la relación que tenés que
+        repasar — no la que más fallaste en total, sino la que peor proporción tiene. Si la corta es
+        <em>composición</em>, casi siempre es lo mismo: te guiaste por la lista y no por dónde nace la parte.</div>
+    </div>
+
+    <div class="card" id="bloque-fallos" hidden>
+      <h3>Lo que fallaste, para repasarlo</h3>
+      <div id="lista-fallos"></div>
+    </div>
+
+    <div class="card">
+      <h3>Tu respuesta escrita</h3>
+      <p class="hint" style="margin:0 0 12px">Respondé las dos, en 150 a 250 palabras en total:</p>
+      <ol>
+        <li><strong>Agregación o composición.</strong> Explicá con tus palabras cómo las distinguís
+          ahora, y usá un ejemplo tuyo — no el de la playlist ni el del examen.</li>
+        <li><strong>Tu propio fragmento.</strong> Escribí tres o cuatro líneas de código tuyas que
+          muestren una de las cuatro relaciones, y decí cuál es y por qué.
+      </ol>
+      <textarea id="reflexion" rows="8" placeholder="Escribí aquí tu respuesta…"></textarea>
+      <p class="cuenta"><span id="n-palabras">0</span> palabras</p>
+      <div class="row">
+        <button class="btn" id="bajar-pdf" type="button">Descargar mi PDF</button>
+        <span class="hint">Este PDF es el que subís a Moodle.</span>
+      </div>
+    </div>
+    <div class="row"><button class="btn ghost" id="reiniciar" type="button">Jugar de nuevo</button></div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+var DATOS={"retos": [{"titulo": "El paciente y su doctor", "rel": 0, "codigo": "class Doctor:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\nclass Paciente:\n    def __init__(self, nombre, doctor_de_cabecera):\n        self.nombre = nombre\n        self.doctor = doctor_de_cabecera\n\ndr = Doctor(\"Sofia Menchu\")\ndon_beto = Paciente(\"Beto Similox\", dr)\nprint(don_beto.nombre, \"se atiende con la Dra.\", don_beto.doctor.nombre)", "porque": "El paciente <strong>conoce</strong> a su doctor: guarda <strong>una</strong> referencia y ya. No lo agrupa, no lo contiene y no es su dueño. Los dos existian antes y van a seguir existiendo por separado. Linea solida, sin rombo.", "tientan": {"1": "La agregacion agrupa <strong>varias</strong> partes en una coleccion. Aqui no hay coleccion: es un solo objeto guardado en un atributo. Un doctor no es 'parte' del paciente.", "2": "Para composicion el doctor tendria que <em>nacer adentro</em> del paciente (<code>self.doctor = Doctor(...)</code>) y morir con el. Aqui llega ya creado desde afuera.", "3": "Un paciente no <em>es un</em> doctor. No hay <code>class Paciente(Doctor)</code> por ningun lado."}, "orden": ["1", "2", "3"], "salida": "Beto Similox se atiende con la Dra. Sofia Menchu"}, {"titulo": "El cardiologo", "rel": 3, "codigo": "class Medico:\n    def __init__(self, nombre, colegiado):\n        self.nombre = nombre\n        self.colegiado = colegiado\n\n    def presentarse(self):\n        print(\"Dr(a).\", self.nombre, \"- colegiado\", self.colegiado)\n\nclass Cardiologo(Medico):\n    def presentarse(self):\n        super().presentarse()\n        print(\"   Especialidad: cardiologia\")\n\nCardiologo(\"Sofia Menchu\", \"C-4482\").presentarse()", "porque": "Un cardiologo <strong>ES UN</strong> medico: hereda todo y ademas <strong>redefine</strong> <code>presentarse()</code> para agregar lo suyo. El <code>super()</code> adentro del metodo llama primero al del padre y despues sigue.", "tientan": {"2": "Un cardiologo no <em>tiene</em> un medico adentro. Es uno.", "0": "No conoce a un medico ajeno: el <em>es</em> el medico.", "1": "No hay coleccion de nada."}, "orden": ["2", "0", "1"], "salida": "Dr(a). Sofia Menchu - colegiado C-4482\n   Especialidad: cardiologia"}, {"titulo": "El catalogo de la tienda", "rel": 1, "codigo": "class Producto:\n    def __init__(self, nombre, precio):\n        self.nombre = nombre\n        self.precio = precio\n\nclass Catalogo:\n    def __init__(self, temporada):\n        self.temporada = temporada\n        self.productos = []\n\n    def agregar(self, producto):\n        self.productos.append(producto)\n\nplayera = Producto(\"Playera XL\", 75.00)\nnavidad = Catalogo(\"Navidad 2026\")\nnavidad.agregar(playera)\nprint(\"Catalogo\", navidad.temporada, \"con\", len(navidad.productos), \"producto(s)\")\ndel navidad\nprint(\"Se acabo la temporada y\", playera.nombre, \"sigue en inventario a Q%.2f\" % playera.precio)", "porque": "Se borra el catalogo navideño y los productos <strong>no se evaporan</strong>: siguen en el inventario, listos para entrar al catalogo de verano. El catalogo es una <strong>vista</strong> sobre productos que viven por su cuenta.", "tientan": {"2": "El producto se crea en su propia linea, afuera, y despues entra. En composicion tendria que nacer dentro del catalogo y no poder existir sin el.", "0": "Aqui hay una coleccion y una idea de todo-parte. La asociacion es mas floja: conocer a uno, sin agrupar.", "3": "Un catalogo no <em>es un</em> producto."}, "orden": ["2", "0", "3"], "salida": "Catalogo Navidad 2026 con 1 producto(s)\nSe acabo la temporada y Playera XL sigue en inventario a Q75.00"}, {"titulo": "La casa y sus cuartos", "rel": 2, "codigo": "class Habitacion:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\nclass Casa:\n    def __init__(self, direccion):\n        self.direccion = direccion\n        self.habitaciones = [Habitacion(\"sala\"), Habitacion(\"cocina\")]\n\ncasa = Casa(\"5a av 10-25, zona 1\")\nprint(\"La casa tiene:\", [h.nombre for h in casa.habitaciones])\ndel casa\nprint(\"Demoli la casa. Nadie afuera tenia una referencia a la sala ni a la cocina.\")", "porque": "Hay una lista, si — pero mira <strong>donde</strong> se llena: las habitaciones se crean <em>dentro</em> del <code>__init__</code>. Una sala no significa nada fuera de su casa. Demolida la casa, se van con ella.", "tientan": {"1": "Aqui es donde cae todo el mundo: la agregacion tambien usa una lista. Compara con la playlist — alla la cancion <em>entra</em>, aqui la habitacion <em>nace adentro</em>.", "0": "No hay una referencia a un objeto externo: el todo construye sus propias partes.", "3": "Una casa no <em>es una</em> habitacion; esta <strong>hecha de</strong> habitaciones."}, "orden": ["1", "0", "3"], "salida": "La casa tiene: ['sala', 'cocina']\nDemoli la casa. Nadie afuera tenia una referencia a la sala ni a la cocina."}, {"titulo": "La cuenta de ahorro", "rel": 3, "codigo": "class CuentaBancaria:\n    def __init__(self, titular, saldo):\n        self.titular = titular\n        self.saldo = saldo\n\nclass CuentaDeAhorro(CuentaBancaria):\n    def __init__(self, titular, saldo, tasa):\n        super().__init__(titular, saldo)\n        self.tasa = tasa\n\n    def interes_mensual(self):\n        return self.saldo * self.tasa / 12\n\nc = CuentaDeAhorro(\"Ana Lopez\", 10000, 0.06)\nprint(c.titular, \"- saldo Q%.2f\" % c.saldo, \"- interes Q%.2f\" % c.interes_mensual())", "porque": "<code>class CuentaDeAhorro(CuentaBancaria)</code> y <code>super()</code>: una cuenta de ahorro <strong>ES UNA</strong> cuenta bancaria. Hereda titular y saldo, y agrega lo suyo. Triangulo hueco △ apuntando al padre.", "tientan": {"2": "Para composicion la cuenta de ahorro <em>tendria</em> una cuenta adentro (<code>self.cuenta = CuentaBancaria(...)</code>), no <em>seria</em> una. Es el debate de diseño mas viejo que hay: herencia contra composicion.", "0": "No guarda una referencia a otra cuenta: <strong>es</strong> esa cuenta, con mas cosas.", "1": "No agrupa nada. No hay coleccion por ningun lado."}, "orden": ["2", "0", "1"], "salida": "Ana Lopez - saldo Q10000.00 - interes Q50.00"}, {"titulo": "El repartidor y el pedido", "rel": 0, "codigo": "class Repartidor:\n    def __init__(self, nombre):\n        self.nombre = nombre\n        self.pedido_actual = None\n\nclass Pedido:\n    def __init__(self, folio):\n        self.folio = folio\n\np = Pedido(\"A-1042\")\njuan = Repartidor(\"Juan Tecu\")\njuan.pedido_actual = p\nprint(juan.nombre, \"lleva el pedido\", juan.pedido_actual.folio)\njuan.pedido_actual = None\nprint(\"Entrego. El pedido\", p.folio, \"sigue en el sistema.\")", "porque": "El repartidor <strong>conoce</strong> un pedido durante un rato y despues lo suelta. Ni lo contiene ni lo creo: la referencia va y viene. Eso es asociacion, y ademas <strong>temporal</strong> — de las mas comunes en sistemas reales.", "tientan": {"1": "No hay coleccion: es un atributo que apunta a un objeto a la vez. Si el repartidor llevara <code>self.pedidos = []</code> con varios adentro, ahi si.", "2": "El pedido se creo <em>antes</em> y afuera, y sobrevive a que el repartidor lo suelte. La composicion exige lo contrario.", "3": "Un repartidor no <em>es un</em> pedido."}, "orden": ["1", "2", "3"], "salida": "Juan Tecu lleva el pedido A-1042\nEntrego. El pedido A-1042 sigue en el sistema."}, {"titulo": "El carro y su motor", "rel": 2, "codigo": "class Motor:\n    def __init__(self, cilindros):\n        self.cilindros = cilindros\n\nclass Carro:\n    def __init__(self, placa):\n        self.placa = placa\n        self.motor = Motor(4)\n\ntaxi = Carro(\"P-123BCD\")\nprint(\"Carro\", taxi.placa, \"con motor de\", taxi.motor.cilindros, \"cilindros\")\nprint(\"Nadie mas tiene una referencia a ese motor: nacio y vive adentro del carro\")", "porque": "El motor <strong>nace adentro</strong> del carro, en el <code>__init__</code>, y nadie afuera lo conoce. Si el carro se va al deshuesadero, el motor se va con el. Rombo <strong>negro</strong> ◆.", "tientan": {"1": "Es el par que cuesta. Para agregacion el motor tendria que llegar por parametro (<code>Carro(placa, motor)</code>), ya creado afuera y con vida propia.", "0": "No es conocer a un objeto ajeno: el carro <em>fabrica</em> el suyo y es el unico que lo tiene.", "3": "Un carro no <em>es un</em> motor: <strong>tiene</strong> un motor. Esa es exactamente la diferencia entre 'es un' y 'tiene un'."}, "orden": ["1", "0", "3"], "salida": "Carro P-123BCD con motor de 4 cilindros\nNadie mas tiene una referencia a ese motor: nacio y vive adentro del carro"}, {"titulo": "La aspiradora y su bateria", "rel": 2, "codigo": "class Bateria:\n    def __init__(self, capacidad):\n        self.capacidad = capacidad\n        self.carga = capacidad\n\nclass Aspiradora:\n    def __init__(self, modelo):\n        self.modelo = modelo\n        self.bateria = Bateria(2500)\n\n    def limpiar(self):\n        self.bateria.carga -= 500\n        print(\"Limpiando... carga restante:\", self.bateria.carga)\n\nrobot = Aspiradora(\"DV-100\")\nrobot.limpiar()\nprint(\"La bateria vino soldada de fabrica: nace y muere con la aspiradora\")", "porque": "La bateria <strong>nace adentro</strong> y ninguna otra parte del programa la conoce. Ademas la aspiradora <strong>tiene</strong> una bateria: no <em>es</em> una bateria.", "tientan": {"1": "Para agregacion tendria que ser una bateria intercambiable que se pasa por parametro: <code>Aspiradora(modelo, bateria)</code>. Aqui viene soldada.", "0": "El objeto no llega de afuera: se construye adentro y es exclusivo.", "3": "Es la trampa clasica de diseño: mucha gente escribiria <code>class Aspiradora(Bateria)</code> para 'reusar' la carga. Seria un error — la pregunta correcta es <strong>'es un'</strong>, y una aspiradora no es una bateria."}, "orden": ["1", "0", "3"], "salida": "Limpiando... carga restante: 2000\nLa bateria vino soldada de fabrica: nace y muere con la aspiradora"}, {"titulo": "El equipo de la colonia", "rel": 1, "codigo": "class Jugador:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\nclass Equipo:\n    def __init__(self, nombre):\n        self.nombre = nombre\n        self.jugadores = []\n\n    def fichar(self, jugador):\n        self.jugadores.append(jugador)\n\nchepe = Jugador(\"Chepe\")\nequipo = Equipo(\"Los Cuates\")\nequipo.fichar(chepe)\nprint(equipo.nombre, \"tiene\", len(equipo.jugadores), \"jugador(es)\")\ndel equipo\nprint(chepe.nombre, \"sigue existiendo y puede fichar por otro equipo\")", "porque": "El jugador <strong>llega de afuera ya creado</strong> y el equipo solo lo guarda en su lista. Si el equipo se disuelve, Chepe sigue vivo y ficha por otro. Rombo <strong>blanco</strong> ◇.", "tientan": {"2": "Es el par que cuesta, y el codigo se ve casi igual. La diferencia esta en <code>fichar(jugador)</code>: el jugador <em>entra</em> por parametro. En composicion se escribiria <code>Jugador(...)</code> adentro del <code>__init__</code>.", "0": "La asociacion es conocer a <strong>uno</strong>. Aqui hay un todo que <strong>agrupa a varios</strong>, y esa es la diferencia.", "3": "El equipo no <em>es un</em> jugador. Es un conjunto de jugadores, que es otra cosa."}, "orden": ["2", "0", "3"], "salida": "Los Cuates tiene 1 jugador(es)\nChepe sigue existiendo y puede fichar por otro equipo"}, {"titulo": "La factura de la tienda", "rel": 2, "codigo": "class LineaFactura:\n    def __init__(self, producto, cantidad, precio):\n        self.producto = producto\n        self.cantidad = cantidad\n        self.precio = precio\n\n    def total(self):\n        return self.cantidad * self.precio\n\nclass Factura:\n    def __init__(self, folio):\n        self.folio = folio\n        self.lineas = []\n\n    def agregar_linea(self, producto, cantidad, precio):\n        self.lineas.append(LineaFactura(producto, cantidad, precio))\n\nf = Factura(\"F-001\")\nf.agregar_linea(\"Playera XL\", 3, 75.00)\nprint(\"Factura\", f.folio, \"total Q%.2f\" % sum(l.total() for l in f.lineas))", "porque": "Cuidado con el nombre del metodo: se llama <code>agregar_linea</code>, pero lo que entra son <strong>datos sueltos</strong>, no un objeto ya hecho. La linea se construye <strong>adentro</strong>. Y \"3 x Playera XL @ Q75\" no significa nada fuera de su factura.", "tientan": {"1": "El metodo se llama 'agregar' y recibe parametros: parece agregacion. Pero fijate en el <code>LineaFactura(...)</code> dentro del <code>append</code> — <strong>el nombre del metodo miente, el codigo no</strong>.", "0": "No guarda una referencia a un objeto externo: fabrica el suyo.", "3": "Una factura no <em>es una</em> linea de factura."}, "orden": ["1", "0", "3"], "salida": "Factura F-001 total Q225.00"}, {"titulo": "Los usuarios de la tienda", "rel": 3, "codigo": "class Usuario:\n    def __init__(self, correo):\n        self.correo = correo\n\n    def permisos(self):\n        return [\"ver catalogo\"]\n\nclass Cliente(Usuario):\n    def permisos(self):\n        return super().permisos() + [\"comprar\"]\n\nclass Administrador(Usuario):\n    def permisos(self):\n        return super().permisos() + [\"comprar\", \"editar precios\"]\n\nfor u in [Cliente(\"ana@udv.gt\"), Administrador(\"brandon@udv.gt\")]:\n    print(u.correo, \"->\", u.permisos())", "porque": "<code>Cliente</code> y <code>Administrador</code> <strong>son tipos de</strong> usuario. El triangulo va de la hija al padre, igual que <code>class Cliente(Usuario)</code> se escribe del lado de la hija. Y de paso: ese <code>for</code> es polimorfismo.", "tientan": {"2": "Un cliente no <em>tiene</em> un usuario adentro: <strong>es</strong> un usuario. Si dudas, usa la frase: 'un cliente ES UN usuario' suena bien; 'un cliente TIENE UN usuario' no.", "0": "No hay referencias guardadas entre clases.", "1": "La lista del <code>for</code> es una lista de la <em>funcion principal</em>, no un atributo de una clase que agrupe a otra. <strong>No toda lista es agregacion.</strong>"}, "orden": ["2", "0", "1"], "salida": "ana@udv.gt -> ['ver catalogo', 'comprar']\nbrandon@udv.gt -> ['ver catalogo', 'comprar', 'editar precios']"}, {"titulo": "La playlist", "rel": 1, "codigo": "class Cancion:\n    def __init__(self, titulo):\n        self.titulo = titulo\n\nclass Playlist:\n    def __init__(self, nombre):\n        self.nombre = nombre\n        self.canciones = []\n\n    def agregar(self, cancion):\n        self.canciones.append(cancion)\n\nluna = Cancion(\"Luna de Xelaju\")\nmix = Playlist(\"Chapin mix\")\nmix.agregar(luna)\nprint(mix.nombre, \"->\", mix.canciones[0].titulo)\ndel mix\nprint(\"Borre la playlist y\", luna.titulo, \"sigue existiendo\")", "porque": "La cancion existe en tu biblioteca <strong>antes</strong> de entrar a la playlist y sigue existiendo cuando la borras. La playlist <strong>agrupa</strong> canciones; no las fabrica. Fijate en la ultima linea: es la prueba corriendo.", "tientan": {"2": "Hay una lista, igual que en composicion — y ahi es donde cae medio salon. Pero la cancion <em>llega de afuera</em> por <code>agregar()</code>. Nadie la creo adentro.", "0": "No es conocer a uno: es agrupar a varios. Y la playlist si expresa un todo-parte, aunque flojo.", "3": "Una playlist no <em>es una</em> cancion."}, "orden": ["2", "0", "3"], "salida": "Chapin mix -> Luna de Xelaju\nBorre la playlist y Luna de Xelaju sigue existiendo"}, {"titulo": "La estudiante y su universidad", "rel": 0, "codigo": "class Universidad:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\nclass Estudiante:\n    def __init__(self, nombre, universidad):\n        self.nombre = nombre\n        self.universidad = universidad\n\nudv = Universidad(\"Universidad Da Vinci de Guatemala\")\nmaria = Estudiante(\"Maria Ixchel\", udv)\nprint(maria.nombre, \"estudia en la\", maria.universidad.nombre)\ndel maria\nprint(\"Se fue la estudiante y la universidad sigue:\", udv.nombre)", "porque": "Una referencia guardada, nada mas. La estudiante <strong>conoce</strong> a su universidad. Cuando ella se va, la universidad ni se entera: <strong>vidas totalmente independientes</strong>, y la relacion no implica pertenencia en ninguna direccion.", "tientan": {"1": "Seria agregacion si la <em>universidad</em> guardara una lista de estudiantes. Mira quien guarda a quien: aqui la que guarda es la estudiante, y guarda uno solo.", "2": "Nada nace adentro de nada: <code>udv</code> se crea en su propia linea, antes que la estudiante.", "3": "No hay parentesco de clases. <code>Estudiante</code> no deriva de <code>Universidad</code>."}, "orden": ["1", "2", "3"], "salida": "Maria Ixchel estudia en la Universidad Da Vinci de Guatemala\nSe fue la estudiante y la universidad sigue: Universidad Da Vinci de Guatemala"}, {"titulo": "El examen y sus preguntas", "rel": 2, "codigo": "class Pregunta:\n    def __init__(self, texto):\n        self.texto = texto\n\nclass Examen:\n    def __init__(self, curso):\n        self.curso = curso\n        self.preguntas = [\n            Pregunta(\"Que es UML?\"),\n            Pregunta(\"El rombo negro es agregacion o composicion?\"),\n        ]\n\nparcial = Examen(\"FP2\")\nprint(\"Examen de\", parcial.curso, \"con\", len(parcial.preguntas), \"preguntas\")\nprint(\"Primera:\", parcial.preguntas[0].texto)", "porque": "El tramposo. Se ve identico al equipo y a la playlist: una lista de objetos. Pero las preguntas <strong>se escriben adentro</strong> del examen y solo el las conoce. Borrado el examen, esas preguntas no existen en ningun otro lado.", "tientan": {"1": "Si votaste agregacion, caiste justo donde el juego queria — y ya aprendiste lo unico que hay que llevarse: <strong>la pista no es la lista, es donde nace la parte</strong>.", "0": "No es una referencia a algo de afuera: el examen crea su propio contenido.", "3": "Un examen no <em>es una</em> pregunta."}, "orden": ["1", "0", "3"], "salida": "Examen de FP2 con 2 preguntas\nPrimera: Que es UML?"}, {"titulo": "El curso y sus inscritos", "rel": 1, "codigo": "class Estudiante:\n    def __init__(self, carne, nombre):\n        self.carne = carne\n        self.nombre = nombre\n\nclass Curso:\n    def __init__(self, codigo):\n        self.codigo = codigo\n        self.inscritos = []\n\n    def inscribir(self, estudiante):\n        self.inscritos.append(estudiante)\n\nana = Estudiante(\"202612345\", \"Ana Lopez\")\nfp2 = Curso(\"II24-FP2\")\nfp2.inscribir(ana)\nprint(fp2.codigo, \"tiene inscrito a\", fp2.inscritos[0].nombre)\nprint(\"Y\", ana.nombre, \"tambien lleva otros cursos: existe fuera de este\")", "porque": "Ana existe en la universidad <strong>antes</strong> de inscribirse y sigue existiendo cuando el curso termina. Lleva otros cursos al mismo tiempo. El curso la <strong>agrupa</strong>, no la contiene.", "tientan": {"2": "El estudiante entra por <code>inscribir()</code> desde afuera. Si el curso hiciera <code>Estudiante(...)</code> adentro, estaria fabricando personas, que no tiene ningun sentido.", "0": "Una coleccion de varios, no una referencia a uno.", "3": "Un curso no <em>es un</em> estudiante."}, "orden": ["2", "0", "3"], "salida": "II24-FP2 tiene inscrito a Ana Lopez\nY Ana Lopez tambien lleva otros cursos: existe fuera de este"}], "relaciones": ["Asociacion", "Agregacion", "Composicion", "Herencia"], "python": "3.12.3"};
+var RETOS=DATOS.retos, RELACIONES=DATOS.relaciones, TOTAL=RETOS.length;
+var LS="fp2_que_relacion_v1";
+var SUB=["conoce a — una referencia, vidas aparte","agrupa a ◇ — la parte llega de afuera y sobrevive",
+         "está hecho de ◆ — la parte nace adentro y muere con el todo","es un tipo de △ — class Hija(Padre)"];
+var CLASES=["aso","agr","com","her"];
+var i=0, elegidas=[], t0=Date.now();
+
+function q(id){return document.getElementById(id)}
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+
+/* ---------- tema ---------- */
+q("tema").onclick=function(){
+  var r=document.documentElement;
+  var actual=r.getAttribute("data-theme");
+  var oscuro = actual ? actual==="dark"
+    : matchMedia("(prefers-color-scheme:dark)").matches;
+  r.setAttribute("data-theme", oscuro?"light":"dark");
+  try{localStorage.setItem(LS+"_tema", oscuro?"light":"dark")}catch(e){}
+};
+try{var tg=localStorage.getItem(LS+"_tema"); if(tg)document.documentElement.setAttribute("data-theme",tg)}catch(e){}
+
+/* ---------- guardar / recuperar ---------- */
+function guardar(){
+  try{localStorage.setItem(LS,JSON.stringify({i:i,el:elegidas,t0:t0,
+    n:q("nombre").value,c:q("carne").value,g:q("grupo").value}))}catch(e){}
+}
+function recuperar(){
+  try{var d=JSON.parse(localStorage.getItem(LS)||"null");
+    if(d&&d.el&&d.el.length){q("nombre").value=d.n||"";q("carne").value=d.c||"";
+      if(d.g)q("grupo").value=d.g; q("continuar").hidden=false;
+      q("continuar").onclick=function(){i=d.i;elegidas=d.el;t0=d.t0||Date.now();arrancar()};}
+  }catch(e){}
+}
+recuperar();
+
+/* ---------- arranque ---------- */
+q("empezar").onclick=function(){
+  if(!q("nombre").value.trim()){q("nombre").focus();q("nombre").style.borderColor="var(--mal)";return}
+  i=0;elegidas=[];t0=Date.now();arrancar();
+};
+function arrancar(){q("n-total").textContent=TOTAL;q("p-inicio").hidden=true;q("p-juego").hidden=false;pintarRail();pintar()}
+
+function pintarRail(){
+  var r=q("rail");r.innerHTML="";
+  for(var k=0;k<TOTAL;k++){
+    var e=document.createElement("i");
+    if(elegidas[k]!=null) e.className = elegidas[k]===RETOS[k].rel?"hecho":"falló";
+    else if(k===i) e.className="acá";
+    r.appendChild(e);
+  }
+}
+
+function pintar(){
+  var r=RETOS[i];
+  q("n-actual").textContent=i+1;
+  var ok=elegidas.filter(function(v,k){return v===RETOS[k].rel}).length;
+  q("marcador").textContent=ok+" correcto"+(ok===1?"":"s");
+  q("enunciado").textContent=r.titulo;
+  q("codigo").textContent=r.codigo;
+  q("salida").innerHTML="<b>Lo que imprime</b>"+esc(r.salida);
+  q("fb").innerHTML="";
+  q("siguiente").hidden=true;
+  var cont=q("relaciones");cont.innerHTML="";
+  for(var p=0;p<4;p++){
+    var b=document.createElement("button");
+    b.type="button";b.className="rel";b.setAttribute("data-p",p);
+    b.innerHTML="<b>"+RELACIONES[p]+"</b><small>"+SUB[p]+"</small>";
+    b.onclick=(function(pp){return function(){responder(pp)}})(p);
+    cont.appendChild(b);
+  }
+  pintarRail();guardar();
+}
+
+function responder(p){
+  var r=RETOS[i], bien=(p===r.rel);
+  elegidas[i]=p;
+  var bs=q("relaciones").children;
+  for(var k=0;k<bs.length;k++){
+    bs[k].disabled=true;
+    if(k===r.rel) bs[k].className="rel buena";
+    else if(k===p)  bs[k].className="rel mala";
+  }
+  var h='<div class="fb '+(bien?"ok":"no")+'">';
+  h+="<b>"+(bien?"Correcto — "+RELACIONES[r.rel]:"Es "+RELACIONES[r.rel]+", no "+RELACIONES[p])+"</b>";
+  h+="<p>"+r.porque+"</p>";
+  if(!bien && r.tientan[p]) h+='<p class="otro"><strong>Por qué '+RELACIONES[p]+' tienta aquí:</strong> '+r.tientan[p]+"</p>";
+  else if(bien){
+    var otro=(r.orden||Object.keys(r.tientan))[0];   // el par confundible, no el de indice menor
+    if(otro!=null) h+='<p class="otro"><strong>Por qué '+RELACIONES[otro]+' tienta aquí:</strong> '+r.tientan[otro]+"</p>";
+  }
+  h+="</div>";
+  q("fb").innerHTML=h;
+  q("siguiente").hidden=false;
+  q("siguiente").textContent = i<TOTAL-1 ? "Siguiente" : "Ver mi resultado";
+  pintarRail();guardar();
+}
+
+q("siguiente").onclick=function(){
+  if(i<TOTAL-1){i++;pintar();window.scrollTo({top:0,behavior:"smooth"})}
+  else terminar();
+};
+
+/* ---------- resultado ---------- */
+function codigoVerif(nombre,ok,fecha){
+  var s=nombre+"|"+ok+"|"+fecha, h=0;
+  for(var k=0;k<s.length;k++){h=((h<<5)-h+s.charCodeAt(k))|0}
+  return Math.abs(h).toString(36).toUpperCase().slice(0,6).padStart(6,"0");
+}
+var RES={};
+function terminar(){
+  q("p-juego").hidden=true;q("p-fin").hidden=false;window.scrollTo({top:0});
+  var nombre=q("nombre").value.trim();
+  var ok=elegidas.filter(function(v,k){return v===RETOS[k].rel}).length;
+  var seg=Math.round((Date.now()-t0)/1000);
+  var fecha=new Date().toLocaleDateString("es-GT",{day:"2-digit",month:"short",year:"numeric"});
+  RES={nombre:nombre,ok:ok,fecha:fecha,cod:codigoVerif(nombre,ok,fecha)};
+  q("r-nombre").textContent=nombre;q("r-total").textContent="/"+TOTAL;
+  q("r-score").innerHTML=ok+"<span>/"+TOTAL+"</span>";
+  q("r-pct").textContent=Math.round(ok*100/TOTAL)+" %";
+  q("r-tiempo").textContent=Math.floor(seg/60)+":"+("0"+(seg%60)).slice(-2);
+  q("r-fecha").textContent=fecha;
+  q("r-codigo").textContent=RES.cod;
+  var g=q("r-grid");g.innerHTML="";
+  for(var k=0;k<TOTAL;k++){
+    var e=document.createElement("i");
+    var b=elegidas[k]===RETOS[k].rel;
+    e.className=b?"b":"m";e.textContent=RELACIONES[RETOS[k].rel][0];
+    e.title=RETOS[k].titulo;g.appendChild(e);
+  }
+  var cont=q("r-relaciones");cont.innerHTML="";RES.porrelacion=[];
+  for(var p=0;p<4;p++){
+    var tot=0,ac=0;
+    for(var k=0;k<TOTAL;k++) if(RETOS[k].rel===p){tot++; if(elegidas[k]===p)ac++}
+    RES.porrelacion.push(RELACIONES[p]+": "+ac+"/"+tot);
+    var pct=tot?Math.round(ac*100/tot):0;
+    var d=document.createElement("div");d.className="pp";
+    d.innerHTML='<span class="nm">'+RELACIONES[p]+'</span>'+
+      '<span class="barra"><i style="width:'+pct+'%;background:var(--'+CLASES[p]+')"></i></span>'+
+      '<span class="n">'+ac+"/"+tot+"</span>";
+    cont.appendChild(d);
+  }
+  var fallos=[];
+  for(var k=0;k<TOTAL;k++) if(elegidas[k]!==RETOS[k].rel)
+    fallos.push("<p><strong>"+esc(RETOS[k].titulo)+"</strong> — es <strong>"+
+      RELACIONES[RETOS[k].rel]+"</strong>, vos pusiste "+RELACIONES[elegidas[k]]+".<br>"+RETOS[k].porque+"</p>");
+  if(fallos.length){q("bloque-fallos").hidden=false;q("lista-fallos").innerHTML=fallos.join("");}
+  RES.fallos=fallos.length;
+  try{localStorage.removeItem(LS)}catch(e){}
+}
+
+q("reiniciar").onclick=function(){
+  try{localStorage.removeItem(LS)}catch(e){}
+  i=0;elegidas=[];t0=Date.now();
+  q("p-fin").hidden=true;q("p-inicio").hidden=false;q("continuar").hidden=true;
+  window.scrollTo({top:0});
+};
+
+/* ---------- contador de palabras ---------- */
+var ta=q("reflexion");
+ta.addEventListener("input",function(){
+  var n=ta.value.trim()?ta.value.trim().split(/\s+/).length:0;
+  q("n-palabras").textContent=n;
+});
+
+/* ---------- PDF ---------- */
+function slug(s){
+  return (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[^A-Za-z0-9]/g,"") || "Estudiante";
+}
+q("bajar-pdf").onclick=function(){
+  var texto=ta.value.trim();
+  if(!texto){ta.focus();ta.style.borderColor="var(--mal)";return}
+  var jsPDF=(window.jspdf||{}).jsPDF; if(!jsPDF){alert("No se pudo cargar el generador de PDF.");return}
+  var doc=new jsPDF({unit:"pt",format:"letter"});
+  var M=54, A=doc.internal.pageSize.getWidth()-M*2, ALTO=doc.internal.pageSize.getHeight(), y=58;
+  function salto(n){if(y+n>ALTO-54){doc.addPage();y=58}}
+  function parrafo(t,sz,col,mono){
+    doc.setFont(mono?"courier":"helvetica","normal");doc.setFontSize(sz);doc.setTextColor(col);
+    var ls=doc.splitTextToSize(t,A);
+    for(var k=0;k<ls.length;k++){salto(16);doc.text(ls[k],M,y);y+=sz+4}
+  }
+  doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(120);
+  doc.text("FUNDAMENTOS DE PROGRAMACION 2  ·  UNIVERSIDAD DA VINCI DE GUATEMALA",M,y);y+=22;
+  doc.setFontSize(17);doc.setTextColor(20);
+  doc.text("Que Relacion Es?  ·  Unidad 3, Semana 5",M,y);y+=20;
+  doc.setFont("helvetica","normal");doc.setFontSize(10.5);doc.setTextColor(70);
+  doc.text(RES.nombre,M,y);y+=14;
+  doc.text("Carne: "+(q("carne").value.trim()||"(sin carne)")+"    Grupo: "+q("grupo").value+
+           "    Fecha: "+RES.fecha,M,y);y+=20;
+  doc.setDrawColor(200);doc.line(M,y,M+A,y);y+=26;
+
+  doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(20);
+  doc.text("Resultado: "+RES.ok+" de "+TOTAL+"   ·   Codigo "+RES.cod,M,y);y+=20;
+  doc.setFont("helvetica","normal");doc.setFontSize(10.5);doc.setTextColor(70);
+  doc.text("Por relacion —  "+RES.porrelacion.join("    "),M,y);y+=24;
+
+  salto(30);doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(20);
+  doc.text("Mi respuesta escrita",M,y);y+=8;
+  parrafo(texto,11,40);
+
+  if(RES.fallos){
+    salto(34);y+=10;doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(20);
+    doc.text("Los que falle, para repasar",M,y);y+=8;
+    for(var k=0;k<TOTAL;k++) if(elegidas[k]!==RETOS[k].rel){
+      salto(30);y+=10;doc.setFont("helvetica","bold");doc.setFontSize(10.5);doc.setTextColor(40);
+      doc.text(RETOS[k].titulo+"  ->  "+RELACIONES[RETOS[k].rel],M,y);y+=4;
+      parrafo(RETOS[k].codigo,9,90,true);
+    }
+  }
+  doc.setFontSize(8);doc.setTextColor(150);
+  doc.text("Generado por ¿Que Relacion Es? · codersatelier.com",M,ALTO-28);
+  var t=RES.nombre.trim().split(/\s+/);
+  doc.save("FP2_U3_Relacion_"+slug(t[Math.min(2,t.length-1)])+"_"+slug(t[0])+".pdf");
+};
+</script>
+
+</body>
+</html>
