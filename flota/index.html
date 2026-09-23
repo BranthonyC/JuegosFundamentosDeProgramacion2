@@ -1,0 +1,1360 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Doce retos de Python sobre una sola clase Vehiculo que sirve para carros, motos y camiones: los if/elif por tipo, los atributos que no aplican y el tipo que nadie previo. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%9A%3C/text%3E%3C/svg%3E">
+<title>La Flota</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#EFF2F7; --surface:#FFFFFF; --sunken:#E4E8F0;
+  --ink:#141821; --ink-2:#454C5C; --ink-3:#767E90;
+  --line:#D3D9E4;
+  --pred:#5B4BC4; --pred-soft:#EAE7FA; --pred-ink:#3B2E96;
+  --code:#0F7B78; --code-soft:#DDF1F0; --code-ink:#0A5654;
+  --bien:#2F7D52; --bien-soft:#E3F2E9;
+  --mal:#B8403A; --mal-soft:#FBE7E5;
+  --alerta:#8A6100; --alerta-soft:#FBF0D8;
+  --term:#0B0D12; --term-ink:#EDF0F5;
+  --shadow:0 1px 2px rgba(20,24,33,.06), 0 8px 24px -12px rgba(20,24,33,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --pred:#A99BF0; --pred-soft:#221C3D; --pred-ink:#C7BDF7;
+  --code:#5CC8C4; --code-soft:#0F2B2A; --code-ink:#8FDCD9;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --alerta:#E0B857; --alerta-soft:#2C2413;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --pred:#A99BF0; --pred-soft:#221C3D; --pred-ink:#C7BDF7;
+  --code:#5CC8C4; --code-soft:#0F2B2A; --code-ink:#8FDCD9;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --alerta:#E0B857; --alerta-soft:#2C2413;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.55;padding:clamp(16px,4vw,40px) clamp(14px,4vw,24px);
+  display:flex;justify-content:center}
+img{max-width:100%} [hidden]{display:none!important} button{font:inherit;color:inherit}
+.wrap{width:100%;max-width:860px;display:flex;flex-direction:column;gap:20px}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+  font-size:clamp(26px,5.5vw,38px);line-height:1.05;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.brand em{font-style:normal;color:var(--ink-3);font-weight:600}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 6px}
+.rail{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.seg{height:6px;border-radius:99px;background:var(--sunken);transition:background .25s}
+.seg.bien{background:var(--bien)} .seg.mal{background:var(--mal)} .seg.now{background:var(--ink-3)}
+@media (prefers-reduced-motion:reduce){.seg{transition:none}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:clamp(18px,4vw,26px)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12.5px;
+  color:var(--ink-3);font-variant-numeric:tabular-nums;margin-bottom:12px;flex-wrap:wrap}
+.meta strong{color:var(--ink-2);font-weight:600}
+.tipo{display:inline-block;border-radius:99px;padding:2px 10px;font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase}
+.tipo.p{background:var(--pred-soft);color:var(--pred-ink);border:1px solid var(--pred)}
+.tipo.c{background:var(--code-soft);color:var(--code-ink);border:1px solid var(--code)}
+h2.enun{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(17px,3.6vw,21px);
+  font-weight:600;margin:0 0 6px;line-height:1.3;text-wrap:balance}
+.sub{font-size:14px;color:var(--ink-2);margin:0 0 14px}
+.tarea-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+  background:var(--code-soft);color:var(--code-ink);border:1px dashed var(--code);
+  border-radius:8px;padding:5px 10px;margin:0 0 14px}
+/* ---------- codigo ---------- */
+.code{background:var(--sunken);border:1px solid var(--line);border-radius:10px;
+  padding:16px 14px;overflow-x:auto;margin:0}
+.code pre{margin:0;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:clamp(12.5px,2.9vw,14.5px);line-height:1.75;white-space:pre;color:var(--ink)}
+.code .cm{color:var(--ink-3)}
+.hueco-marca{display:inline-block;min-width:120px;padding:1px 8px;border-radius:6px;
+  border:2px dashed var(--code);background:var(--code-soft);color:var(--code-ink);
+  font-weight:700;font-size:.9em;text-align:center}
+.salida{margin-top:14px;background:var(--term);color:var(--term-ink);border-radius:10px;
+  padding:14px 16px;font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.65;
+  white-space:pre-wrap;overflow-x:auto;border:1px solid #2A303C;min-height:56px}
+.salida .err{color:#E1756D} .salida .ok{color:#66BC8C}
+.salida .esp{color:#7C8497;font-style:italic}
+.salida-tit{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#7C8497;
+  font-weight:600;margin:0 0 6px;font-family:"IBM Plex Sans",sans-serif}
+/* ---------- opciones de prediccion ---------- */
+.ops{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.op{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 14px;
+  transition:border-color .14s,background .14s,transform .1s}
+.op:hover{border-color:var(--pred);background:var(--pred-soft);transform:translateY(-1px)}
+.op:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.op:disabled{cursor:default;transform:none}
+.op .letra{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+  font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;
+  background:var(--sunken);border:1px solid var(--line);color:var(--ink-2)}
+.op .txt{font-family:"JetBrains Mono",monospace;font-size:clamp(12.5px,2.8vw,14px);
+  white-space:pre-wrap;line-height:1.5;word-break:break-word}
+.op.ok{border-color:var(--bien);background:var(--bien-soft)}
+.op.ok .letra{background:var(--bien);border-color:var(--bien);color:#fff}
+.op.err{border-color:var(--mal);background:var(--mal-soft)}
+.op.err .letra{background:var(--mal);border-color:var(--mal);color:#fff}
+.op.gris{opacity:.45}
+@media (prefers-reduced-motion:reduce){.op{transition:none}.op:hover{transform:none}}
+/* ---------- huecos de challenge ---------- */
+.campo{margin-top:16px}
+.campo .et{display:flex;gap:9px;align-items:baseline;margin-bottom:7px}
+.campo .num{flex:none;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;
+  background:var(--code-soft);color:var(--code-ink);border:1px solid var(--code);
+  border-radius:6px;padding:1px 7px}
+.campo .lbl{font-size:13.5px;font-weight:600;color:var(--ink)}
+.campo .ayuda{font-size:12.5px;color:var(--ink-3);margin:0 0 7px}
+.campo textarea{width:100%;min-height:52px;padding:11px 13px;border-radius:10px;
+  border:1px solid var(--line);background:var(--sunken);color:var(--ink);
+  font-family:"JetBrains Mono",monospace;font-size:14px;line-height:1.6;resize:vertical;
+  white-space:pre;overflow-wrap:normal}
+.campo textarea:focus{outline:none;border-color:var(--code);box-shadow:0 0 0 3px var(--code-soft)}
+.campo textarea.ok{border-color:var(--bien);background:var(--bien-soft)}
+.campo textarea.err{border-color:var(--mal);background:var(--mal-soft)}
+.ref{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--code-soft);
+  border:1px dashed var(--code)}
+.ref .rt{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--code-ink);
+  font-weight:700;margin:0 0 6px}
+.ref pre{margin:0;font-family:"JetBrains Mono",monospace;font-size:13.5px;color:var(--ink);
+  white-space:pre-wrap}
+/* ---------- feedback ---------- */
+.fb{margin-top:14px;padding:13px 15px;border-radius:11px;border-left:4px solid;font-size:14.5px}
+.fb.bien{background:var(--bien-soft);border-color:var(--bien)}
+.fb.mal{background:var(--mal-soft);border-color:var(--mal)}
+.fb.alerta{background:var(--alerta-soft);border-color:var(--alerta)}
+.fb b{display:block;margin-bottom:3px}
+.fb.bien b{color:var(--bien)} .fb.mal b{color:var(--mal)} .fb.alerta b{color:var(--alerta)}
+.fb p{margin:0;color:var(--ink-2)}
+.fb p+p{margin-top:7px}
+.fb code{font-family:"JetBrains Mono",monospace;font-size:.92em;background:var(--surface);
+  padding:1px 5px;border-radius:4px;border:1px solid var(--line)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.btn{cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--ground);
+  padding:11px 20px;border-radius:10px;font-weight:600;font-size:15px}
+.btn:hover{opacity:.86}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible{outline:3px solid var(--pred);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--ink-2);border-color:var(--line)}
+.hint{font-size:12.5px;color:var(--ink-3)}
+label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;
+  color:var(--ink-3);margin-bottom:7px}
+input[type=text]{width:100%;padding:13px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ground);color:var(--ink);font:inherit}
+input[type=text]:focus{outline:none;border-color:var(--pred);box-shadow:0 0 0 3px var(--pred-soft)}
+select{width:100%;padding:13px 15px;border-radius:10px;border:1px solid var(--line);
+  background:var(--ground);color:var(--ink);font:inherit}
+select:focus{outline:none;border-color:var(--pred);box-shadow:0 0 0 3px var(--pred-soft)}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.campos{grid-template-columns:1fr}}
+.reglas{display:flex;flex-direction:column;gap:10px;margin:16px 0 20px;padding:0;list-style:none}
+.reglas li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--ink-2)}
+.chip{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
+  font-size:11px;font-weight:700;margin-top:1px}
+.chip.a{background:var(--pred-soft);color:var(--pred-ink);border:1px solid var(--pred)}
+.chip.b{background:var(--code-soft);color:var(--code-ink);border:1px dashed var(--code)}
+.chip.c{background:var(--sunken);color:var(--ink-2);border:1px solid var(--line)}
+/* ---------- resultado ---------- */
+.res-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.score{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(44px,12vw,68px);
+  line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.score span{font-size:.4em;color:var(--ink-3);font-weight:600}
+.grid12{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;margin:18px 0}
+@media (max-width:520px){.grid12{grid-template-columns:repeat(6,1fr)}}
+.g-cell{aspect-ratio:1;border-radius:7px;display:grid;place-items:center;
+  font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;
+  background:var(--bien-soft);color:var(--bien);border:1px solid var(--bien)}
+.g-cell.mal{background:var(--mal-soft);color:var(--mal);border-color:var(--mal)}
+.g-cell.seg2{background:var(--alerta-soft);color:var(--alerta);border-color:var(--alerta)}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.dato{background:var(--surface);padding:11px 13px}
+.dato dt{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 3px}
+.dato dd{margin:0;font-weight:600;font-size:14.5px;font-variant-numeric:tabular-nums}
+.dato dd.mono{font-family:"JetBrains Mono",monospace;letter-spacing:.06em}
+.leyenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-3);margin:-6px 0 14px}
+.leyenda span{display:inline-flex;align-items:center;gap:6px}
+.leyenda i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.aviso{margin-top:16px;padding:13px 15px;border-radius:11px;background:var(--pred-soft);
+  border:1px dashed var(--pred);color:var(--pred-ink);font-size:14px}
+.entrega{margin-top:16px}
+.entrega h3{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;margin:0 0 4px;font-weight:600}
+.entrega .pregunta-pdf{font-size:14px;color:var(--ink-2);margin:0 0 12px}
+.entrega ol{margin:0 0 12px;padding-left:20px;font-size:14px;color:var(--ink-2)}
+.entrega ol li{margin-bottom:4px}
+textarea#reflexion{width:100%;min-height:170px;padding:13px 15px;border-radius:10px;
+  border:1px solid var(--line);background:var(--ground);color:var(--ink);font:inherit;
+  line-height:1.55;resize:vertical}
+textarea#reflexion:focus{outline:none;border-color:var(--pred);box-shadow:0 0 0 3px var(--pred-soft)}
+.cuenta{font-size:12px;color:var(--ink-3);margin-top:6px;font-variant-numeric:tabular-nums}
+.repaso{margin-top:16px}
+.repaso h3{font-family:"Bricolage Grotesque",sans-serif;font-size:16px;margin:0 0 10px;font-weight:600}
+.repaso .item{border-top:1px solid var(--line);padding:12px 0}
+.repaso .item:first-of-type{border-top:0;padding-top:0}
+.repaso .it{font-size:14px;font-weight:600;margin:0 0 4px}
+.repaso .ip{font-size:13.5px;color:var(--ink-2);margin:0}
+.repaso .ip code{font-family:"JetBrains Mono",monospace;font-size:.92em;background:var(--sunken);
+  padding:1px 5px;border-radius:4px;border:1px solid var(--line)}
+footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
+
+/* cada archivo del proyecto, con su nombre arriba */
+#codigo .archivo{ margin:0 0 14px; }
+#codigo .archivo:last-child{ margin-bottom:0; }
+#codigo .archivo-nom{
+  display:block; font-size:.74rem; letter-spacing:.04em; text-transform:lowercase;
+  opacity:.62; margin:0 0 4px; padding-bottom:3px;
+  border-bottom:1px solid currentColor; border-color:color-mix(in srgb, currentColor 18%, transparent);
+}
+#codigo .archivo-nom em{ font-style:normal; opacity:.75; text-transform:none; letter-spacing:0; }
+#codigo details.plegado{ margin:0 0 14px; }
+#codigo details.plegado > summary{ cursor:pointer; list-style:none; margin:0; }
+#codigo details.plegado > summary::-webkit-details-marker{ display:none; }
+#codigo details.plegado > summary::before{ content:"▸ "; }
+#codigo details.plegado[open] > summary::before{ content:"▾ "; }
+#codigo details.plegado[open] > summary{ margin-bottom:4px; }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">FP2 · Unidad 5 · Semana 9 · una clase para todo</p>
+      <h1 class="brand">La <em>Flota</em></h1>
+    </div>
+    <button class="btn ghost" id="tema" type="button">Tema</button>
+  </header>
+
+  <!-- ============ INICIO ============ -->
+  <section class="card" id="p-inicio">
+    <p style="font-size:15.5px;margin:0 0 4px">
+      Doce retos sobre <strong>una flota con una sola clase</strong>: carros, motos y camiones en <code>Vehiculo</code>, distinguidos por un atributo <code>tipo</code>.
+      <strong>Ocho predicciones</strong> —leés el programa y decís qué imprime— y
+      <strong>cuatro challenges</strong> donde escribís el código vos.
+    </p>
+    <ul class="reglas">
+      <li><span class="chip a">8</span><span><strong>¿Qué imprime?</strong> Una clase para todo funciona... hasta que llega un tipo que nadie previó. Fijate qué rama del <code>if</code> atrapa a cada vehículo, <em>y cuál no atrapa a ninguno</em>.</span></li>
+      <li><span class="chip b">4</span><span><strong>Escribí el código.</strong> Los cuatro son piezas exactas de la tarea <strong>Clase de vehículos</strong>. Si los sacás, ya la tenés a medio camino.</span></li>
+      <li><span class="chip c">✓</span><span>Todo corre en tu navegador. Nada se envía a ningún servidor: tu nombre y tu avance viven solo en este equipo. Si cerrás la pestaña, podés continuar.</span></li>
+    </ul>
+    <label for="nombre">Tu nombre completo</label>
+    <input type="text" id="nombre" placeholder="Ana María López Chacón" autocomplete="name" spellcheck="false">
+    <div class="campos" style="margin-top:12px">
+      <div><label for="carne">Carné</label>
+        <input type="text" id="carne" placeholder="202612345" inputmode="numeric" spellcheck="false"></div>
+      <div><label for="grupo">Grupo</label>
+        <select id="grupo">
+          <option value="II24-FP2">II24-FP2 — presencial / remoto síncrono</option>
+          <option value="IS24-FP2">IS24-FP2 — e-learning</option>
+        </select></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="empezar" type="button">Empezar los 12 retos</button>
+      <button class="btn ghost" id="continuar" type="button" hidden>Continuar</button>
+    </div>
+    <p class="hint" style="margin-top:12px">
+      Las salidas que ves no están simuladas: cada programa se ejecutó en Python
+      <span id="pyver">3</span> real para armar este juego.
+    </p>
+  </section>
+
+  <!-- ============ JUEGO ============ -->
+  <section id="p-juego" hidden>
+    <div class="rail" id="rail" aria-hidden="true"></div>
+    <div class="card" style="margin-top:16px">
+      <div class="meta">
+        <span>Reto <strong id="n-actual">1</strong> de 12 · <span id="etiqueta" class="tipo p">¿qué imprime?</span></span>
+        <span id="marcador">0 resueltos</span>
+      </div>
+      <h2 class="enun" id="enunciado">—</h2>
+      <p class="sub" id="subtitulo"></p>
+      <p class="tarea-chip" id="tarea-chip" hidden></p>
+
+      <div class="code"><pre id="codigo"></pre></div>
+
+      <!-- prediccion -->
+      <div id="zona-pred" hidden>
+        <div class="ops" id="ops"></div>
+      </div>
+
+      <!-- challenge -->
+      <div id="zona-chal" hidden>
+        <div id="campos"></div>
+        <div class="salida" id="salida">
+          <p class="salida-tit">Salida</p>
+          <span class="esp">Al calificar vas a ver aquí lo que tu programa imprime.</span>
+        </div>
+        <div id="ref-box"></div>
+      </div>
+
+      <div id="fb"></div>
+      <div class="row">
+        <button class="btn" id="accion" type="button">Calificar</button>
+        <button class="btn ghost" id="limpiar" type="button">Limpiar</button>
+        <button class="btn ghost" id="rendirse" type="button" hidden>Ver la solución</button>
+        <button class="btn" id="siguiente" type="button" hidden>Siguiente</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTADO ============ -->
+  <section id="p-fin" hidden>
+    <div class="card">
+      <div class="res-head">
+        <div>
+          <p class="eyebrow">Resultado · La Flota</p>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;margin:0;font-weight:600" id="r-nombre">—</h2>
+        </div>
+        <div class="score" id="r-score">0<span>/12</span></div>
+      </div>
+      <div class="grid12" id="r-grid"></div>
+      <div class="leyenda">
+        <span><i style="background:var(--bien)"></i> al primer intento</span>
+        <span><i style="background:var(--alerta)"></i> con más de un intento</span>
+        <span><i style="background:var(--mal)"></i> viste la solución</span>
+      </div>
+      <dl class="datos">
+        <div class="dato"><dt>Resueltos</dt><dd id="r-pct">0 %</dd></div>
+        <div class="dato"><dt>Al 1er intento</dt><dd id="r-primera">0</dd></div>
+        <div class="dato"><dt>Intentos</dt><dd id="r-int">0</dd></div>
+        <div class="dato"><dt>Tiempo</dt><dd id="r-tiempo">0:00</dd></div>
+        <div class="dato"><dt>Fecha</dt><dd id="r-fecha">—</dd></div>
+        <div class="dato"><dt>Código</dt><dd class="mono" id="r-codigo">—</dd></div>
+      </dl>
+      <div class="aviso"><strong>El PDF de entrega se arma abajo.</strong>
+        El código de verificación se calcula con tu nombre, tu puntaje y la fecha.</div>
+    </div>
+
+    <div class="card repaso" id="bloque-repaso" hidden>
+      <h3>Lo que fallaste, para repasarlo</h3>
+      <div id="lista-fallos"></div>
+    </div>
+
+    <div class="card repaso" id="bloque-codigo" hidden>
+      <h3>Mi código de los cuatro challenges</h3>
+      <p class="hint" style="margin:-6px 0 12px">Esto va dentro de tu PDF. Son piezas de la tarea Clase de vehículos: guardalo y trabajá desde ahí.</p>
+      <div id="lista-codigo"></div>
+    </div>
+
+    <div class="card entrega" id="bloque-entrega" hidden>
+      <h3>Tu respuesta escrita</h3>
+      <p class="pregunta-pdf">Respondé las tres, en 200 a 350 palabras en total:</p>
+      <ol>
+        <li><strong>Lo que rechina.</strong> Nombrá dos limitaciones de usar una sola clase con <code>tipo</code> que viste en los retos (por ejemplo 1, 7 y 9): atributos que no aplican, <code>if/elif</code> repetidos, el costo de agregar un tipo. Con un ejemplo tuyo que no sea de vehículos.</li>
+        <li><strong>El reto que más te costó.</strong> Nombralo, decí qué habías predicho y qué entendiste después de ver la salida real.</li>
+        <li><strong>El que se escapa.</strong> Después de los retos 1, 2 y 5: ¿por qué un tipo desconocido o mal escrito no imprime nada y tampoco da error, y qué cambia si la última rama es un <code>else</code>?</li>
+      </ol>
+      <textarea id="reflexion" placeholder="Escribí aquí tu respuesta…"></textarea>
+      <p class="cuenta"><span id="n-palabras">0</span> palabras</p>
+      <div class="row">
+        <button class="btn" id="bajar-pdf" type="button">Descargar mi PDF de entrega</button>
+        <span class="hint">Se arma solo, con tu resultado y tu código. Después lo subís a Moodle.</span>
+      </div>
+    </div>
+    <div class="row"><button class="btn ghost" id="reiniciar" type="button">Jugar de nuevo</button></div>
+  </section>
+
+  <footer>Fundamentos de Programación 2 · Universidad Da Vinci de Guatemala · Ing. Brandon Chitay</footer>
+</div>
+<script>
+(function(){
+"use strict";
+var q=function(i){return document.getElementById(i)};
+
+/* ═══════════ LOS RETOS ═══════════
+   Generado por _retos.py — NO editar aqui. Cada salida de este bloque salio de
+   ejecutar el programa en Python real; _retos.py lo verifica antes de escribirlo. */
+var DATOS={
+ "retos": [
+  {
+   "tipo": "prediccion",
+   "titulo": "El tipo que nadie esperaba",
+   "sub": "La empresa compró un bus. Se agrega a la flota y se describe a todos.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\n\nflota.append(Vehiculo(\"bus\", \"Volvo\", \"7900\", 2020, 3, 0, 0))\nfor v in flota:\n    v.describir()\nprint(len(flota), \"vehículos\")\n",
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "Toyota Corolla: 4 puertas\nHonda CB190: 190 cc\nHino 500: carga máxima 8.5 ton\nVolvo 7900: 3 puertas\n4 vehículos",
+    "AttributeError: 'Vehiculo' object has no attribute 'bus'",
+    "Toyota Corolla: 4 puertas\nHonda CB190: 190 cc\nHino 500: carga máxima 8.5 ton\n4 vehículos",
+    "Toyota Corolla: 4 puertas\nHonda CB190: 190 cc\nHino 500: carga máxima 8.5 ton\n3 vehículos"
+   ],
+   "correcta": 2,
+   "abiertos": [],
+   "porques": {
+    "0": "Para imprimir el bus, <code>describir()</code> necesitaría una rama <code>elif self.tipo == \"bus\"</code>, y no la tiene. Ninguna condición se cumple, así que el método termina <strong>sin imprimir nada y sin avisar</strong>.",
+    "1": "<code>\"bus\"</code> es el <strong>valor</strong> del atributo <code>tipo</code>, no un atributo. El objeto se crea bien; el problema aparece después, en los if.",
+    "3": "El bus sí está en la lista: <code>append</code> lo agregó. Son 4; lo que pasa es que <code>describir()</code> no sabe qué decir de él."
+   }
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "Una tilde de más",
+   "sub": "El mismo camión de siempre, escrito como se escribe en español.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\n\nv = Vehiculo(\"camión\", \"Hino\", \"500\", 2021, 0, 0, 8.5)\nv.describir()\nv.encender()\nprint(\"listo\")\n",
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "Hino 500: carga máxima 8.5 ton\nEl camión enciende motor diésel.\nlisto",
+    "NameError: name 'camión' is not defined",
+    "Hino 500: carga máxima 8.5 ton\nlisto",
+    "listo"
+   ],
+   "correcta": 3,
+   "abiertos": [],
+   "porques": {
+    "0": "<code>\"camión\"</code> con tilde y <code>\"camion\"</code> sin tilde son textos <strong>distintos</strong> para <code>==</code>. Ninguna rama lo atrapa, en ninguno de los dos métodos: solo se imprime <code>listo</code>.",
+    "1": "Entre comillas es un texto, no un nombre de variable: no hay NameError. Solo es un texto que no coincide con ningún if.",
+    "2": "<code>encender()</code> tiene el mismo problema que <code>describir()</code>: compara contra <code>\"camion\"</code> sin tilde."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "Encender por tipo",
+   "sub": "Completá las dos condiciones que faltan en encender: la de la moto y la del camión.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\n\nfor v in flota:\n    v.encender()\n"
+   },
+   "hueco_en": "vehiculo.py",
+   "entrada": "main.py",
+   "plantilla": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        {0}\n            print(\"La moto arranca con botón.\")\n        {1}\n            print(\"El camión enciende motor diésel.\")",
+   "huecos": [
+    {
+     "etiqueta": "la condición de la moto",
+     "ayuda": "Otra rama de la misma cadena, preguntando por el tipo.",
+     "acepta": [
+      "elif self.tipo == \"moto\":",
+      "elif \"moto\" == self.tipo:",
+      "if self.tipo == \"moto\":"
+     ],
+     "referencia": "elif self.tipo == \"moto\":"
+    },
+    {
+     "etiqueta": "la condición del camión",
+     "ayuda": "Igual que la de la moto, con el tipo del camión (sin tilde, como está en la flota).",
+     "acepta": [
+      "elif self.tipo == \"camion\":",
+      "elif \"camion\" == self.tipo:"
+     ],
+     "referencia": "elif self.tipo == \"camion\":"
+    }
+   ],
+   "esperado": "El carro arranca con llave.\nLa moto arranca con botón.\nEl camión enciende motor diésel.",
+   "trampas": [
+    {
+     "codigo": [
+      "elif self.tipo == \"Moto\":",
+      "elif self.tipo == \"camion\":"
+     ],
+     "porque": "<code>\"Moto\"</code> con mayúscula no es <code>\"moto\"</code>: la moto no arranca y no hay ningún error que lo avise."
+    },
+    {
+     "codigo": [
+      "elif tipo == \"moto\":",
+      "elif self.tipo == \"camion\":"
+     ],
+     "porque": "<code>tipo</code> solo existía como parámetro de <code>__init__</code>. En los demás métodos el dato vive en el objeto: <code>self.tipo</code>. Revienta con NameError."
+    },
+    {
+     "codigo": [
+      "elif self.tipo == \"moto\":",
+      "else:"
+     ],
+     "porque": "Hoy da la misma salida. Pero con <code>else</code>, <strong>cualquier</strong> tipo que no sea carro ni moto enciende motor diésel: el bus, la bicicleta, un \"camión\" con tilde. Un <code>else</code> atrapa también lo que no previste.",
+     "misma_salida": true
+    }
+   ],
+   "pista_final": "<code>elif self.tipo == \"moto\":</code> y <code>elif self.tipo == \"camion\":</code>."
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "None no se suma",
+   "sub": "Esta vez lo que no aplica se guardó como None en lugar de 0.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, None, None),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, None, 190, None),\n]\n\npuertas = 0\nfor v in flota:\n    puertas += v.numero_puertas\nprint(puertas)\n",
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "4\nNone",
+    "4",
+    "TypeError: unsupported operand type(s) for +=: 'int' and 'NoneType'",
+    "None"
+   ],
+   "correcta": 2,
+   "abiertos": [],
+   "porques": {
+    "0": "El <code>print</code> está afuera del ciclo, y el ciclo revienta antes de llegar.",
+    "1": "La moto no tiene puertas, y eso se guardó como <code>None</code>. En la segunda vuelta se intenta <code>4 + None</code>, y None no es un número: revienta. Es uno de los atributos incómodos de la clase para todo.",
+    "3": "<code>puertas</code> arranca en 0 y suma el 4 del carro; el problema llega con la moto."
+   }
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "If, if, else",
+   "sub": "Alguien usó if en lugar de elif, y le puso un else al final.",
+   "archivos": {
+    "main.py": "class Vehiculo:\n    def __init__(self, tipo, marca):\n        self.tipo = tipo\n        self.marca = marca\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        if self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        else:\n            print(\"Tipo desconocido.\")\n\n\nVehiculo(\"carro\", \"Toyota\").encender()\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "El carro arranca con llave.",
+    "El carro arranca con llave.\nTipo desconocido.",
+    "Tipo desconocido.",
+    "El carro arranca con llave.\nLa moto arranca con botón.\nTipo desconocido."
+   ],
+   "correcta": 1,
+   "abiertos": [],
+   "porques": {
+    "0": "Son <strong>dos</strong> if separados, y el <code>else</code> pertenece solo al segundo. El carro cumple el primero e imprime; después el segundo pregunta si es moto, no lo es, y entra al <code>else</code>. Con <code>elif</code> sería una sola cadena.",
+    "2": "El primer if sí se cumple: el carro arranca. El problema es lo que pasa después.",
+    "3": "La moto no se imprime: el carro no es moto. Lo que se imprime es el else de esa pregunta."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "Contar por tipo",
+   "sub": "Escribí la línea que suma uno al contador del tipo de cada vehículo.",
+   "archivos": {
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "hueco_en": "main.py",
+   "entrada": "main.py",
+   "plantilla": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\nflota.append(Vehiculo(\"carro\", \"Kia\", \"Picanto\", 2024, 4, 0, 0))\n\nconteo = {\"carro\": 0, \"moto\": 0, \"camion\": 0}\nfor v in flota:\n    {0}\nprint(f\"carros={conteo['carro']}, motos={conteo['moto']}, camiones={conteo['camion']}\")",
+   "huecos": [
+    {
+     "etiqueta": "sumar uno al contador de su tipo",
+     "ayuda": "La clave del diccionario es el tipo del vehículo.",
+     "acepta": [
+      "conteo[v.tipo] += 1",
+      "conteo[v.tipo] = conteo[v.tipo] + 1"
+     ],
+     "referencia": "conteo[v.tipo] += 1"
+    }
+   ],
+   "esperado": "carros=2, motos=1, camiones=1",
+   "trampas": [
+    {
+     "codigo": [
+      "conteo[v.tipo] = 1"
+     ],
+     "porque": "Sin el <code>+</code>, cada vehículo <strong>pone</strong> el contador en 1: los dos carros quedan como uno."
+    },
+    {
+     "codigo": [
+      "conteo[\"v.tipo\"] += 1"
+     ],
+     "porque": "Entre comillas, <code>\"v.tipo\"</code> es el texto literal, no el tipo del vehículo. Esa clave no existe: KeyError."
+    }
+   ],
+   "pista_final": "<code>conteo[v.tipo] += 1</code>: el tipo del vehículo elige qué contador sube."
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "El bus en el conteo",
+   "sub": "El mismo conteo por tipo, ahora con el bus en la flota.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\n\nflota.append(Vehiculo(\"bus\", \"Volvo\", \"7900\", 2020, 3, 0, 0))\nconteo = {\"carro\": 0, \"moto\": 0, \"camion\": 0}\nfor v in flota:\n    conteo[v.tipo] += 1\nprint(conteo)\n",
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "{'carro': 1, 'moto': 1, 'camion': 1}",
+    "{'carro': 1, 'moto': 1, 'camion': 1, 'bus': 1}",
+    "{'carro': 1, 'moto': 1, 'camion': 1, 'bus': 0}",
+    "KeyError: 'bus'"
+   ],
+   "correcta": 3,
+   "abiertos": [],
+   "porques": {
+    "0": "El diccionario solo tiene tres claves. Al llegar al bus, <code>conteo[\"bus\"] += 1</code> tiene que <strong>leer</strong> esa clave primero, y no existe: KeyError. Cada tipo nuevo obliga a tocar este diccionario también.",
+    "1": "<code>+=</code> no crea claves: para sumar necesita leer el valor anterior, y el bus no tiene.",
+    "2": "Nadie agregó la clave <code>\"bus\"</code> al diccionario: no aparece sola, ni en 0 ni en 1."
+   }
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "El dato que no le toca",
+   "sub": "Un error de copiar y pegar en describir. Mirá la rama de la moto en vehiculo.py.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\n\nflota[1].describir()\n",
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "Honda CB190: 0 cc",
+    "Honda CB190: None cc",
+    "Honda CB190: 190 cc",
+    "AttributeError: 'Vehiculo' object has no attribute 'numero_puertas'"
+   ],
+   "correcta": 0,
+   "abiertos": [
+    "vehiculo.py"
+   ],
+   "porques": {
+    "1": "La moto se creó con 0 puertas, no con None.",
+    "2": "La rama de la moto imprime <code>self.numero_puertas</code>. La moto sí tiene ese atributo —la clase para todo se lo dio—, y vale 0. No revienta: <strong>imprime un dato que no le toca</strong>.",
+    "3": "Todos los vehículos tienen los siete atributos, aunque no les apliquen. Por eso no hay error: ese es justo el problema."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "Agregar el bus",
+   "sub": "Agregá a describir la rama del bus: su condición y la línea que imprime marca, modelo y puertas.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\nflota.append(Vehiculo(\"bus\", \"Volvo\", \"7900\", 2020, 3, 0, 0))\nfor v in flota:\n    v.describir()\n"
+   },
+   "hueco_en": "vehiculo.py",
+   "entrada": "main.py",
+   "plantilla": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n        {0}\n            {1}",
+   "huecos": [
+    {
+     "etiqueta": "la condición del bus",
+     "ayuda": "Una rama más de la misma cadena.",
+     "acepta": [
+      "elif self.tipo == \"bus\":",
+      "elif \"bus\" == self.tipo:",
+      "if self.tipo == \"bus\":"
+     ],
+     "referencia": "elif self.tipo == \"bus\":"
+    },
+    {
+     "etiqueta": "lo que imprime el bus",
+     "ayuda": "Como la línea del carro: el bus también tiene puertas.",
+     "acepta": [
+      "print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")"
+     ],
+     "referencia": "print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")"
+    }
+   ],
+   "esperado": "Toyota Corolla: 4 puertas\nHonda CB190: 190 cc\nHino 500: carga máxima 8.5 ton\nVolvo 7900: 3 puertas",
+   "trampas": [
+    {
+     "codigo": [
+      "elif self.tipo == \"Bus\":",
+      "print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")"
+     ],
+     "porque": "<code>\"Bus\"</code> con mayúscula no coincide con el <code>\"bus\"</code> de la flota: el bus sigue sin imprimirse, como en el reto 1."
+    },
+    {
+     "codigo": [
+      "else:",
+      "print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")"
+     ],
+     "porque": "Hoy da la misma salida, pero ese <code>else</code> describe como bus a <strong>cualquier</strong> tipo desconocido, incluido un \"camión\" con tilde.",
+     "misma_salida": true
+    },
+    {
+     "codigo": [
+      "elif self.tipo == \"bus\":",
+      "print(f\"{marca} {modelo}: {numero_puertas} puertas\")"
+     ],
+     "porque": "Sin <code>self.</code>, <code>marca</code> es una variable que no existe dentro del método: NameError."
+    }
+   ],
+   "pista_final": "La condición <code>elif self.tipo == \"bus\":</code> y la línea del carro, copiada. Fijate: para un tipo nuevo hubo que tocar <code>describir()</code>, y falta <code>encender()</code> y el conteo. Eso es lo que la herencia arregla."
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "Copiar y pegar un elif",
+   "sub": "Tres contadores y una cadena de if. Leé con cuidado qué contador sube en cada rama.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\nflota.append(Vehiculo(\"carro\", \"Kia\", \"Picanto\", 2024, 4, 0, 0))\n\ncarros = 0\nmotos = 0\ncamiones = 0\nfor v in flota:\n    if v.tipo == \"carro\":\n        carros += 1\n    elif v.tipo == \"moto\":\n        carros += 1\n    elif v.tipo == \"camion\":\n        camiones += 1\nprint(carros, motos, camiones)\n",
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "3 0 1",
+    "2 1 1",
+    "2 0 1",
+    "3 1 1"
+   ],
+   "correcta": 0,
+   "abiertos": [],
+   "porques": {
+    "1": "La rama de la moto suma a <code>carros</code>: se copió la línea de arriba y no se cambió. Los dos carros más la moto dan 3, y <code>motos</code> se queda en 0.",
+    "2": "Eso sería si la moto no sumara en ningún lado. Sí suma: al contador equivocado.",
+    "3": "<code>motos</code> nunca cambia: ninguna línea hace <code>motos += 1</code>."
+   }
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "Dos ciclos o uno",
+   "sub": "Primero se describe a todos, después se enciende a todos.",
+   "archivos": {
+    "main.py": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\n\nfor v in flota:\n    v.describir()\nfor v in flota:\n    v.encender()\n",
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "Toyota Corolla: 4 puertas\nHonda CB190: 190 cc\nHino 500: carga máxima 8.5 ton",
+    "Toyota Corolla: 4 puertas\nHonda CB190: 190 cc\nHino 500: carga máxima 8.5 ton\nEl carro arranca con llave.\nLa moto arranca con botón.\nEl camión enciende motor diésel.",
+    "Toyota Corolla: 4 puertas\nEl carro arranca con llave.\nHonda CB190: 190 cc\nLa moto arranca con botón.\nHino 500: carga máxima 8.5 ton\nEl camión enciende motor diésel.",
+    "El carro arranca con llave.\nLa moto arranca con botón.\nEl camión enciende motor diésel."
+   ],
+   "correcta": 1,
+   "abiertos": [],
+   "porques": {
+    "0": "El segundo ciclo también corre: después de las descripciones vienen los tres encendidos.",
+    "2": "Eso haría <strong>un</strong> ciclo con las dos llamadas adentro. Aquí son dos ciclos: el primero termina entero —las tres descripciones— antes de que empiece el segundo.",
+    "3": "El primer ciclo corre antes: las descripciones van primero."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "El recorrido de la flota",
+   "sub": "Completá el ciclo que recorre la flota y la llamada que enciende a cada vehículo después de describirlo.",
+   "archivos": {
+    "vehiculo.py": "class Vehiculo:\n    def __init__(self, tipo, marca, modelo, anio, numero_puertas, cilindrada_cc, carga_maxima_ton):\n        self.tipo = tipo\n        self.marca = marca\n        self.modelo = modelo\n        self.anio = anio\n        self.numero_puertas = numero_puertas\n        self.cilindrada_cc = cilindrada_cc\n        self.carga_maxima_ton = carga_maxima_ton\n\n    def describir(self):\n        if self.tipo == \"carro\":\n            print(f\"{self.marca} {self.modelo}: {self.numero_puertas} puertas\")\n        elif self.tipo == \"moto\":\n            print(f\"{self.marca} {self.modelo}: {self.cilindrada_cc} cc\")\n        elif self.tipo == \"camion\":\n            print(f\"{self.marca} {self.modelo}: carga máxima {self.carga_maxima_ton} ton\")\n\n    def encender(self):\n        if self.tipo == \"carro\":\n            print(\"El carro arranca con llave.\")\n        elif self.tipo == \"moto\":\n            print(\"La moto arranca con botón.\")\n        elif self.tipo == \"camion\":\n            print(\"El camión enciende motor diésel.\")\n"
+   },
+   "hueco_en": "main.py",
+   "entrada": "main.py",
+   "plantilla": "from vehiculo import Vehiculo\n\nflota = [\n    Vehiculo(\"carro\", \"Toyota\", \"Corolla\", 2022, 4, 0, 0),\n    Vehiculo(\"moto\", \"Honda\", \"CB190\", 2023, 0, 190, 0),\n    Vehiculo(\"camion\", \"Hino\", \"500\", 2021, 0, 0, 8.5),\n]\n\n{0}\n    v.describir()\n    {1}",
+   "huecos": [
+    {
+     "etiqueta": "recorrer la flota",
+     "ayuda": "Cada vuelta, v es un vehículo de la lista.",
+     "acepta": [
+      "for v in flota:"
+     ],
+     "referencia": "for v in flota:"
+    },
+    {
+     "etiqueta": "encender a v",
+     "ayuda": "El método se le pide al vehículo de esta vuelta.",
+     "acepta": [
+      "v.encender()"
+     ],
+     "referencia": "v.encender()"
+    }
+   ],
+   "esperado": "Toyota Corolla: 4 puertas\nEl carro arranca con llave.\nHonda CB190: 190 cc\nLa moto arranca con botón.\nHino 500: carga máxima 8.5 ton\nEl camión enciende motor diésel.",
+   "trampas": [
+    {
+     "codigo": [
+      "for v in range(len(flota)):",
+      "v.encender()"
+     ],
+     "porque": "Con <code>range(len(flota))</code>, <code>v</code> es la <strong>posición</strong> (0, 1, 2), no el vehículo. Un número no tiene <code>describir()</code>: AttributeError."
+    },
+    {
+     "codigo": [
+      "for v in flota:",
+      "encender()"
+     ],
+     "porque": "<code>encender</code> no existe suelto: es un método del vehículo. Hay que pedírselo a <code>v</code>. NameError."
+    },
+    {
+     "codigo": [
+      "for v in flota:",
+      "Vehiculo.encender()"
+     ],
+     "porque": "Pedírselo a la <strong>clase</strong> no sirve: ¿cuál vehículo enciende? Falta <code>self</code>, y Python se queja con TypeError."
+    }
+   ],
+   "pista_final": "<code>for v in flota:</code> y <code>v.encender()</code>: un ciclo, dos métodos, un vehículo por vuelta. En la tarea siguiente este ciclo va a quedar <strong>idéntico</strong> con herencia."
+  }
+ ],
+ "juego": {
+  "ls": "fp2_flota_v1",
+  "etiqueta_pred": "¿qué imprime?",
+  "tarea": "Clase de vehículos",
+  "tarea_pdf": "Clase de vehiculos",
+  "cierre_corto": "dom 18-oct",
+  "pdf_titulo": "La Flota  ·  Unidad 5, Semana 9",
+  "pdf_parrafo": "Cada uno es una pieza de la tarea Clase de vehiculos, que cierra el domingo 18 de octubre.",
+  "pdf_pie": "Generado por La Flota · codersatelier.com",
+  "pdf_prefijo": "FP2_U5_Flota_"
+ },
+ "python": "3.12"
+};
+var RETOS=DATOS.retos, TOTAL=RETOS.length;
+
+var JUEGO=DATOS.juego;
+var LS=JUEGO.ls;
+var idx=0, resueltos=0, intentos=0, res=[], primera=[], t0=0;
+var nombre="", carne="", grupo="";
+var escritos={};          // idx -> [texto por hueco]  (lo que el estudiante escribio)
+var fallidos={};          // idx -> intentos fallidos en ESTE reto
+var elegido={};           // idx -> opcion elegida en una prediccion
+var cerrado=false;        // el reto actual ya se resolvio o se rindio
+
+q("pyver").textContent=DATOS.python||"3";
+
+/* ---- tema ---- */
+q("tema").addEventListener("click",function(){
+  var r=document.documentElement;
+  var osc = r.getAttribute("data-theme")==="dark" ||
+    (!r.getAttribute("data-theme") && matchMedia("(prefers-color-scheme:dark)").matches);
+  r.setAttribute("data-theme", osc?"light":"dark");
+});
+
+/* ---- persistencia ---- */
+function guardar(){ try{ localStorage.setItem(LS, JSON.stringify(
+  {nombre:nombre, carne:carne, grupo:grupo, idx:idx, resueltos:resueltos, intentos:intentos,
+   res:res, primera:primera, escritos:escritos, t0:t0})); }catch(e){} }
+function leer(){ try{ return JSON.parse(localStorage.getItem(LS)||"null"); }catch(e){ return null; } }
+function borrar(){ try{ localStorage.removeItem(LS); }catch(e){} }
+
+/* ---- riel ---- */
+var rail=q("rail");
+for(var i=0;i<TOTAL;i++){ var d=document.createElement("div"); d.className="seg"; rail.appendChild(d); }
+function pintarRiel(){
+  for(var i=0;i<TOTAL;i++){
+    rail.children[i].className="seg" + (res[i]===undefined ? (i===idx?" now":"")
+      : (res[i]?" bien":" mal"));
+  }
+}
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* La MISMA normalizacion que usa _retos.py para verificar: sin espacios y
+   comillas unificadas. Asi f'x' vale igual que f"x" y monto<=0 igual que monto <= 0. */
+function norm(s){ return String(s||"").replace(/\s+/g,"").replace(/'/g,'"'); }
+
+/* ═══════════ PINTAR EL CODIGO ═══════════ */
+function pintarCodigo(){
+  var r=RETOS[idx];
+  /* Cada reto es un PROYECTO de varios archivos. Va PRIMERO el que se ejecuta,
+     que es sobre el que se pregunta; despues el que lleva los huecos si es otro;
+     al final los modulos de apoyo. Un modulo de apoyo largo se pinta PLEGADO
+     (<details>): si no, un archivo de clases de 35 lineas empuja el programa del
+     reto abajo del pliegue en cada uno de los doce retos. Los cortos quedan
+     abiertos, porque a veces leerlos es justamente el ejercicio. */
+  var LARGO=12;
+  function coloreado(txt){
+    return esc(txt).replace(/(#[^\n]*)/g,'<span class="cm">$1</span>');
+  }
+  var nombres=Object.keys(r.archivos||{});
+  if(r.tipo==="challenge" && r.hueco_en && nombres.indexOf(r.hueco_en)<0) nombres.push(r.hueco_en);
+  function peso(n){ return n===r.entrada?0 : (r.tipo==="challenge" && n===r.hueco_en)?1 : 2; }
+  nombres.sort(function(a,b){ return peso(a)-peso(b); });
+  var partes=nombres.map(function(nom){
+    var conHuecos = r.tipo==="challenge" && nom===r.hueco_en;
+    var fuente = conHuecos ? r.plantilla : String(r.archivos[nom]||"").replace(/^\n+|\n+$/g,"");
+    var cuerpo;
+    if(conHuecos){
+      cuerpo=esc(fuente).replace(/\{(\d+)\}/g, function(_,n){
+        return '<span class="hueco-marca">'+(Number(n)+1)+'</span>';
+      }).replace(/(#[^\n]*)/g,'<span class="cm">$1</span>');
+    }else{
+      cuerpo=coloreado(fuente);
+    }
+    var lineas=fuente.split("\n").length;
+    var nota = nom===r.entrada ? '  <em>← se ejecuta este</em>' : '';
+    var apoyo = peso(nom)===2;
+    if(apoyo && lineas>LARGO && (r.abiertos||[]).indexOf(nom)<0){
+      return '<details class="archivo plegado"><summary class="archivo-nom">'+esc(nom)+
+             '  <em>· '+lineas+' líneas · tocá para ver</em></summary>'+cuerpo+'</details>';
+    }
+    return '<div class="archivo"><span class="archivo-nom">'+esc(nom)+nota+'</span>'+cuerpo+'</div>';
+  });
+  q("codigo").innerHTML=partes.join("");
+}
+
+/* ═══════════ PREDICCIONES ═══════════ */
+var LETRAS="ABCD";
+function pintarPred(){
+  var r=RETOS[idx], cont=q("ops"); cont.innerHTML="";
+  r.opciones.forEach(function(txt,i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="op"; b.dataset.i=i;
+    b.innerHTML='<span class="letra">'+LETRAS[i]+'</span><span class="txt">'+
+                esc(txt===""?"(no imprime nada)":txt)+'</span>';
+    b.addEventListener("click", function(){ responderPred(i); });
+    cont.appendChild(b);
+  });
+}
+function responderPred(i){
+  if(cerrado) return;
+  var r=RETOS[idx];
+  intentos++;
+  fallidos[idx]=(fallidos[idx]||0);
+  var ok=(i===r.correcta);
+  var botones=q("ops").querySelectorAll(".op");
+  botones[i].classList.add(ok?"ok":"err");
+  if(ok){
+    elegido[idx]=i;
+    botones.forEach(function(b,j){ if(j!==i) b.classList.add("gris"); b.disabled=true; });
+    resolver(true, fallidos[idx]===0
+      ? "Predicción correcta al primer intento. Así se lee el código: antes de ejecutarlo."
+      : "Correcta. Lo que importa es que ya sabés <em>por qué</em> imprime eso.");
+  }else{
+    fallidos[idx]++;
+    botones[i].disabled=true; botones[i].classList.add("gris");
+    var porque=(r.porques&&r.porques[String(i)]) || "Esa no es la salida. Volvé a leer el programa línea por línea.";
+    fallo("<p>"+porque+"</p>");
+    // la correcta se marca sola despues de 2 errores
+    if(fallidos[idx]>=2){ q("rendirse").hidden=false; }
+    guardar();
+  }
+}
+
+/* ═══════════ CHALLENGES ═══════════ */
+function pintarChal(){
+  var r=RETOS[idx], cont=q("campos"); cont.innerHTML="";
+  var prev=escritos[idx]||[];
+  r.huecos.forEach(function(h,i){
+    var div=document.createElement("div");
+    div.className="campo";
+    div.innerHTML='<div class="et"><span class="num">'+(i+1)+'</span>'+
+                  '<span class="lbl">'+esc(h.etiqueta)+'</span></div>'+
+                  '<p class="ayuda">'+esc(h.ayuda)+'</p>';
+    var ta=document.createElement("textarea");
+    ta.id="hueco-"+i; ta.spellcheck=false; ta.rows=h.referencia.indexOf("\n")>=0?4:2;
+    ta.value=prev[i]||"";
+    ta.setAttribute("aria-label", h.etiqueta);
+    div.appendChild(ta);
+    cont.appendChild(div);
+  });
+  q("ref-box").innerHTML="";
+}
+function leerHuecos(){
+  var r=RETOS[idx];
+  return r.huecos.map(function(_,i){ return (q("hueco-"+i)||{value:""}).value; });
+}
+function pintarSalida(txt){
+  var h='<p class="salida-tit">Salida</p>';
+  if(txt===""||txt===undefined){ h+='<span class="esp">(el programa no imprimió nada)</span>'; }
+  else{
+    // la ultima linea es un error de Python si trae "Error:"
+    var lineas=String(txt).split("\n");
+    h+=lineas.map(function(l){
+      return /^[A-Za-z]*(Error|Exception)\b/.test(l) ? '<span class="err">'+esc(l)+'</span>'
+                                                      : '<span class="ok">'+esc(l)+'</span>';
+    }).join("\n");
+  }
+  q("salida").innerHTML=h;
+}
+function calificar(){
+  if(cerrado) return;
+  var r=RETOS[idx], vals=leerHuecos();
+  if(vals.some(function(v){ return v.trim()===""; })){
+    q("fb").innerHTML='<div class="fb mal"><b>Falta código</b><p>Llená los '+
+      r.huecos.length+' campo(s) antes de calificar.</p></div>';
+    return;
+  }
+  escritos[idx]=vals; intentos++;
+  fallidos[idx]=(fallidos[idx]||0);
+
+  var aceptado=r.huecos.every(function(h,i){
+    return h.acepta.some(function(a){ return norm(a)===norm(vals[i]); });
+  });
+
+  if(aceptado){
+    pintarSalida(r.esperado);
+    r.huecos.forEach(function(_,i){ q("hueco-"+i).classList.add("ok"); });
+    resolver(true, fallidos[idx]===0
+      ? "Corre y da exactamente la salida que pide la tarea."
+      : "Ahora sí: corre y da la salida que pide la tarea.");
+    return;
+  }
+
+  // coincide con una trampa conocida? -> mostramos su salida real y el porque
+  var trampa=null;
+  for(var t=0;t<r.trampas.length;t++){
+    var cand=r.trampas[t];
+    if(cand.codigo.every(function(c,i){ return norm(c)===norm(vals[i]); })){ trampa=cand; break; }
+  }
+  // o una trampa que acierta en un solo hueco (para dar la pista precisa)
+  if(!trampa){
+    for(var t2=0;t2<r.trampas.length;t2++){
+      var c2=r.trampas[t2];
+      for(var i2=0;i2<r.huecos.length;i2++){
+        if(norm(c2.codigo[i2])===norm(vals[i2]) &&
+           !r.huecos[i2].acepta.some(function(a){ return norm(a)===norm(vals[i2]); })){
+          trampa={porque:c2.porque, salida:null}; break;
+        }
+      }
+      if(trampa) break;
+    }
+  }
+
+  fallidos[idx]++;
+  r.huecos.forEach(function(h,i){
+    var ta=q("hueco-"+i);
+    var ok=h.acepta.some(function(a){ return norm(a)===norm(vals[i]); });
+    ta.classList.remove("ok","err"); ta.classList.add(ok?"ok":"err");
+  });
+
+  if(trampa){
+    if(trampa.salida!==null && trampa.salida!==undefined) pintarSalida(trampa.salida);
+    else pintarSalida("");
+    if(trampa.misma_salida){
+      // corre bien pero viola la consigna de la tarea
+      q("fb").innerHTML='<div class="fb alerta"><b>Corre, pero no es lo que pide la tarea</b><p>'+
+        trampa.porque+'</p></div>';
+      resolver(true, null, true);
+      return;
+    }
+    fallo("<p>"+trampa.porque+"</p>");
+  }else{
+    pintarSalida("");
+    fallo("<p>Eso no coincide con ninguna solución que dé la salida pedida.</p>"+
+          "<p><strong>Pista:</strong> "+r.pista_final+"</p>"+
+          "<p class=\"hint\">Ojo: este juego compara tu código contra las soluciones verificadas, "+
+          "no ejecuta Python en vivo. Si estás seguro de que lo tuyo también sirve, probalo en tu "+
+          "computadora y traelo a clase — vale la discusión.</p>");
+  }
+  if(fallidos[idx]>=2) q("rendirse").hidden=false;
+  guardar();
+}
+
+/* ═══════════ RENDIRSE / VER SOLUCION ═══════════ */
+function rendirse(){
+  if(cerrado) return;
+  var r=RETOS[idx];
+  if(r.tipo==="prediccion"){
+    var botones=q("ops").querySelectorAll(".op");
+    botones.forEach(function(b,j){
+      b.disabled=true;
+      if(j===r.correcta){ b.classList.remove("gris"); b.classList.add("ok"); }
+      else b.classList.add("gris");
+    });
+    elegido[idx]=-1;
+    cerrar(false, "<p>La salida correcta es la <strong>"+LETRAS[r.correcta]+
+      "</strong>. Leé de nuevo el programa con esa respuesta en la mano: el objetivo no es "+
+      "adivinar, es entender por qué.</p>");
+  }else{
+    var h="";
+    r.huecos.forEach(function(hu,i){
+      h+='<div class="ref"><p class="rt">Solución del campo '+(i+1)+'</p><pre>'+
+         esc(hu.referencia)+'</pre></div>';
+      var ta=q("hueco-"+i); if(ta){ ta.value=hu.referencia; ta.classList.remove("err"); }
+    });
+    q("ref-box").innerHTML=h;
+    escritos[idx]=r.huecos.map(function(hu){ return hu.referencia+"   (vi la solución)"; });
+    pintarSalida(r.esperado);
+    cerrar(false, "<p>Ahí está la solución, y arriba la salida que produce. "+
+      "Copiala a mano en tu editor y correla: esa pieza es parte de tu tarea.</p>");
+  }
+}
+
+/* ═══════════ FLUJO ═══════════ */
+function resolver(ok, msg, conAdvertencia){
+  res[idx]=true; resueltos++;
+  primera[idx]=(fallidos[idx]||0)===0 ? 1 : 0;
+  if(!conAdvertencia){
+    q("fb").innerHTML='<div class="fb bien"><b>Correcto</b><p>'+msg+'</p></div>';
+  }
+  terminarReto();
+}
+function cerrar(ok, msg){
+  res[idx]=false; primera[idx]=0;
+  q("fb").innerHTML='<div class="fb mal"><b>Solución revelada</b>'+msg+'</div>';
+  terminarReto();
+}
+function terminarReto(){
+  cerrado=true;
+  q("marcador").textContent=resueltos+(resueltos===1?" resuelto":" resueltos");
+  q("accion").disabled=true; q("limpiar").disabled=true; q("rendirse").hidden=true;
+  q("siguiente").hidden=false;
+  q("siguiente").textContent = idx===TOTAL-1 ? "Ver mi resultado" : "Siguiente";
+  q("siguiente").focus(); pintarRiel(); guardar();
+}
+function fallo(html){
+  q("fb").innerHTML='<div class="fb mal"><b>Todavía no</b>'+html+'</div>';
+}
+
+function mostrar(){
+  var r=RETOS[idx];
+  cerrado=false;
+  q("n-actual").textContent=idx+1;
+  q("marcador").textContent=resueltos+(resueltos===1?" resuelto":" resueltos");
+  q("enunciado").textContent=r.titulo;
+  q("subtitulo").textContent=r.sub;
+  q("fb").innerHTML="";
+  q("siguiente").hidden=true; q("rendirse").hidden=true;
+  q("accion").disabled=false; q("limpiar").disabled=false;
+  var et=q("etiqueta"), chip=q("tarea-chip");
+  pintarCodigo();
+  if(r.tipo==="prediccion"){
+    et.textContent=JUEGO.etiqueta_pred; et.className="tipo p";
+    chip.hidden=true;
+    q("zona-pred").hidden=false; q("zona-chal").hidden=true;
+    q("accion").hidden=true; q("limpiar").hidden=true;
+    pintarPred();
+  }else{
+    et.textContent="escribí el código"; et.className="tipo c";
+    chip.hidden=false;
+    chip.innerHTML="Pieza de tu tarea: <strong>"+esc(JUEGO.tarea)+"</strong> · cierra "+esc(JUEGO.cierre_corto);
+    q("zona-pred").hidden=true; q("zona-chal").hidden=false;
+    q("accion").hidden=false; q("limpiar").hidden=false;
+    q("accion").textContent="Calificar";
+    pintarChal();
+    pintarSalida(undefined);
+    q("salida").innerHTML='<p class="salida-tit">Salida</p>'+
+      '<span class="esp">Al calificar vas a ver aquí lo que tu programa imprime.</span>';
+  }
+  pintarRiel();
+}
+
+q("accion").addEventListener("click", function(){
+  if(RETOS[idx].tipo==="challenge") calificar();
+});
+q("limpiar").addEventListener("click", function(){
+  if(RETOS[idx].tipo!=="challenge"||cerrado) return;
+  RETOS[idx].huecos.forEach(function(_,i){
+    var ta=q("hueco-"+i); if(ta){ ta.value=""; ta.classList.remove("ok","err"); }
+  });
+  q("fb").innerHTML=""; q("ref-box").innerHTML="";
+  q("salida").innerHTML='<p class="salida-tit">Salida</p>'+
+    '<span class="esp">Al calificar vas a ver aquí lo que tu programa imprime.</span>';
+});
+q("rendirse").addEventListener("click", rendirse);
+q("siguiente").addEventListener("click", function(){
+  if(idx>=TOTAL-1){ terminar(); return; }
+  idx++; guardar(); mostrar();
+});
+
+/* ---- resultado ---- */
+function codigoVerif(nom, ac, fechaISO){
+  /* El juego entra al hash: sin eso, el mismo estudiante con el mismo puntaje el
+     mismo dia obtenia el MISMO codigo en todos los juegos y podia reciclarlo.
+     _juegos/verificar_codigo.py reproduce esta cuenta para revisar un PDF. */
+  var s=nom.trim().toLowerCase()+"|"+ac+"|"+fechaISO+"|"+JUEGO.ls, h=5381;
+  for(var i=0;i<s.length;i++){ h=((h*33) ^ s.charCodeAt(i)) >>> 0; }
+  var b=h.toString(36).toUpperCase();
+  while(b.length<6) b="0"+b;
+  return b.slice(0,6);
+}
+function dos(n){ return n<10?"0"+n:""+n }
+function nPrimera(){ return primera.reduce(function(a,b){ return a+(b?1:0); },0); }
+
+function terminar(){
+  var ahora=new Date();
+  var fecha=ahora.getFullYear()+"-"+dos(ahora.getMonth()+1)+"-"+dos(ahora.getDate());
+  var seg=Math.max(0, Math.round((Date.now()-t0)/1000));
+  q("r-nombre").textContent=nombre||"Sin nombre";
+  q("r-score").innerHTML=resueltos+'<span>/'+TOTAL+'</span>';
+  q("r-pct").textContent=Math.round(resueltos/TOTAL*100)+" %";
+  q("r-primera").textContent=nPrimera()+" de "+TOTAL;
+  q("r-int").textContent=intentos;
+  q("r-tiempo").textContent=Math.floor(seg/60)+":"+dos(seg%60);
+  q("r-fecha").textContent=fecha+" "+dos(ahora.getHours())+":"+dos(ahora.getMinutes());
+  q("r-codigo").textContent=codigoVerif(nombre, resueltos, fecha);
+
+  var g=q("r-grid"); g.innerHTML="";
+  for(var i=0;i<TOTAL;i++){
+    var c=document.createElement("div");
+    c.className="g-cell"+(res[i] ? (primera[i]?"":" seg2") : " mal");
+    c.textContent=i+1; g.appendChild(c);
+  }
+
+  // lo que fallo, para repasar
+  var lf=q("lista-fallos"), hay=false, h="";
+  for(var j=0;j<TOTAL;j++){
+    if(res[j] && primera[j]) continue;
+    hay=true;
+    var r=RETOS[j];
+    var exp = r.tipo==="prediccion"
+      ? "La salida correcta era: <code>"+esc(r.opciones[r.correcta]||"(nada)")+"</code>"
+      : "La solución era: <code>"+esc(r.huecos.map(function(hu){return hu.referencia}).join("  ·  "))+"</code>";
+    h+='<div class="item"><p class="it">'+(j+1)+'. '+esc(r.titulo)+'</p><p class="ip">'+exp+'</p></div>';
+  }
+  lf.innerHTML=h; q("bloque-repaso").hidden=!hay;
+
+  // el codigo que escribio en los challenges
+  var lc=q("lista-codigo"), hc="";
+  for(var k=0;k<TOTAL;k++){
+    if(RETOS[k].tipo!=="challenge") continue;
+    var rc=RETOS[k], mio=escritos[k]||[];
+    hc+='<div class="item"><p class="it">'+esc(rc.titulo)+
+        ' <span class="hint" style="font-weight:400">· '+esc(JUEGO.tarea)+'</span></p>';
+    rc.huecos.forEach(function(hu,i){
+      hc+='<p class="ip"><code>'+esc(mio[i]||"(en blanco)")+'</code></p>';
+    });
+    hc+='</div>';
+  }
+  lc.innerHTML=hc; q("bloque-codigo").hidden=false;
+
+  q("p-juego").hidden=true; q("p-fin").hidden=false; q("bloque-entrega").hidden=false;
+  borrar();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ---- arranque ---- */
+function iniciar(reanudar){
+  var g=reanudar?leer():null;
+  if(g){
+    nombre=g.nombre; carne=g.carne||""; grupo=g.grupo||"";
+    idx=g.idx; resueltos=g.resueltos; intentos=g.intentos||0;
+    res=g.res||[]; primera=g.primera||[]; escritos=g.escritos||{}; t0=g.t0||Date.now();
+  }else{
+    nombre=q("nombre").value.trim();
+    carne=q("carne").value.trim();
+    grupo=q("grupo").value;
+    idx=0; resueltos=0; intentos=0; res=[]; primera=[]; escritos={}; t0=Date.now();
+  }
+  fallidos={}; elegido={};
+  if(!nombre){ q("nombre").focus(); q("nombre").style.borderColor="var(--mal)"; return; }
+  q("p-inicio").hidden=true; q("p-fin").hidden=true; q("p-juego").hidden=false;
+  guardar(); mostrar();
+}
+q("empezar").addEventListener("click", function(){ iniciar(false) });
+q("continuar").addEventListener("click", function(){ iniciar(true) });
+q("nombre").addEventListener("keydown", function(e){ if(e.key==="Enter") iniciar(false) });
+q("reiniciar").addEventListener("click", function(){
+  borrar(); q("p-fin").hidden=true; q("p-inicio").hidden=false;
+  q("nombre").value=nombre; q("continuar").hidden=true;
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+var prev=leer();
+if(prev && prev.nombre && prev.idx>0){
+  q("continuar").hidden=false;
+  q("continuar").textContent="Continuar de "+prev.nombre.split(" ")[0]+" (reto "+(prev.idx+1)+")";
+  q("nombre").value=prev.nombre;
+  if(prev.carne) q("carne").value=prev.carne;
+  if(prev.grupo) q("grupo").value=prev.grupo;
+}
+
+/* ═══════ PDF de entrega ═══════ */
+function palabras(t){ return (t.trim().match(/\S+/g)||[]).length; }
+var ta=q("reflexion");
+if(ta) ta.addEventListener("input", function(){ q("n-palabras").textContent=palabras(ta.value); });
+
+function cargarJsPDF(){
+  if(window.jspdf && window.jspdf.jsPDF) return Promise.resolve();
+  return new Promise(function(ok,mal){
+    var s=document.createElement("script");
+    s.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    s.onload=ok; s.onerror=function(){ mal(new Error("no cargo jsPDF")); };
+    document.head.appendChild(s);
+  });
+}
+/* Quita tildes y deja solo letras. El rango de diacriticos va con UNA barra:
+   escrito con dos se convierte en una clase de caracteres que se come las
+   mayusculas y mutila los apellidos. */
+function slug(t){
+  return (t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+         .replace(/[^A-Za-z]/g,"") || "Estudiante";
+}
+function armarPDF(){
+  var btn=q("bajar-pdf");
+  var texto=(q("reflexion")||{value:""}).value.trim();
+  if(!texto){ q("reflexion").focus(); q("reflexion").style.borderColor="var(--mal)"; return; }
+  btn.disabled=true; var etiqueta=btn.textContent; btn.textContent="Armando el PDF…";
+  cargarJsPDF().then(function(){
+    var doc=new window.jspdf.jsPDF({unit:"pt", format:"letter"});
+    var M=56, y=M, A=doc.internal.pageSize.getWidth()-M*2;
+    var ALTO=doc.internal.pageSize.getHeight();
+    var fecha=q("r-fecha").textContent, cod=q("r-codigo").textContent;
+
+    function salto(necesita){
+      if(y+(necesita||0) > ALTO-M){ doc.addPage(); y=M; return true; }
+      return false;
+    }
+    function parrafo(txt, tam, gris, mono){
+      doc.setFont(mono?"courier":"helvetica","normal");
+      doc.setFontSize(tam); doc.setTextColor(gris);
+      var ls=doc.splitTextToSize(txt, A);
+      for(var i=0;i<ls.length;i++){ salto(16); y+=15; doc.text(ls[i], M, y); }
+    }
+
+    /* --- cabecera --- */
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("FUNDAMENTOS DE PROGRAMACION 2  ·  UNIVERSIDAD DA VINCI DE GUATEMALA", M, y); y+=22;
+    doc.setFontSize(17); doc.setTextColor(20);
+    doc.text(JUEGO.pdf_titulo, M, y); y+=20;
+    doc.setFont("helvetica","normal"); doc.setFontSize(10.5); doc.setTextColor(70);
+    doc.text(nombre, M, y); y+=14;
+    doc.text("Carne: "+(carne||"(sin carne)")+"    Grupo: "+(grupo||"—")+"    Fecha: "+fecha, M, y); y+=20;
+    doc.setDrawColor(200); doc.line(M, y, M+A, y); y+=26;
+
+    /* --- tarjeta de resultado --- */
+    doc.setFillColor(244,247,251); doc.roundedRect(M, y, A, 96, 8, 8, "F");
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("RESULTADO DEL JUEGO", M+16, y+22);
+    doc.setFontSize(30); doc.setTextColor(20);
+    doc.text(String(resueltos)+" / "+String(TOTAL), M+16, y+56);
+    doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.setTextColor(70);
+    doc.text("Al primer intento: "+nPrimera()+" de "+TOTAL, M+A-210, y+26);
+    doc.text("Intentos totales: "+intentos, M+A-210, y+43);
+    doc.text("Tiempo: "+q("r-tiempo").textContent, M+A-210, y+60);
+    doc.text("Codigo de verificacion: "+cod, M+A-210, y+77);
+    var celdas=document.querySelectorAll("#r-grid .g-cell"), n=celdas.length;
+    var cx=M+18, cy=y+66, lado=12, sep=4;
+    for(var i=0;i<n;i++){
+      var cl=celdas[i].classList;
+      if(cl.contains("mal")) doc.setFillColor(232,150,142);
+      else if(cl.contains("seg2")) doc.setFillColor(228,199,120);
+      else doc.setFillColor(122,190,152);
+      doc.roundedRect(cx+i*(lado+sep), cy, lado, lado, 2, 2, "F");
+    }
+    y+=118;
+
+    /* --- el codigo de los challenges --- */
+    doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(20);
+    salto(30); doc.text("Mi codigo de los cuatro challenges", M, y); y+=6;
+    parrafo(JUEGO.pdf_parrafo, 9.5, 120);
+    y+=6;
+    for(var k=0;k<TOTAL;k++){
+      if(RETOS[k].tipo!=="challenge") continue;
+      var rc=RETOS[k], mio=escritos[k]||[];
+      salto(46);
+      doc.setFont("helvetica","bold"); doc.setFontSize(10.5); doc.setTextColor(40);
+      y+=16; doc.text(rc.titulo+"  ("+JUEGO.tarea_pdf+")", M, y);
+      for(var i2=0;i2<rc.huecos.length;i2++){
+        parrafo((rc.huecos.length>1?(i2+1)+") ":"")+(mio[i2]||"(en blanco)"), 10, 70, true);
+      }
+      y+=4;
+    }
+    y+=10;
+
+    /* --- lo que fallo --- */
+    var pend=[];
+    for(var j=0;j<TOTAL;j++){
+      if(res[j] && primera[j]) continue;
+      var rr=RETOS[j];
+      pend.push((j+1)+". "+rr.titulo+" -> "+(rr.tipo==="prediccion"
+        ? "salida correcta: "+(rr.opciones[rr.correcta]||"(nada)").replace(/\n/g," / ")
+        : "solucion: "+rr.huecos.map(function(hu){return hu.referencia}).join("  ·  ")));
+    }
+    if(pend.length){
+      salto(40);
+      doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(20);
+      y+=16; doc.text("Retos que me costaron", M, y); y+=2;
+      for(var p=0;p<pend.length;p++) parrafo(pend[p], 9.5, 90, true);
+      y+=10;
+    }
+
+    /* --- la respuesta escrita --- */
+    salto(40);
+    doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(20);
+    y+=16; doc.text("Respuesta escrita", M, y); y+=2;
+    parrafo(texto, 11, 40);
+
+    doc.setFontSize(8); doc.setTextColor(150);
+    doc.text(JUEGO.pdf_pie, M, ALTO-28);
+
+    var _t=nombre.trim().split(/\s+/);
+    var _ape=_t[Math.min(2,_t.length-1)], _nom=_t[0];
+    doc.save(JUEGO.pdf_prefijo+slug(_ape)+"_"+slug(_nom)+".pdf");
+    btn.disabled=false; btn.textContent=etiqueta;
+  }).catch(function(){
+    btn.disabled=false; btn.textContent=etiqueta;
+    alert("No se pudo generar el PDF. Tomale captura a la tarjeta y armalo a mano.");
+  });
+}
+var bp=q("bajar-pdf"); if(bp) bp.addEventListener("click", armarPDF);
+
+})();
+</script>
+
+</body>
+</html>
