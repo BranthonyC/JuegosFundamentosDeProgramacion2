@@ -1,6 +1,6 @@
 # Juegos · Fundamentos de Programación 2
 
-Ocho juegos para entender **programación orientada a objetos** con Python, del curso
+Nueve juegos para entender **programación orientada a objetos** con Python, del curso
 Fundamentos de Programación 2 de la **Universidad Da Vinci de Guatemala**.
 
 Corren enteros en el navegador. **No hay servidor y no se envía nada a ninguna parte:**
@@ -16,6 +16,7 @@ tu nombre y tu avance viven solo en tu equipo, en `localStorage`.
 | 🔗 [**¿Qué Relación Es?**](que-relacion/) — 15 fragmentos | Decidir si hay asociación, agregación, composición o herencia |
 | 📦 [**¿Qué Importa?**](que-importa/) — 12 retos | Leer un proyecto de **varios archivos** y entender qué hace cada `import` |
 | 🗂️ [**La Lista Mixta**](lista-mixta/) — 12 retos | Recorrer una **lista de objetos distintos** con un solo ciclo y acumular totales |
+| 📍 [**El Par Más Cercano**](par-cercano/) — 12 retos | Comparar **cada objeto con los demás** con ciclos anidados y buscar un mínimo sin arrancar en cero |
 
 ---
 
@@ -70,7 +71,7 @@ está todo ahí, en unas 600 líneas.
 
 ```
 .
-├── index.html                  portada con los ocho juegos
+├── index.html                  portada con los nueve juegos
 ├── molde-o-galleta/index.html
 ├── armar-la-clase/index.html
 ├── que-imprime/index.html
@@ -78,7 +79,8 @@ está todo ahí, en unas 600 líneas.
 ├── cual-pilar/index.html
 ├── que-relacion/index.html
 ├── que-importa/index.html
-└── lista-mixta/index.html
+├── lista-mixta/index.html
+└── par-cercano/index.html
 ```
 
 Cada juego se genera desde un script de Python que vive en el repo de contenido del curso
