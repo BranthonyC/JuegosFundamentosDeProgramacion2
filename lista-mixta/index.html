@@ -394,6 +394,7 @@ var DATOS={
     "Total: 0"
    ],
    "correcta": 2,
+   "abiertos": [],
    "porques": {
     "0": "Eso seria si <code>total</code> se reiniciara en cada vuelta: quedaria solo el ultimo. Aca <code>total = 0</code> esta <strong>antes</strong> del <code>for</code>, se ejecuta una sola vez.",
     "1": "Eso pasaria si el <code>print</code> tuviera sangria y estuviera adentro del ciclo. Esta afuera: se ejecuta una vez, al final.",
@@ -416,6 +417,7 @@ var DATOS={
     "NameError: name 'total' is not defined"
    ],
    "correcta": 1,
+   "abiertos": [],
    "porques": {
     "0": "Seria 1470 si <code>total = 0</code> estuviera antes del <code>for</code>. Adentro, cada vuelta lo vuelve a poner en cero y solo sobrevive la suma de la ultima vuelta.",
     "2": "Se reinicia a cero, si, pero la linea siguiente le suma el tamano de esa vuelta. Despues de la ultima vuelta vale 900, el tamano de Clase.pptx.",
@@ -438,6 +440,7 @@ var DATOS={
     "Total: 350\nTotal: 220\nTotal: 900"
    ],
    "correcta": 2,
+   "abiertos": [],
    "porques": {
     "0": "El <code>print</code> tiene sangria: esta <strong>adentro</strong> del <code>for</code> y se ejecuta en cada vuelta, con lo acumulado hasta ese momento.",
     "1": "<code>total</code> cambia en cada vuelta antes del <code>print</code>: no vale 1470 hasta la ultima.",
@@ -509,6 +512,7 @@ var DATOS={
     "Informe.docx\nPlanilla.xlsx\nClase.pptx"
    ],
    "correcta": 0,
+   "abiertos": [],
    "porques": {
     "1": "<code>len(docs)</code> es 3, pero <code>range(3)</code> produce 0, 1 y 2: tres vueltas, no una.",
     "2": "Las posiciones en Python empiezan en 0.",
@@ -562,6 +566,7 @@ var DATOS={
     "Abriendo Informe.docx\nWord: revisando 12 paginas\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx"
    ],
    "correcta": 0,
+   "abiertos": [],
    "porques": {
     "1": "Antes de reventar, el primer documento si se abrio y reviso, y el segundo alcanzo a abrirse. Lo que ya se imprimio queda en pantalla.",
     "2": "<code>abrir()</code> lo tienen todos, pero el ciclo tambien llama <code>revisar_ortografia()</code> en cada vuelta.",
@@ -584,6 +589,7 @@ var DATOS={
     "1"
    ],
    "correcta": 1,
+   "abiertos": [],
    "porques": {
     "0": "<code>DocumentoOffice</code> si esta importada: mira la primera linea de <code>main.py</code>.",
     "2": "Ninguno se creo como <code>DocumentoOffice</code> a secas, pero todos heredan de ella, y para <code>isinstance</code> eso alcanza.",
@@ -646,6 +652,7 @@ var DATOS={
     "Final.docx"
    ],
    "correcta": 3,
+   "abiertos": [],
    "porques": {
     "0": "No se asigna con corchetes al objeto: <code>primero.nombre = ...</code> cambia un atributo, y eso si se puede.",
     "1": "Se imprime una sola cosa, una sola vez: <code>docs[0].nombre</code>.",
@@ -668,6 +675,7 @@ var DATOS={
     "2"
    ],
    "correcta": 3,
+   "abiertos": [],
    "porques": {
     "0": "No hay cuatro en ningun lado. Hay tres documentos, y <code>append</code> los deja repartidos en dos elementos: uno suelto y una lista con dos.",
     "1": "<code>docs</code> empezaba con uno, y <code>append</code> si agrego algo: ahora tiene dos elementos.",
@@ -800,7 +808,7 @@ function pintarCodigo(){
     var lineas=fuente.split("\n").length;
     var nota = nom===r.entrada ? '  <em>← se ejecuta este</em>' : '';
     var apoyo = peso(nom)===2;
-    if(apoyo && lineas>LARGO){
+    if(apoyo && lineas>LARGO && (r.abiertos||[]).indexOf(nom)<0){
       return '<details class="archivo plegado"><summary class="archivo-nom">'+esc(nom)+
              '  <em>· '+lineas+' líneas · tocá para ver</em></summary>'+cuerpo+'</details>';
     }

@@ -394,6 +394,7 @@ var DATOS={
     "None 0"
    ],
    "correcta": 3,
+   "abiertos": [],
    "porques": {
     "0": "Para guardar un par, alguna distancia tendria que ser menor que el minimo. Ninguna es menor que 0.",
     "1": "El <code>if p is not q</code> evita comparar un punto consigo mismo. Y aunque no estuviera, 0.0 no es <em>menor</em> que 0: tampoco lo guardaria.",
@@ -416,6 +417,7 @@ var DATOS={
     "('A', 'D') 1.0"
    ],
    "correcta": 0,
+   "abiertos": [],
    "porques": {
     "1": "Hay cuatro ceros (A-A, B-B, C-C, D-D), pero solo el primero se guarda: los otros son <em>iguales</em> al minimo, no menores.",
     "2": "<code>minimo</code> arranca en infinito, asi que la primera distancia ya lo baja.",
@@ -478,6 +480,7 @@ var DATOS={
     "6"
    ],
    "correcta": 2,
+   "abiertos": [],
    "porques": {
     "0": "16 seria sin el <code>if p is not q</code>: 4 por 4, contando A con A, B con B...",
     "1": "4 es una vuelta del ciclo de afuera. Por cada <code>p</code>, el de adentro recorre los otros tres.",
@@ -543,6 +546,7 @@ var DATOS={
     "II III IV"
    ],
    "correcta": 2,
+   "abiertos": [],
    "porques": {
     "0": "(0, 5) no es del I: para eso x tendria que ser mayor que 0.",
     "1": "Cuidado con los signos: (-3, -1) tiene los <strong>dos</strong> negativos, eso es el III. El IV es x positivo con y negativo. Es la confusion que la ficha marca.",
@@ -565,6 +569,7 @@ var DATOS={
     "5\n5.00"
    ],
    "correcta": 1,
+   "abiertos": [],
    "porques": {
     "0": "<code>round(d, 2)</code> redondea el <strong>numero</strong>, pero un float no guarda ceros a la derecha: 5.0 se imprime 5.0. Para mostrar siempre dos decimales es el formato <code>:.2f</code>.",
     "2": "El f-string con <code>:.2f</code> si fuerza los dos decimales: 5.00.",
@@ -587,6 +592,7 @@ var DATOS={
     "TypeError: Punto.distancia_a() takes 2 positional arguments but 3 were given"
    ],
    "correcta": 3,
+   "abiertos": [],
    "porques": {
     "0": "Ese seria el error con <code>a.distancia_a(d.x)</code>: un solo numero, que toma el lugar de <code>otro</code> y revienta al pedirle <code>.x</code>. Aca el problema es la cantidad.",
     "1": "<code>distancia_a</code> espera <strong>un</strong> objeto Punto (<code>otro</code>), no dos numeros. Contando a <code>self</code> le llegan tres argumentos, y Python se queja antes de calcular nada.",
@@ -649,6 +655,7 @@ var DATOS={
     "1 1 1"
    ],
    "correcta": 0,
+   "abiertos": [],
    "porques": {
     "1": "C (0, -3) tiene x igual a 0: cae sobre el eje, y ese contador sube a 1.",
     "2": "Todas las claves existen: el diccionario arranca con las cinco en cero.",
@@ -671,6 +678,7 @@ var DATOS={
     "A 5.00"
    ],
    "correcta": 1,
+   "abiertos": [],
    "porques": {
     "0": "B (-2, 5) esta a 5.39, pero D (4, 4) esta mas lejos: 5.66.",
     "2": "Aca arrancar en 0 <strong>si</strong> sirve: una distancia nunca es negativa, asi que la primera ya le gana a cero. Es el espejo del reto 1: para un maximo de distancias, 0 es un buen piso; para un minimo, no.",
@@ -817,7 +825,7 @@ function pintarCodigo(){
     var lineas=fuente.split("\n").length;
     var nota = nom===r.entrada ? '  <em>← se ejecuta este</em>' : '';
     var apoyo = peso(nom)===2;
-    if(apoyo && lineas>LARGO){
+    if(apoyo && lineas>LARGO && (r.abiertos||[]).indexOf(nom)<0){
       return '<details class="archivo plegado"><summary class="archivo-nom">'+esc(nom)+
              '  <em>· '+lineas+' líneas · tocá para ver</em></summary>'+cuerpo+'</details>';
     }

@@ -394,6 +394,9 @@ var DATOS={
     "6590.0"
    ],
    "correcta": 2,
+   "abiertos": [
+    "empleado.py"
+   ],
    "porques": {
     "0": "6450 sería salario más bonificación, sin horas extra. El paréntesis no las quita: las infla.",
     "1": "Eso da la fórmula de la tarea, con los Q250 sumados <strong>una vez</strong>. Aquí el paréntesis los mete en la tarifa: se pagan 250 extra <strong>por cada hora extra</strong>, 8 × 298.75 = 2390.",
@@ -416,6 +419,7 @@ var DATOS={
     "0"
    ],
    "correcta": 0,
+   "abiertos": [],
    "porques": {
     "1": "Sin paréntesis el método <strong>no se ejecuta</strong>: <code>e.calcular_sueldo</code> es el método mismo, no el número que retornaría. Y un número más un método no se puede sumar.",
     "2": "El atributo existe: es el método. El problema es que no se llamó.",
@@ -477,6 +481,7 @@ var DATOS={
     "María | Analista | Q6,840.00\nNone"
    ],
    "correcta": 3,
+   "abiertos": [],
    "porques": {
     "0": "La boleta se imprime adentro del método. Pero el <code>print</code> de afuera imprime lo que el método <strong>retorna</strong>, y un método sin <code>return</code> retorna <code>None</code>.",
     "1": "El método no se ejecuta dos veces: se llama una vez, imprime, y retorna None.",
@@ -499,6 +504,7 @@ var DATOS={
     "Q68.40\nQ6,840.00"
    ],
    "correcta": 1,
+   "abiertos": [],
    "porques": {
     "0": "Sin la <code>f</code>, <code>.2</code> no son dos decimales: son <strong>dos cifras en total</strong>. 6840 con dos cifras solo cabe en notación científica: 6.8e+03.",
     "2": "La coma de miles solo aparece si se pide: el <code>,</code> del segundo formato.",
@@ -558,6 +564,7 @@ var DATOS={
     "6840.0\n5522.25\n7764.83"
    ],
    "correcta": 1,
+   "abiertos": [],
    "porques": {
     "0": "El <code>print</code> está <strong>adentro</strong> del <code>for</code>: sale una línea por vuelta. Solo la última es el promedio real; las dos primeras dividen un total a medias entre los tres empleados.",
     "2": "Eso sería dividir cada sueldo solo. <code>total</code> acumula: en la segunda vuelta ya vale 6840.0 + 4204.5.",
@@ -580,6 +587,7 @@ var DATOS={
     "AttributeError: 'list' object has no attribute 'nombre'"
    ],
    "correcta": 2,
+   "abiertos": [],
    "porques": {
     "0": "<code>max</code> necesita comparar los elementos con <code>&gt;</code>, y Python no sabe cuándo un Empleado es \"mayor\" que otro. ¿Por sueldo, por nombre, por edad? Nadie se lo dijo.",
     "1": "<code>max</code> no compara nombres por su cuenta: con objetos, no compara nada.",
@@ -652,6 +660,7 @@ var DATOS={
     "José"
    ],
    "correcta": 0,
+   "abiertos": [],
    "porques": {
     "1": "Los textos sí se comparan con <code>&gt;</code>: letra por letra, en orden alfabético.",
     "2": "Lucía es la mejor pagada, pero <code>max</code> sobre textos compara en <strong>orden alfabético</strong>: M va después de L. No sabe nada de sueldos.",
@@ -674,6 +683,7 @@ var DATOS={
     "AttributeError: 'NoneType' object has no attribute 'calcular_sueldo'"
    ],
    "correcta": 3,
+   "abiertos": [],
    "porques": {
     "0": "Esa sería la queja si se comparara con <code>mejor</code> directamente. Aquí se le pide un método a None, y ese error llega antes.",
     "1": "En la primera vuelta <code>mejor</code> vale <code>None</code>, y se le pide <code>calcular_sueldo()</code>. None no tiene métodos: revienta antes de comparar. Por eso en el reto 9 arranca en <code>planilla[0]</code>.",
@@ -818,7 +828,7 @@ function pintarCodigo(){
     var lineas=fuente.split("\n").length;
     var nota = nom===r.entrada ? '  <em>← se ejecuta este</em>' : '';
     var apoyo = peso(nom)===2;
-    if(apoyo && lineas>LARGO){
+    if(apoyo && lineas>LARGO && (r.abiertos||[]).indexOf(nom)<0){
       return '<details class="archivo plegado"><summary class="archivo-nom">'+esc(nom)+
              '  <em>· '+lineas+' líneas · tocá para ver</em></summary>'+cuerpo+'</details>';
     }

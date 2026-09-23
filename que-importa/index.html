@@ -394,6 +394,7 @@ var DATOS={
     "Soy Ana Lopez, carne 202612345"
    ],
    "correcta": 3,
+   "abiertos": [],
    "porques": {
     "0": "La clase si existe adentro del modulo. Mirá el <code>class Estudiante</code> en <code>estudiante.py</code>.",
     "1": "Eso pasaria si hubieras escrito <code>Estudiante(...)</code> a secas. Con <code>import estudiante</code> el nombre que queda es el del <strong>modulo</strong>, y por eso hay que decir <code>estudiante.Estudiante</code>.",
@@ -416,6 +417,7 @@ var DATOS={
     "ModuleNotFoundError: No module named 'estudiante'"
    ],
    "correcta": 1,
+   "abiertos": [],
    "porques": {
     "0": "Ese error lo da <code>from ... import ...</code> cuando el nombre no existe adentro. Aca no se uso esa forma.",
     "2": "Para que funcionara sin prefijo haria falta <code>from estudiante import Estudiante</code>. Con <code>import estudiante</code> el unico nombre nuevo es <code>estudiante</code> — y fijate que Python te lo sugiere solito en el mensaje.",
@@ -438,6 +440,7 @@ var DATOS={
     "ImportError: cannot import name 'Estudiante'"
    ],
    "correcta": 2,
+   "abiertos": [],
    "porques": {
     "0": "Python distingue mayusculas: el archivo se llama <code>estudiante.py</code> con minuscula, y se pidio <code>Estudiante</code> con mayuscula.",
     "1": "Mismo caso: para quejarse de un atributo, primero tendria que haber encontrado el modulo.",
@@ -460,6 +463,7 @@ var DATOS={
     "Soy Ana Lopez, carne 202612345"
    ],
    "correcta": 0,
+   "abiertos": [],
    "porques": {
     "1": "El modulo que se busca es <code>estudiante</code>, y ese si existe. <code>Alumno</code> no es un modulo: es el nombre que se pidio de adentro.",
     "2": "<code>NameError</code> aparece al <em>usar</em> un nombre que nunca se definio. Aca el programa ni llega a la linea de abajo: revienta en el import.",
@@ -483,6 +487,7 @@ var DATOS={
     "- Soy Ana Lopez, carne 202612345\n- Soy Carlos Perez, carne 202612346\nTotal de inscritos: 2"
    ],
    "correcta": 3,
+   "abiertos": [],
    "porques": {
     "0": "<code>curso.py</code> esta en la misma carpeta que <code>main.py</code>. Python lo encuentra.",
     "1": "<code>listar_estudiantes()</code> primero recorre la lista con un <code>for</code> e imprime a cada uno. El total va al final, no solo.",
@@ -505,6 +510,7 @@ var DATOS={
     "ModuleNotFoundError: No module named 'curso'"
    ],
    "correcta": 0,
+   "abiertos": [],
    "porques": {
     "1": "<code>Curso</code> si esta definida, en el propio <code>main.py</code>.",
     "2": "No hay ningun <code>from curso import ...</code> que pueda fallar.",
@@ -527,6 +533,7 @@ var DATOS={
     "ImportError: cannot import name 'Alumno'"
    ],
    "correcta": 2,
+   "abiertos": [],
    "porques": {
     "0": "Tras el alias, el nombre <code>Estudiante</code> efectivamente no queda disponible — pero el programa nunca lo usa.",
     "1": "El alias cambia el <strong>nombre de la variable</strong>, no el nombre de la clase. <code>__name__</code> sigue siendo el que se escribio en el <code>class</code>.",
@@ -549,6 +556,7 @@ var DATOS={
     "cargando estudiante.py\nSoy Ana Lopez, carne 202612345\narranco main"
    ],
    "correcta": 1,
+   "abiertos": [],
    "porques": {
     "0": "El <code>import</code> es la <strong>primera</strong> linea de <code>main.py</code>: se ejecuta antes que cualquier <code>print</code> de abajo.",
     "2": "El <code>print</code> suelto de <code>estudiante.py</code> si corre. Importar no es 'leer las clases': es <strong>ejecutar el archivo entero</strong> una vez.",
@@ -797,7 +805,7 @@ function pintarCodigo(){
     var lineas=fuente.split("\n").length;
     var nota = nom===r.entrada ? '  <em>← se ejecuta este</em>' : '';
     var apoyo = peso(nom)===2;
-    if(apoyo && lineas>LARGO){
+    if(apoyo && lineas>LARGO && (r.abiertos||[]).indexOf(nom)<0){
       return '<details class="archivo plegado"><summary class="archivo-nom">'+esc(nom)+
              '  <em>· '+lineas+' líneas · tocá para ver</em></summary>'+cuerpo+'</details>';
     }
