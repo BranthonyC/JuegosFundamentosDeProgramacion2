@@ -1,6 +1,6 @@
 # Juegos · Fundamentos de Programación 2
 
-Doce juegos para entender **programación orientada a objetos** con Python, del curso
+Dieciséis juegos para entender **programación orientada a objetos** con Python, del curso
 Fundamentos de Programación 2 de la **Universidad Da Vinci de Guatemala**.
 
 Corren enteros en el navegador. **No hay servidor y no se envía nada a ninguna parte:**
@@ -20,6 +20,10 @@ tu nombre y tu avance viven solo en tu equipo, en `localStorage`.
 | 💵 [**La Planilla**](planilla/) — 12 retos | Calcular en un **método** y acumular total, máximo y promedio en **una sola vuelta** |
 | 🚚 [**La Flota**](flota/) — 12 retos | Sentir lo que rechina de **una clase para todo** con `if/elif` por tipo |
 | 🧬 [**La Flota Heredada**](flota-heredada/) — 12 retos | Refactorizar con **herencia**: `super()`, sobrescritura y métodos propios |
+| 🐧 [**¿Quién Vuela?**](quien-vuela/) — 12 retos | **Polimorfismo**: el mismo método, una respuesta por clase |
+| 🏆 [**La Selección**](seleccion/) — 12 retos | **Ordenamiento por selección** sobre objetos, pasada a pasada |
+| 🔎 [**Lineal o Binaria**](lineal-o-binaria/) — 12 retos | **Búsqueda lineal y binaria**: contar comparaciones y mover los límites |
+| 🥞 [**La Fila y la Pila**](fila-y-pila/) — 12 retos | **Pilas y colas** con clases: LIFO, FIFO y la estructura vacía |
 
 ---
 
@@ -74,7 +78,7 @@ está todo ahí, en unas 600 líneas.
 
 ```
 .
-├── index.html                  portada con los doce juegos
+├── index.html                  portada con los dieciséis juegos
 ├── molde-o-galleta/index.html
 ├── armar-la-clase/index.html
 ├── que-imprime/index.html
@@ -86,7 +90,11 @@ está todo ahí, en unas 600 líneas.
 ├── par-cercano/index.html
 ├── planilla/index.html
 ├── flota/index.html
-└── flota-heredada/index.html
+├── flota-heredada/index.html
+├── quien-vuela/index.html
+├── seleccion/index.html
+├── lineal-o-binaria/index.html
+└── fila-y-pila/index.html
 ```
 
 Cada juego se genera desde un script de Python que vive en el repo de contenido del curso
