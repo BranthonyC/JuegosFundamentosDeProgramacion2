@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Doce retos de Python sobre arreglos de objetos: recorrer una lista de documentos distintos con un solo ciclo, acumular totales y no reventar con el metodo que no todos tienen. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
+<meta name="description" content="Doce retos de Python sobre una lista de empleados: el metodo que calcula el sueldo, el ciclo que acumula la planilla y los errores que fallan en silencio. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
 <meta name="color-scheme" content="light dark">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%82%EF%B8%8F%3C/text%3E%3C/svg%3E">
-<title>La Lista Mixta</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%B5%3C/text%3E%3C/svg%3E">
+<title>La Planilla</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
@@ -231,8 +231,8 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
 <div class="wrap">
   <header class="top">
     <div>
-      <p class="eyebrow">FP2 · Unidad 4 · Semana 8 · arreglos de objetos</p>
-      <h1 class="brand">La Lista <em>Mixta</em></h1>
+      <p class="eyebrow">FP2 · Unidad 4 · Semana 8 · la planilla del mes</p>
+      <h1 class="brand">La <em>Planilla</em></h1>
     </div>
     <button class="btn ghost" id="tema" type="button">Tema</button>
   </header>
@@ -240,13 +240,13 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
   <!-- ============ INICIO ============ -->
   <section class="card" id="p-inicio">
     <p style="font-size:15.5px;margin:0 0 4px">
-      Doce retos sobre <strong>una lista con objetos de distinto tipo</strong>: <strong>ocho predicciones</strong>
-      —leés el programa y decís qué imprime <em>o dónde revienta</em>— y
+      Doce retos sobre <strong>la planilla de fin de mes</strong>: una lista de empleados que se recorre para sumar, buscar al mejor pagado y sacar el promedio.
+      <strong>Ocho predicciones</strong> —leés el programa y decís qué imprime— y
       <strong>cuatro challenges</strong> donde escribís el código vos.
     </p>
     <ul class="reglas">
-      <li><span class="chip a">8</span><span><strong>¿Qué imprime la lista?</strong> Un solo ciclo, documentos distintos. Fijate <em>dónde</em> está cada línea: adentro o afuera del <code>for</code> cambia todo.</span></li>
-      <li><span class="chip b">4</span><span><strong>Escribí el código.</strong> Los cuatro son piezas exactas de la tarea <strong>Word, Excel, PowerPoint y Access</strong>. Si los sacás, ya la tenés a medio camino.</span></li>
+      <li><span class="chip a">8</span><span><strong>¿Qué imprime?</strong> Una planilla mal hecha casi nunca revienta: imprime un total <em>que se ve bien</em>. Fijate qué se suma, cuántas veces y dónde quedó cada línea.</span></li>
+      <li><span class="chip b">4</span><span><strong>Escribí el código.</strong> Los cuatro son piezas exactas de la tarea <strong>Cálculo de sueldo de empleados</strong>. Si los sacás, ya la tenés a medio camino.</span></li>
       <li><span class="chip c">✓</span><span>Todo corre en tu navegador. Nada se envía a ningún servidor: tu nombre y tu avance viven solo en este equipo. Si cerrás la pestaña, podés continuar.</span></li>
     </ul>
     <label for="nombre">Tu nombre completo</label>
@@ -314,7 +314,7 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
     <div class="card">
       <div class="res-head">
         <div>
-          <p class="eyebrow">Resultado · La Lista Mixta</p>
+          <p class="eyebrow">Resultado · La Planilla</p>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;margin:0;font-weight:600" id="r-nombre">—</h2>
         </div>
         <div class="score" id="r-score">0<span>/12</span></div>
@@ -344,7 +344,7 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
 
     <div class="card repaso" id="bloque-codigo" hidden>
       <h3>Mi código de los cuatro challenges</h3>
-      <p class="hint" style="margin:-6px 0 12px">Esto va dentro de tu PDF. Son piezas de la tarea Word, Excel, PowerPoint y Access: guardalo y trabajá desde ahí.</p>
+      <p class="hint" style="margin:-6px 0 12px">Esto va dentro de tu PDF. Son piezas de la tarea Cálculo de sueldo de empleados: guardalo y trabajá desde ahí.</p>
       <div id="lista-codigo"></div>
     </div>
 
@@ -352,9 +352,9 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
       <h3>Tu respuesta escrita</h3>
       <p class="pregunta-pdf">Respondé las tres, en 200 a 350 palabras en total:</p>
       <ol>
-        <li><strong>Un ciclo, muchos tipos.</strong> Explicá con tus palabras por qué un solo <code>for</code> puede recorrer objetos de clases distintas, y qué pasa si en ese ciclo llamás un método que solo tiene una de ellas. Con un ejemplo tuyo, que no sea de Office.</li>
+        <li><strong>El cálculo vive en la clase.</strong> Explicá por qué el sueldo se calcula en un método de <code>Empleado</code> y no con la fórmula suelta dentro del ciclo, y qué diferencia hay entre <code>e.calcular_sueldo</code> y <code>e.calcular_sueldo()</code> (reto 2). Con un ejemplo tuyo que no sea de sueldos.</li>
         <li><strong>El reto que más te costó.</strong> Nombralo, decí qué habías predicho y qué entendiste después de ver la salida real.</li>
-        <li><strong>Adentro o afuera.</strong> Después de los retos 1, 2 y 3: ¿qué cambia si el acumulador o el <code>print</code> quedan adentro del <code>for</code> en lugar de afuera?</li>
+        <li><strong>Después del ciclo.</strong> Después de los retos 7, 8 y 10: ¿por qué el promedio se calcula cuando el ciclo ya terminó, y por qué <code>max()</code> no encuentra al mejor pagado?</li>
       </ol>
       <textarea id="reflexion" placeholder="Escribí aquí tu respuesta…"></textarea>
       <p class="cuenta"><span id="n-palabras">0</span> palabras</p>
@@ -380,349 +380,367 @@ var DATOS={
  "retos": [
   {
    "tipo": "prediccion",
-   "titulo": "El acumulador en su lugar",
-   "sub": "Un total que empieza afuera y suma adentro.",
+   "titulo": "La bonificación por hora",
+   "sub": "Alguien metió la bonificación dentro del paréntesis. Mirá calcular_sueldo en empleado.py.",
    "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
-    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\ntotal = 0\nfor d in docs:\n    total += d.tamano_kb\nprint(\"Total:\", total)\n"
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\nprint(planilla[0].calcular_sueldo())\n",
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * (self.tarifa_hora_extra + 250)\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
    },
    "entrada": "main.py",
    "opciones": [
-    "Total: 900",
-    "Total: 350\nTotal: 570\nTotal: 1470",
-    "Total: 1470",
-    "Total: 0"
+    "6450.0",
+    "6840.0",
+    "8590.0",
+    "6590.0"
    ],
    "correcta": 2,
    "porques": {
-    "0": "Eso seria si <code>total</code> se reiniciara en cada vuelta: quedaria solo el ultimo. Aca <code>total = 0</code> esta <strong>antes</strong> del <code>for</code>, se ejecuta una sola vez.",
-    "1": "Eso pasaria si el <code>print</code> tuviera sangria y estuviera adentro del ciclo. Esta afuera: se ejecuta una vez, al final.",
-    "3": "El ciclo si suma: <code>total</code> arranca en 0 pero no se queda ahi. 350 + 220 + 900."
+    "0": "6450 sería salario más bonificación, sin horas extra. El paréntesis no las quita: las infla.",
+    "1": "Eso da la fórmula de la tarea, con los Q250 sumados <strong>una vez</strong>. Aquí el paréntesis los mete en la tarifa: se pagan 250 extra <strong>por cada hora extra</strong>, 8 × 298.75 = 2390.",
+    "3": "6590 sería olvidar las horas extra. Aquí sí se multiplican, y con la bonificación adentro."
    }
   },
   {
    "tipo": "prediccion",
-   "titulo": "El total que se reinicia",
-   "sub": "La misma suma, con el acumulador una linea mas abajo.",
+   "titulo": "El método sin paréntesis",
+   "sub": "La planilla total, con una diferencia de dos caracteres.",
    "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
-    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nfor d in docs:\n    total = 0\n    total += d.tamano_kb\nprint(\"Total:\", total)\n"
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\ntotal = 0\nfor e in planilla:\n    total += e.calcular_sueldo\nprint(total)\n",
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
    },
    "entrada": "main.py",
    "opciones": [
-    "Total: 1470",
-    "Total: 900",
-    "Total: 0",
-    "NameError: name 'total' is not defined"
+    "TypeError: unsupported operand type(s) for +=: 'int' and 'method'",
+    "23294.5",
+    "AttributeError: 'Empleado' object has no attribute 'calcular_sueldo'",
+    "0"
+   ],
+   "correcta": 0,
+   "porques": {
+    "1": "Sin paréntesis el método <strong>no se ejecuta</strong>: <code>e.calcular_sueldo</code> es el método mismo, no el número que retornaría. Y un número más un método no se puede sumar.",
+    "2": "El atributo existe: es el método. El problema es que no se llamó.",
+    "3": "El ciclo sí corre: en la primera vuelta intenta sumar y revienta."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "Acumular la planilla",
+   "sub": "Escribí la línea que va sumando el sueldo de cada empleado al total.",
+   "archivos": {
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
+   },
+   "hueco_en": "main.py",
+   "entrada": "main.py",
+   "plantilla": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\ntotal = 0\nfor e in planilla:\n    {0}\nprint(f\"Q{total:,.2f}\")",
+   "huecos": [
+    {
+     "etiqueta": "sumar el sueldo de e al total",
+     "ayuda": "El sueldo lo calcula el empleado: llamá a su método.",
+     "acepta": [
+      "total += e.calcular_sueldo()",
+      "total = total + e.calcular_sueldo()",
+      "total = e.calcular_sueldo() + total"
+     ],
+     "referencia": "total += e.calcular_sueldo()"
+    }
+   ],
+   "esperado": "Q23,294.50",
+   "trampas": [
+    {
+     "codigo": [
+      "total = e.calcular_sueldo()"
+     ],
+     "porque": "Sin el <code>+</code>, cada vuelta <strong>reemplaza</strong> el total: queda solo el sueldo del último empleado, Q12,250.00."
+    },
+    {
+     "codigo": [
+      "total += e.salario_base"
+     ],
+     "porque": "Suma los salarios base, sin horas extra ni bonificación: Q22,000.00. La planilla paga el <strong>sueldo</strong>, y ese lo calcula <code>calcular_sueldo()</code>."
+    }
+   ],
+   "pista_final": "<code>total += e.calcular_sueldo()</code>: el empleado calcula, la planilla suma."
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "Imprimir la boleta",
+   "sub": "mostrar_boleta ya imprime. ¿Qué pasa si además se imprime lo que retorna?",
+   "archivos": {
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\nprint(planilla[0].mostrar_boleta())\n",
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "María | Analista | Q6,840.00",
+    "María | Analista | Q6,840.00\nMaría | Analista | Q6,840.00",
+    "None",
+    "María | Analista | Q6,840.00\nNone"
+   ],
+   "correcta": 3,
+   "porques": {
+    "0": "La boleta se imprime adentro del método. Pero el <code>print</code> de afuera imprime lo que el método <strong>retorna</strong>, y un método sin <code>return</code> retorna <code>None</code>.",
+    "1": "El método no se ejecuta dos veces: se llama una vez, imprime, y retorna None.",
+    "2": "Primero se ejecuta el método, que imprime la boleta; recién después el <code>print</code> de afuera imprime su resultado."
+   }
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "Dos decimales que no son dos",
+   "sub": "Dos formatos para el mismo sueldo.",
+   "archivos": {
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\nsueldo = planilla[0].calcular_sueldo()\nprint(f\"Q{sueldo:.2}\")\nprint(f\"Q{sueldo:,.2f}\")\n",
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "Q6840.00\nQ6,840.00",
+    "Q6.8e+03\nQ6,840.00",
+    "Q6,840.00\nQ6,840.00",
+    "Q68.40\nQ6,840.00"
    ],
    "correcta": 1,
    "porques": {
-    "0": "Seria 1470 si <code>total = 0</code> estuviera antes del <code>for</code>. Adentro, cada vuelta lo vuelve a poner en cero y solo sobrevive la suma de la ultima vuelta.",
-    "2": "Se reinicia a cero, si, pero la linea siguiente le suma el tamano de esa vuelta. Despues de la ultima vuelta vale 900, el tamano de Clase.pptx.",
-    "3": "<code>total</code> si existe: se crea en la primera vuelta, y en Python una variable creada dentro de un <code>for</code> sigue viva despues del ciclo."
+    "0": "Sin la <code>f</code>, <code>.2</code> no son dos decimales: son <strong>dos cifras en total</strong>. 6840 con dos cifras solo cabe en notación científica: 6.8e+03.",
+    "2": "La coma de miles solo aparece si se pide: el <code>,</code> del segundo formato.",
+    "3": "El formato no divide el número: solo decide cómo se muestra."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "La boleta con formato de moneda",
+   "sub": "Completá el formato del sueldo en mostrar_boleta: separador de miles y dos decimales.",
+   "archivos": {
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\nfor e in planilla:\n    e.mostrar_boleta()\n"
+   },
+   "hueco_en": "empleado.py",
+   "entrada": "main.py",
+   "plantilla": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():{0}}\")",
+   "huecos": [
+    {
+     "etiqueta": "el formato después de los dos puntos",
+     "ayuda": "Coma para los miles, punto, dos, y la letra de los decimales fijos.",
+     "acepta": [
+      ",.2f"
+     ],
+     "referencia": ",.2f"
+    }
+   ],
+   "esperado": "María | Analista | Q6,840.00\nJosé | Bodeguero | Q4,204.50\nLucía | Gerente | Q12,250.00",
+   "trampas": [
+    {
+     "codigo": [
+      ".2"
+     ],
+     "porque": "Es el reto 5: sin la <code>f</code> son dos cifras, y los sueldos salen en notación científica (Q6.8e+03)."
+    },
+    {
+     "codigo": [
+      ".2f"
+     ],
+     "porque": "Dos decimales, pero sin separador de miles: Q12250.00. La tarea pide formato de moneda, con la coma: Q12,250.00."
+    }
+   ],
+   "pista_final": "<code>:,.2f</code> — la coma separa los miles y <code>.2f</code> fija dos decimales."
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "El promedio adentro del ciclo",
+   "sub": "El promedio se calcula e imprime en cada vuelta.",
+   "archivos": {
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\ntotal = 0\nfor e in planilla:\n    total += e.calcular_sueldo()\n    print(round(total / len(planilla), 2))\n",
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "7764.83",
+    "2280.0\n3681.5\n7764.83",
+    "2280.0\n1401.5\n4083.33",
+    "6840.0\n5522.25\n7764.83"
+   ],
+   "correcta": 1,
+   "porques": {
+    "0": "El <code>print</code> está <strong>adentro</strong> del <code>for</code>: sale una línea por vuelta. Solo la última es el promedio real; las dos primeras dividen un total a medias entre los tres empleados.",
+    "2": "Eso sería dividir cada sueldo solo. <code>total</code> acumula: en la segunda vuelta ya vale 6840.0 + 4204.5.",
+    "3": "Eso sería dividir entre los empleados vistos hasta ahora. Aquí siempre se divide entre <code>len(planilla)</code>, que es 3 desde el principio."
    }
   },
   {
    "tipo": "prediccion",
-   "titulo": "El print con sangria",
-   "sub": "Cuatro espacios mas a la izquierda o a la derecha.",
+   "titulo": "max sobre la lista",
+   "sub": "Buscar al mejor pagado con max.",
    "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
-    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\ntotal = 0\nfor d in docs:\n    total += d.tamano_kb\n    print(\"Total:\", total)\n"
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\nprint(max(planilla).nombre)\n",
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
    },
    "entrada": "main.py",
    "opciones": [
-    "Total: 1470",
-    "Total: 1470\nTotal: 1470\nTotal: 1470",
-    "Total: 350\nTotal: 570\nTotal: 1470",
-    "Total: 350\nTotal: 220\nTotal: 900"
+    "Lucía",
+    "María",
+    "TypeError: '>' not supported between instances of 'Empleado' and 'Empleado'",
+    "AttributeError: 'list' object has no attribute 'nombre'"
    ],
    "correcta": 2,
    "porques": {
-    "0": "El <code>print</code> tiene sangria: esta <strong>adentro</strong> del <code>for</code> y se ejecuta en cada vuelta, con lo acumulado hasta ese momento.",
-    "1": "<code>total</code> cambia en cada vuelta antes del <code>print</code>: no vale 1470 hasta la ultima.",
-    "3": "Esos serian los tamanos de cada documento por separado. Pero lo que se imprime es <code>total</code>, que va sumando."
+    "0": "<code>max</code> necesita comparar los elementos con <code>&gt;</code>, y Python no sabe cuándo un Empleado es \"mayor\" que otro. ¿Por sueldo, por nombre, por edad? Nadie se lo dijo.",
+    "1": "<code>max</code> no compara nombres por su cuenta: con objetos, no compara nada.",
+    "3": "<code>max</code> recibe la lista, pero nunca llega a devolver un elemento: revienta al comparar el primer par."
    }
   },
   {
    "tipo": "challenge",
-   "titulo": "Acumular el tamano total",
-   "sub": "Completa las dos lineas que calculan el tamano total. La tarea pide acumularlo dentro del ciclo.",
+   "titulo": "El mejor pagado",
+   "sub": "Completá la condición que compara sueldos y la línea que guarda al nuevo mejor pagado.",
    "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n"
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
    },
    "hueco_en": "main.py",
    "entrada": "main.py",
-   "plantilla": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\n{0}\nfor d in docs:\n    {1}\nprint(\"Tamano total:\", total, \"KB\")",
+   "plantilla": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\nmejor = planilla[0]\nfor e in planilla:\n    if {0}:\n        {1}\nprint(f\"{mejor.nombre} (Q{mejor.calcular_sueldo():,.2f})\")",
    "huecos": [
     {
-     "etiqueta": "antes del ciclo: arrancar el acumulador",
-     "ayuda": "Un acumulador empieza en cero, y va afuera del for.",
+     "etiqueta": "e gana más que el mejor hasta ahora",
+     "ayuda": "Compará los sueldos, no los salarios base.",
      "acepta": [
-      "total = 0"
+      "e.calcular_sueldo() > mejor.calcular_sueldo()",
+      "mejor.calcular_sueldo() < e.calcular_sueldo()",
+      "e.calcular_sueldo() >= mejor.calcular_sueldo()"
      ],
-     "referencia": "total = 0"
+     "referencia": "e.calcular_sueldo() > mejor.calcular_sueldo()"
     },
     {
-     "etiqueta": "dentro del ciclo: sumar el tamano de este documento",
-     "ayuda": "Cada documento guarda su tamano en el atributo tamano_kb.",
+     "etiqueta": "guardar al nuevo mejor pagado",
+     "ayuda": "Guardá el empleado completo: después se le pide el nombre y el sueldo.",
      "acepta": [
-      "total += d.tamano_kb",
-      "total = total + d.tamano_kb",
-      "total = d.tamano_kb + total"
+      "mejor = e"
      ],
-     "referencia": "total += d.tamano_kb"
+     "referencia": "mejor = e"
     }
    ],
-   "esperado": "Tamano total: 1470 KB",
+   "esperado": "Lucía (Q12,250.00)",
    "trampas": [
     {
      "codigo": [
-      "total = 0",
-      "total = d.tamano_kb"
+      "e.salario_base > mejor.salario_base",
+      "mejor = e"
      ],
-     "porque": "Esto <strong>reemplaza</strong> el total en cada vuelta en vez de sumarle: al final queda solo el tamano del ultimo documento, 900."
+     "porque": "Hoy da lo mismo porque Lucía también tiene el salario base más alto. Pero un bodeguero con muchas horas extra puede ganar más que un analista: la tarea pide al mejor pagado <strong>del mes</strong>, y eso es el sueldo.",
+     "misma_salida": true
     },
     {
      "codigo": [
-      "total = 0",
-      "total += d"
+      "e.calcular_sueldo() > mejor.calcular_sueldo()",
+      "mejor = e.nombre"
      ],
-     "porque": "Se esta sumando el <strong>objeto entero</strong>, no su tamano. Python no sabe sumar un numero con un documento: hay que pedirle el atributo, <code>d.tamano_kb</code>."
+     "porque": "Guarda el <strong>nombre</strong>, no el empleado. Si otro empleado viniera después, <code>mejor.calcular_sueldo()</code> se le pediría a un texto; y el <code>print</code> ya le pide <code>.nombre</code> a \"Lucía\": AttributeError."
     }
    ],
-   "pista_final": "Afuera: <code>total = 0</code>. Adentro, en cada vuelta: <code>total += d.tamano_kb</code>."
+   "pista_final": "<code>e.calcular_sueldo() &gt; mejor.calcular_sueldo()</code> y <code>mejor = e</code>."
   },
   {
    "tipo": "prediccion",
-   "titulo": "range(len()) no es el documento",
-   "sub": "Recorrer por posicion en lugar de por elemento.",
+   "titulo": "max sobre los nombres",
+   "sub": "Ahora max recibe textos, y esos sí se pueden comparar.",
    "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
-    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nfor i in range(len(docs)):\n    print(i)\n"
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\nnombres = []\nfor e in planilla:\n    nombres.append(e.nombre)\nprint(max(nombres))\n",
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
    },
    "entrada": "main.py",
    "opciones": [
-    "0\n1\n2",
-    "3",
-    "1\n2\n3",
-    "Informe.docx\nPlanilla.xlsx\nClase.pptx"
+    "María",
+    "TypeError: '>' not supported between instances of 'str' and 'str'",
+    "Lucía",
+    "José"
    ],
    "correcta": 0,
    "porques": {
-    "1": "<code>len(docs)</code> es 3, pero <code>range(3)</code> produce 0, 1 y 2: tres vueltas, no una.",
-    "2": "Las posiciones en Python empiezan en 0.",
-    "3": "<code>range(len(docs))</code> recorre las <strong>posiciones</strong>, no los documentos. Para el nombre haria falta <code>docs[i].nombre</code> — o mejor, <code>for d in docs</code>."
-   }
-  },
-  {
-   "tipo": "challenge",
-   "titulo": "Un solo ciclo para todos",
-   "sub": "Escribi la linea del for que recorre la lista. El cuerpo ya usa la variable d.",
-   "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n"
-   },
-   "hueco_en": "main.py",
-   "entrada": "main.py",
-   "plantilla": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\n{0}\n    d.abrir()\nprint(\"Listo\")",
-   "huecos": [
-    {
-     "etiqueta": "el encabezado del for",
-     "ayuda": "Recorre los elementos directamente, sin posiciones.",
-     "acepta": [
-      "for d in docs:"
-     ],
-     "referencia": "for d in docs:"
-    }
-   ],
-   "esperado": "Abriendo Informe.docx\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx\nListo",
-   "trampas": [
-    {
-     "codigo": [
-      "for d in range(len(docs)):"
-     ],
-     "porque": "Con <code>range(len(docs))</code> la variable <code>d</code> vale 0, 1 y 2: son posiciones, no documentos. Un numero no tiene <code>abrir()</code>, y revienta en la primera vuelta."
-    }
-   ],
-   "pista_final": "<code>for d in docs:</code> — el <code>for</code> de Python entrega cada elemento, no su posicion."
-  },
-  {
-   "tipo": "prediccion",
-   "titulo": "El metodo que no todos tienen",
-   "sub": "Pedirle a cada documento algo que solo sabe hacer uno.",
-   "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
-    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nfor d in docs:\n    d.abrir()\n    d.revisar_ortografia()\n"
-   },
-   "entrada": "main.py",
-   "opciones": [
-    "Abriendo Informe.docx\nWord: revisando 12 paginas\nAbriendo Planilla.xlsx\nAttributeError: 'HojaExcel' object has no attribute 'revisar_ortografia'",
-    "AttributeError: 'HojaExcel' object has no attribute 'revisar_ortografia'",
-    "Abriendo Informe.docx\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx",
-    "Abriendo Informe.docx\nWord: revisando 12 paginas\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx"
-   ],
-   "correcta": 0,
-   "porques": {
-    "1": "Antes de reventar, el primer documento si se abrio y reviso, y el segundo alcanzo a abrirse. Lo que ya se imprimio queda en pantalla.",
-    "2": "<code>abrir()</code> lo tienen todos, pero el ciclo tambien llama <code>revisar_ortografia()</code> en cada vuelta.",
-    "3": "Python no se <em>salta</em> el metodo que falta: revienta ahi mismo. Una <code>HojaExcel</code> no tiene <code>revisar_ortografia</code>, que es propio de Word."
+    "1": "Los textos sí se comparan con <code>&gt;</code>: letra por letra, en orden alfabético.",
+    "2": "Lucía es la mejor pagada, pero <code>max</code> sobre textos compara en <strong>orden alfabético</strong>: M va después de L. No sabe nada de sueldos.",
+    "3": "José queda primero en el alfabeto, no último."
    }
   },
   {
    "tipo": "prediccion",
-   "titulo": "isinstance tambien ve al padre",
-   "sub": "Contar cuantos documentos son de la clase base.",
+   "titulo": "El mejor que arranca en None",
+   "sub": "La búsqueda del reto 9, pero mejor arranca vacío.",
    "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
-    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\ncuenta = 0\nfor d in docs:\n    if isinstance(d, DocumentoOffice):\n        cuenta += 1\nprint(cuenta)\n"
+    "main.py": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\nmejor = None\nfor e in planilla:\n    if e.calcular_sueldo() > mejor.calcular_sueldo():\n        mejor = e\nprint(mejor.nombre)\n",
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
    },
    "entrada": "main.py",
    "opciones": [
-    "NameError: name 'DocumentoOffice' is not defined",
-    "3",
-    "0",
-    "1"
-   ],
-   "correcta": 1,
-   "porques": {
-    "0": "<code>DocumentoOffice</code> si esta importada: mira la primera linea de <code>main.py</code>.",
-    "2": "Ninguno se creo como <code>DocumentoOffice</code> a secas, pero todos heredan de ella, y para <code>isinstance</code> eso alcanza.",
-    "3": "<code>isinstance</code> no compara la clase exacta: un <code>DocumentoWord</code> <strong>es un</strong> <code>DocumentoOffice</code>. Los tres cuentan."
-   }
-  },
-  {
-   "tipo": "challenge",
-   "titulo": "El metodo propio sin reventar",
-   "sub": "Solo los documentos Word saben revisar ortografia. Escribi la condicion para llamar ese metodo solo cuando corresponde.",
-   "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n"
-   },
-   "hueco_en": "main.py",
-   "entrada": "main.py",
-   "plantilla": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nfor d in docs:\n    d.abrir()\n    {0}\n        d.revisar_ortografia()",
-   "huecos": [
-    {
-     "etiqueta": "la condicion",
-     "ayuda": "Pregunta si d es un DocumentoWord.",
-     "acepta": [
-      "if isinstance(d, DocumentoWord):",
-      "if type(d) == DocumentoWord:",
-      "if type(d) is DocumentoWord:",
-      "if hasattr(d, \"revisar_ortografia\"):"
-     ],
-     "referencia": "if isinstance(d, DocumentoWord):"
-    }
-   ],
-   "esperado": "Abriendo Informe.docx\nWord: revisando 12 paginas\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx",
-   "trampas": [
-    {
-     "codigo": [
-      "if isinstance(d, DocumentoOffice):"
-     ],
-     "porque": "Todos los documentos <strong>son</strong> <code>DocumentoOffice</code> (heredan de ella), asi que la condicion es verdadera siempre y el Excel revienta. Hay que preguntar por la clase hija."
-    },
-    {
-     "codigo": [
-      "if d == DocumentoWord:"
-     ],
-     "porque": "Compara el <strong>objeto</strong> con la <strong>clase</strong>: un documento nunca es igual al molde. La condicion es falsa siempre y Word nunca revisa ortografia."
-    }
-   ],
-   "pista_final": "<code>if isinstance(d, DocumentoWord):</code>. Anotalo: en la Unidad 6 el polimorfismo va a hacer innecesario este <code>if</code>."
-  },
-  {
-   "tipo": "prediccion",
-   "titulo": "La lista guarda al mismo objeto",
-   "sub": "Cambiar un documento por fuera de la lista.",
-   "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
-    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nprimero = docs[0]\nprimero.nombre = \"Final.docx\"\nprint(docs[0].nombre)\n"
-   },
-   "entrada": "main.py",
-   "opciones": [
-    "TypeError: 'DocumentoWord' object does not support item assignment",
-    "Informe.docx\nFinal.docx",
-    "Informe.docx",
-    "Final.docx"
+    "TypeError: '>' not supported between instances of 'float' and 'NoneType'",
+    "Lucía",
+    "None",
+    "AttributeError: 'NoneType' object has no attribute 'calcular_sueldo'"
    ],
    "correcta": 3,
    "porques": {
-    "0": "No se asigna con corchetes al objeto: <code>primero.nombre = ...</code> cambia un atributo, y eso si se puede.",
-    "1": "Se imprime una sola cosa, una sola vez: <code>docs[0].nombre</code>.",
-    "2": "<code>primero</code> no es una copia: es <strong>otro nombre para el mismo objeto</strong> que esta en la lista. Cambiarlo por un lado lo cambia por el otro."
-   }
-  },
-  {
-   "tipo": "prediccion",
-   "titulo": "append agrega una cosa",
-   "sub": "Meter una lista adentro de otra.",
-   "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
-    "main.py": "\nfrom documentos import DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12)]\nnuevos = [HojaExcel(\"Planilla.xlsx\", 220, 4),\n          PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\ndocs.append(nuevos)\nprint(len(docs))\n"
-   },
-   "entrada": "main.py",
-   "opciones": [
-    "4",
-    "1",
-    "3",
-    "2"
-   ],
-   "correcta": 3,
-   "porques": {
-    "0": "No hay cuatro en ningun lado. Hay tres documentos, y <code>append</code> los deja repartidos en dos elementos: uno suelto y una lista con dos.",
-    "1": "<code>docs</code> empezaba con uno, y <code>append</code> si agrego algo: ahora tiene dos elementos.",
-    "2": "<code>append</code> mete la lista <code>nuevos</code> <strong>entera</strong>, como un solo elemento. Para agregar sus dos documentos por separado seria <code>docs.extend(nuevos)</code>."
+    "0": "Esa sería la queja si se comparara con <code>mejor</code> directamente. Aquí se le pide un método a None, y ese error llega antes.",
+    "1": "En la primera vuelta <code>mejor</code> vale <code>None</code>, y se le pide <code>calcular_sueldo()</code>. None no tiene métodos: revienta antes de comparar. Por eso en el reto 9 arranca en <code>planilla[0]</code>.",
+    "2": "Nunca llega al <code>print</code>: revienta en la primera vuelta."
    }
   },
   {
    "tipo": "challenge",
-   "titulo": "Contar los documentos",
-   "sub": "Completa el mensaje final con el total de documentos de la lista.",
+   "titulo": "El resumen en una sola vuelta",
+   "sub": "Completá la línea que acumula el total dentro del ciclo y la que calcula el promedio cuando el ciclo ya terminó.",
    "archivos": {
-    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n"
+    "empleado.py": "class Empleado:\n    def __init__(self, nombre, puesto, salario_base, horas_extra, tarifa_hora_extra):\n        self.nombre = nombre\n        self.puesto = puesto\n        self.salario_base = salario_base\n        self.horas_extra = horas_extra\n        self.tarifa_hora_extra = tarifa_hora_extra\n\n    def calcular_sueldo(self):\n        return self.salario_base + self.horas_extra * self.tarifa_hora_extra + 250\n\n    def mostrar_boleta(self):\n        print(f\"{self.nombre} | {self.puesto} | Q{self.calcular_sueldo():,.2f}\")\n"
    },
    "hueco_en": "main.py",
    "entrada": "main.py",
-   "plantilla": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\ntotal = 0\nfor d in docs:\n    total += d.tamano_kb\nprint(\"Total de documentos:\", {0}, \"| Tamano total:\", total, \"KB\")",
+   "plantilla": "from empleado import Empleado\n\nplanilla = [\n    Empleado(\"María\", \"Analista\", 6200, 8, 48.75),\n    Empleado(\"José\", \"Bodeguero\", 3800, 6, 25.75),\n    Empleado(\"Lucía\", \"Gerente\", 12000, 0, 0),\n]\n\ntotal = 0\nmejor = planilla[0]\nfor e in planilla:\n    sueldo = e.calcular_sueldo()\n    {0}\n    if sueldo > mejor.calcular_sueldo():\n        mejor = e\n{1}\nprint(f\"Total a pagar:    Q{total:,.2f}\")\nprint(f\"Mejor pagado:     {mejor.nombre}\")\nprint(f\"Sueldo promedio:  Q{promedio:,.2f}\")",
    "huecos": [
     {
-     "etiqueta": "cuantos documentos hay en la lista",
-     "ayuda": "Hay una funcion de Python que cuenta los elementos de una lista.",
+     "etiqueta": "acumular el sueldo de esta vuelta",
+     "ayuda": "El sueldo ya está calculado en una variable: usala.",
      "acepta": [
-      "len(docs)"
+      "total += sueldo",
+      "total = total + sueldo",
+      "total += e.calcular_sueldo()"
      ],
-     "referencia": "len(docs)"
+     "referencia": "total += sueldo"
+    },
+    {
+     "etiqueta": "el promedio, después del ciclo",
+     "ayuda": "El total entre la cantidad de empleados.",
+     "acepta": [
+      "promedio = total / len(planilla)"
+     ],
+     "referencia": "promedio = total / len(planilla)"
     }
    ],
-   "esperado": "Total de documentos: 3 | Tamano total: 1470 KB",
+   "esperado": "Total a pagar:    Q23,294.50\nMejor pagado:     Lucía\nSueldo promedio:  Q7,764.83",
    "trampas": [
     {
      "codigo": [
-      "len(d)"
+      "total += sueldo",
+      "promedio = total // len(planilla)"
      ],
-     "porque": "<code>d</code> es el <strong>ultimo</strong> documento que dejo el ciclo, no la lista. Un documento no tiene largo: la lista es <code>docs</code>."
+     "porque": "<code>//</code> es división <strong>entera</strong>: tira los decimales y el promedio sale Q7,764.00."
     },
     {
      "codigo": [
-      "3"
+      "total += sueldo",
+      "promedio = total / 3"
      ],
-     "porque": "Da lo mismo <em>hoy</em>, pero el 3 esta escrito a mano: si agregas un documento a la lista, el mensaje miente. <code>len(docs)</code> se entera solo.",
+     "porque": "Hoy da lo mismo porque son tres. Pero la tarea pide al menos seis empleados: el día que agregués uno, ese 3 escrito a mano miente. <code>len(planilla)</code> cuenta solo.",
      "misma_salida": true
     }
    ],
-   "pista_final": "<code>len(docs)</code>: cuenta los elementos de la lista, sean del tipo que sean."
+   "pista_final": "<code>total += sueldo</code> adentro del ciclo y <code>promedio = total / len(planilla)</code> afuera, cuando ya se sumaron todos."
   }
  ],
  "juego": {
-  "ls": "fp2_lista_mixta_v1",
+  "ls": "fp2_planilla_v1",
   "etiqueta_pred": "¿qué imprime?",
-  "tarea": "Word, Excel, PowerPoint y Access",
-  "tarea_pdf": "Word, Excel, PowerPoint y Access",
+  "tarea": "Cálculo de sueldo de empleados",
+  "tarea_pdf": "Calculo de sueldo de empleados",
   "cierre_corto": "dom 11-oct",
-  "pdf_titulo": "La Lista Mixta  ·  Unidad 4, Semana 8",
-  "pdf_parrafo": "Cada uno es una pieza de la tarea Word, Excel, PowerPoint y Access, que cierra el domingo 11 de octubre.",
-  "pdf_pie": "Generado por La Lista Mixta · codersatelier.com",
-  "pdf_prefijo": "FP2_U4_Lista_"
+  "pdf_titulo": "La Planilla  ·  Unidad 4, Semana 8",
+  "pdf_parrafo": "Cada uno es una pieza de la tarea Calculo de sueldo de empleados, que cierra el domingo 11 de octubre.",
+  "pdf_pie": "Generado por La Planilla · codersatelier.com",
+  "pdf_prefijo": "FP2_U4_Planilla_"
  },
  "python": "3.12"
 };

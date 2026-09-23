@@ -388,16 +388,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "Soy Ana Lopez, carne 202612345",
+    "AttributeError: module 'estudiante' has no attribute 'Estudiante'",
     "NameError: name 'Estudiante' is not defined",
     "ModuleNotFoundError: No module named 'estudiante'",
-    "AttributeError: module 'estudiante' has no attribute 'Estudiante'"
+    "Soy Ana Lopez, carne 202612345"
    ],
-   "correcta": 0,
-   "tientan": {
+   "correcta": 3,
+   "porques": {
+    "0": "La clase si existe adentro del modulo. Mirá el <code>class Estudiante</code> en <code>estudiante.py</code>.",
     "1": "Eso pasaria si hubieras escrito <code>Estudiante(...)</code> a secas. Con <code>import estudiante</code> el nombre que queda es el del <strong>modulo</strong>, y por eso hay que decir <code>estudiante.Estudiante</code>.",
-    "2": "El archivo <code>estudiante.py</code> esta ahi mismo, junto a <code>main.py</code>. Python lo encuentra.",
-    "3": "La clase si existe adentro del modulo. Mirá el <code>class Estudiante</code> en <code>estudiante.py</code>."
+    "2": "El archivo <code>estudiante.py</code> esta ahi mismo, junto a <code>main.py</code>. Python lo encuentra."
    }
   },
   {
@@ -410,16 +410,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
+    "ImportError: cannot import name 'Estudiante'",
     "NameError: name 'Estudiante' is not defined. Did you mean: 'estudiante'?",
     "Soy Ana Lopez, carne 202612345",
-    "ModuleNotFoundError: No module named 'estudiante'",
-    "ImportError: cannot import name 'Estudiante'"
+    "ModuleNotFoundError: No module named 'estudiante'"
    ],
-   "correcta": 0,
-   "tientan": {
-    "1": "Para que funcionara sin prefijo haria falta <code>from estudiante import Estudiante</code>. Con <code>import estudiante</code> el unico nombre nuevo es <code>estudiante</code> — y fijate que Python te lo sugiere solito en el mensaje.",
-    "2": "El modulo se importo sin problema: la linea <code>import estudiante</code> no fallo. El error llega despues, al usar un nombre que nunca se definio.",
-    "3": "Ese error lo da <code>from ... import ...</code> cuando el nombre no existe adentro. Aca no se uso esa forma."
+   "correcta": 1,
+   "porques": {
+    "0": "Ese error lo da <code>from ... import ...</code> cuando el nombre no existe adentro. Aca no se uso esa forma.",
+    "2": "Para que funcionara sin prefijo haria falta <code>from estudiante import Estudiante</code>. Con <code>import estudiante</code> el unico nombre nuevo es <code>estudiante</code> — y fijate que Python te lo sugiere solito en el mensaje.",
+    "3": "El modulo se importo sin problema: la linea <code>import estudiante</code> no fallo. El error llega despues, al usar un nombre que nunca se definio."
    }
   },
   {
@@ -432,16 +432,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "ModuleNotFoundError: No module named 'Estudiante'",
     "Soy Ana Lopez, carne 202612345",
-    "ImportError: cannot import name 'Estudiante'",
-    "AttributeError: module 'Estudiante' has no attribute 'Estudiante'"
+    "AttributeError: module 'Estudiante' has no attribute 'Estudiante'",
+    "ModuleNotFoundError: No module named 'Estudiante'",
+    "ImportError: cannot import name 'Estudiante'"
    ],
-   "correcta": 0,
-   "tientan": {
-    "1": "Python distingue mayusculas: el archivo se llama <code>estudiante.py</code> con minuscula, y se pidio <code>Estudiante</code> con mayuscula.",
-    "2": "Ese error aparece cuando el <strong>modulo si existe</strong> pero el nombre de adentro no. Aca ni siquiera llego a abrir un archivo.",
-    "3": "Mismo caso: para quejarse de un atributo, primero tendria que haber encontrado el modulo."
+   "correcta": 2,
+   "porques": {
+    "0": "Python distingue mayusculas: el archivo se llama <code>estudiante.py</code> con minuscula, y se pidio <code>Estudiante</code> con mayuscula.",
+    "1": "Mismo caso: para quejarse de un atributo, primero tendria que haber encontrado el modulo.",
+    "3": "Ese error aparece cuando el <strong>modulo si existe</strong> pero el nombre de adentro no. Aca ni siquiera llego a abrir un archivo."
    }
   },
   {
@@ -460,7 +460,7 @@ var DATOS={
     "Soy Ana Lopez, carne 202612345"
    ],
    "correcta": 0,
-   "tientan": {
+   "porques": {
     "1": "El modulo que se busca es <code>estudiante</code>, y ese si existe. <code>Alumno</code> no es un modulo: es el nombre que se pidio de adentro.",
     "2": "<code>NameError</code> aparece al <em>usar</em> un nombre que nunca se definio. Aca el programa ni llega a la linea de abajo: revienta en el import.",
     "3": "La clase se llama <code>Estudiante</code>, no <code>Alumno</code>. Fijate en <code>estudiante.py</code>."
@@ -477,16 +477,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "- Soy Ana Lopez, carne 202612345\n- Soy Carlos Perez, carne 202612346\nTotal de inscritos: 2",
+    "ModuleNotFoundError: No module named 'curso'",
     "Total de inscritos: 2",
     "- Soy Ana Lopez, carne 202612345\nTotal de inscritos: 1",
-    "ModuleNotFoundError: No module named 'curso'"
+    "- Soy Ana Lopez, carne 202612345\n- Soy Carlos Perez, carne 202612346\nTotal de inscritos: 2"
    ],
-   "correcta": 0,
-   "tientan": {
+   "correcta": 3,
+   "porques": {
+    "0": "<code>curso.py</code> esta en la misma carpeta que <code>main.py</code>. Python lo encuentra.",
     "1": "<code>listar_estudiantes()</code> primero recorre la lista con un <code>for</code> e imprime a cada uno. El total va al final, no solo.",
-    "2": "El ciclo del <code>main.py</code> inscribe a los dos: recorre una lista de dos pares.",
-    "3": "<code>curso.py</code> esta en la misma carpeta que <code>main.py</code>. Python lo encuentra."
+    "2": "El ciclo del <code>main.py</code> inscribe a los dos: recorre una lista de dos pares."
    }
   },
   {
@@ -500,15 +500,15 @@ var DATOS={
    "entrada": "main.py",
    "opciones": [
     "Inscritos: 1",
-    "ModuleNotFoundError: No module named 'curso'",
     "NameError: name 'Curso' is not defined",
-    "ImportError: cannot import name 'Curso'"
+    "ImportError: cannot import name 'Curso'",
+    "ModuleNotFoundError: No module named 'curso'"
    ],
    "correcta": 0,
-   "tientan": {
-    "1": "No se importa <code>curso</code> por ningun lado: la clase esta definida ahi mismo, arriba.",
-    "2": "<code>Curso</code> si esta definida, en el propio <code>main.py</code>.",
-    "3": "No hay ningun <code>from curso import ...</code> que pueda fallar."
+   "porques": {
+    "1": "<code>Curso</code> si esta definida, en el propio <code>main.py</code>.",
+    "2": "No hay ningun <code>from curso import ...</code> que pueda fallar.",
+    "3": "No se importa <code>curso</code> por ningun lado: la clase esta definida ahi mismo, arriba."
    }
   },
   {
@@ -521,16 +521,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "Soy Ana Lopez, carne 202612345\nEstudiante",
+    "NameError: name 'Estudiante' is not defined",
     "Soy Ana Lopez, carne 202612345\nAlumno",
-    "ImportError: cannot import name 'Alumno'",
-    "NameError: name 'Estudiante' is not defined"
+    "Soy Ana Lopez, carne 202612345\nEstudiante",
+    "ImportError: cannot import name 'Alumno'"
    ],
-   "correcta": 0,
-   "tientan": {
+   "correcta": 2,
+   "porques": {
+    "0": "Tras el alias, el nombre <code>Estudiante</code> efectivamente no queda disponible — pero el programa nunca lo usa.",
     "1": "El alias cambia el <strong>nombre de la variable</strong>, no el nombre de la clase. <code>__name__</code> sigue siendo el que se escribio en el <code>class</code>.",
-    "2": "<code>Alumno</code> es el alias que estas creando, no lo que se busca adentro del modulo. Lo que se busca es <code>Estudiante</code>, y si existe.",
-    "3": "Tras el alias, el nombre <code>Estudiante</code> efectivamente no queda disponible — pero el programa nunca lo usa."
+    "3": "<code>Alumno</code> es el alias que estas creando, no lo que se busca adentro del modulo. Lo que se busca es <code>Estudiante</code>, y si existe."
    }
   },
   {
@@ -543,14 +543,14 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "cargando estudiante.py\narranco main\nSoy Ana Lopez, carne 202612345",
     "arranco main\ncargando estudiante.py\nSoy Ana Lopez, carne 202612345",
+    "cargando estudiante.py\narranco main\nSoy Ana Lopez, carne 202612345",
     "arranco main\nSoy Ana Lopez, carne 202612345",
     "cargando estudiante.py\nSoy Ana Lopez, carne 202612345\narranco main"
    ],
-   "correcta": 0,
-   "tientan": {
-    "1": "El <code>import</code> es la <strong>primera</strong> linea de <code>main.py</code>: se ejecuta antes que cualquier <code>print</code> de abajo.",
+   "correcta": 1,
+   "porques": {
+    "0": "El <code>import</code> es la <strong>primera</strong> linea de <code>main.py</code>: se ejecuta antes que cualquier <code>print</code> de abajo.",
     "2": "El <code>print</code> suelto de <code>estudiante.py</code> si corre. Importar no es 'leer las clases': es <strong>ejecutar el archivo entero</strong> una vez.",
     "3": "Las lineas de <code>main.py</code> corren en orden, de arriba a abajo."
    }

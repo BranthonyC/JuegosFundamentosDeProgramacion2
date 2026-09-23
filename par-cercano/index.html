@@ -388,16 +388,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "None 0",
-    "('A', 'D') 1.0",
+    "('D', 'A') 1.0",
     "('A', 'A') 0.0",
-    "('D', 'A') 1.0"
+    "('A', 'D') 1.0",
+    "None 0"
    ],
-   "correcta": 0,
-   "tientan": {
-    "1": "Eso daria si <code>minimo</code> arrancara en <code>float(\"inf\")</code>. Arrancando en 0, <strong>ninguna distancia es menor que cero</strong>: el <code>if d &lt; minimo</code> nunca se cumple y <code>par</code> se queda en <code>None</code>.",
-    "2": "El <code>if p is not q</code> evita comparar un punto consigo mismo. Y aunque no estuviera, 0.0 no es <em>menor</em> que 0: tampoco lo guardaria.",
-    "3": "Para guardar un par, alguna distancia tendria que ser menor que el minimo. Ninguna es menor que 0."
+   "correcta": 3,
+   "porques": {
+    "0": "Para guardar un par, alguna distancia tendria que ser menor que el minimo. Ninguna es menor que 0.",
+    "1": "El <code>if p is not q</code> evita comparar un punto consigo mismo. Y aunque no estuviera, 0.0 no es <em>menor</em> que 0: tampoco lo guardaria.",
+    "2": "Eso daria si <code>minimo</code> arrancara en <code>float(\"inf\")</code>. Arrancando en 0, <strong>ninguna distancia es menor que cero</strong>: el <code>if d &lt; minimo</code> nunca se cumple y <code>par</code> se queda en <code>None</code>."
    }
   },
   {
@@ -411,15 +411,15 @@ var DATOS={
    "entrada": "main.py",
    "opciones": [
     "('A', 'A') 0.0",
-    "('A', 'D') 1.0",
+    "('D', 'D') 0.0",
     "None inf",
-    "('D', 'D') 0.0"
+    "('A', 'D') 1.0"
    ],
    "correcta": 0,
-   "tientan": {
-    "1": "Sin el <code>if p is not q</code>, el <strong>primer</strong> par que se compara es A con A: distancia 0.0, y nada le gana a cero. Es el error que la ficha marca como el mas comun.",
+   "porques": {
+    "1": "Hay cuatro ceros (A-A, B-B, C-C, D-D), pero solo el primero se guarda: los otros son <em>iguales</em> al minimo, no menores.",
     "2": "<code>minimo</code> arranca en infinito, asi que la primera distancia ya lo baja.",
-    "3": "Hay cuatro ceros (A-A, B-B, C-C, D-D), pero solo el primero se guarda: los otros son <em>iguales</em> al minimo, no menores."
+    "3": "Sin el <code>if p is not q</code>, el <strong>primer</strong> par que se compara es A con A: distancia 0.0, y nada le gana a cero. Es el error que la ficha marca como el mas comun."
    }
   },
   {
@@ -472,16 +472,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "12",
-    "6",
     "16",
-    "4"
+    "4",
+    "12",
+    "6"
    ],
-   "correcta": 0,
-   "tientan": {
-    "1": "6 son los pares <em>distintos</em>. Pero este ciclo compara A con D y despues D con A: cada par cuenta <strong>dos veces</strong>. 4 puntos por 3 companeros = 12.",
-    "2": "16 seria sin el <code>if p is not q</code>: 4 por 4, contando A con A, B con B...",
-    "3": "4 es una vuelta del ciclo de afuera. Por cada <code>p</code>, el de adentro recorre los otros tres."
+   "correcta": 2,
+   "porques": {
+    "0": "16 seria sin el <code>if p is not q</code>: 4 por 4, contando A con A, B con B...",
+    "1": "4 es una vuelta del ciclo de afuera. Por cada <code>p</code>, el de adentro recorre los otros tres.",
+    "3": "6 son los pares <em>distintos</em>. Pero este ciclo compara A con D y despues D con A: cada par cuenta <strong>dos veces</strong>. 4 puntos por 3 companeros = 12."
    }
   },
   {
@@ -537,16 +537,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "Eje/Origen III IV",
-    "II III IV",
+    "I III IV",
     "Eje/Origen IV III",
-    "I III IV"
+    "Eje/Origen III IV",
+    "II III IV"
    ],
-   "correcta": 0,
-   "tientan": {
-    "1": "(0, 5) no esta en el II: con x igual a 0, ninguna de las cuatro condiciones se cumple (0 no es mayor ni menor que 0) y cae al ultimo <code>return</code>.",
-    "2": "Cuidado con los signos: (-3, -1) tiene los <strong>dos</strong> negativos, eso es el III. El IV es x positivo con y negativo. Es la confusion que la ficha marca.",
-    "3": "(0, 5) no es del I: para eso x tendria que ser mayor que 0."
+   "correcta": 2,
+   "porques": {
+    "0": "(0, 5) no es del I: para eso x tendria que ser mayor que 0.",
+    "1": "Cuidado con los signos: (-3, -1) tiene los <strong>dos</strong> negativos, eso es el III. El IV es x positivo con y negativo. Es la confusion que la ficha marca.",
+    "3": "(0, 5) no esta en el II: con x igual a 0, ninguna de las cuatro condiciones se cumple (0 no es mayor ni menor que 0) y cae al ultimo <code>return</code>."
    }
   },
   {
@@ -559,16 +559,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "5.0\n5.00",
     "5.00\n5.00",
-    "5\n5.00",
-    "5.0\n5.0"
+    "5.0\n5.00",
+    "5.0\n5.0",
+    "5\n5.00"
    ],
-   "correcta": 0,
-   "tientan": {
-    "1": "<code>round(d, 2)</code> redondea el <strong>numero</strong>, pero un float no guarda ceros a la derecha: 5.0 se imprime 5.0. Para mostrar siempre dos decimales es el formato <code>:.2f</code>.",
-    "2": "<code>round</code> devuelve un float, no un entero: se imprime 5.0, no 5.",
-    "3": "El f-string con <code>:.2f</code> si fuerza los dos decimales: 5.00."
+   "correcta": 1,
+   "porques": {
+    "0": "<code>round(d, 2)</code> redondea el <strong>numero</strong>, pero un float no guarda ceros a la derecha: 5.0 se imprime 5.0. Para mostrar siempre dos decimales es el formato <code>:.2f</code>.",
+    "2": "El f-string con <code>:.2f</code> si fuerza los dos decimales: 5.00.",
+    "3": "<code>round</code> devuelve un float, no un entero: se imprime 5.0, no 5."
    }
   },
   {
@@ -581,16 +581,16 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
-    "TypeError: Punto.distancia_a() takes 2 positional arguments but 3 were given",
-    "1.0",
     "AttributeError: 'int' object has no attribute 'x'",
-    "5.0"
+    "1.0",
+    "5.0",
+    "TypeError: Punto.distancia_a() takes 2 positional arguments but 3 were given"
    ],
-   "correcta": 0,
-   "tientan": {
+   "correcta": 3,
+   "porques": {
+    "0": "Ese seria el error con <code>a.distancia_a(d.x)</code>: un solo numero, que toma el lugar de <code>otro</code> y revienta al pedirle <code>.x</code>. Aca el problema es la cantidad.",
     "1": "<code>distancia_a</code> espera <strong>un</strong> objeto Punto (<code>otro</code>), no dos numeros. Contando a <code>self</code> le llegan tres argumentos, y Python se queja antes de calcular nada.",
-    "2": "Ese seria el error con <code>a.distancia_a(d.x)</code>: un solo numero, que toma el lugar de <code>otro</code> y revienta al pedirle <code>.x</code>. Aca el problema es la cantidad.",
-    "3": "5.0 es la distancia de A al origen, no a D."
+    "2": "5.0 es la distancia de A al origen, no a D."
    }
   },
   {
@@ -644,15 +644,15 @@ var DATOS={
    "entrada": "main.py",
    "opciones": [
     "2 1 1",
-    "1 1 1",
     "2 1 0",
-    "KeyError: 'I'"
+    "KeyError: 'I'",
+    "1 1 1"
    ],
    "correcta": 0,
-   "tientan": {
-    "1": "A (3, 4) y D (4, 4) estan los dos en el I.",
-    "2": "C (0, -3) tiene x igual a 0: cae sobre el eje, y ese contador sube a 1.",
-    "3": "Todas las claves existen: el diccionario arranca con las cinco en cero."
+   "porques": {
+    "1": "C (0, -3) tiene x igual a 0: cae sobre el eje, y ese contador sube a 1.",
+    "2": "Todas las claves existen: el diccionario arranca con las cinco en cero.",
+    "3": "A (3, 4) y D (4, 4) estan los dos en el I."
    }
   },
   {
@@ -665,15 +665,15 @@ var DATOS={
    },
    "entrada": "main.py",
    "opciones": [
+    "B 5.39",
     "D 5.66",
     "None 0.00",
-    "B 5.39",
     "A 5.00"
    ],
-   "correcta": 0,
-   "tientan": {
-    "1": "Aca arrancar en 0 <strong>si</strong> sirve: una distancia nunca es negativa, asi que la primera ya le gana a cero. Es el espejo del reto 1: para un maximo de distancias, 0 es un buen piso; para un minimo, no.",
-    "2": "B (-2, 5) esta a 5.39, pero D (4, 4) esta mas lejos: 5.66.",
+   "correcta": 1,
+   "porques": {
+    "0": "B (-2, 5) esta a 5.39, pero D (4, 4) esta mas lejos: 5.66.",
+    "2": "Aca arrancar en 0 <strong>si</strong> sirve: una distancia nunca es negativa, asi que la primera ya le gana a cero. Es el espejo del reto 1: para un maximo de distancias, 0 es un buen piso; para un minimo, no.",
     "3": "A esta a 5.00 del origen, pero no es el mas lejano."
    }
   },
