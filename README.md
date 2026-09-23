@@ -1,6 +1,6 @@
 # Juegos · Fundamentos de Programación 2
 
-Tres juegos para entender **programación orientada a objetos** con Python, del curso
+Siete juegos para entender **programación orientada a objetos** con Python, del curso
 Fundamentos de Programación 2 de la **Universidad Da Vinci de Guatemala**.
 
 Corren enteros en el navegador. **No hay servidor y no se envía nada a ninguna parte:**
@@ -10,6 +10,11 @@ tu nombre y tu avance viven solo en tu equipo, en `localStorage`.
 |---|---|
 | 🍪 [**Molde o Galleta**](molde-o-galleta/) — 25 tarjetas | Distinguir la **clase** (el molde) del **objeto** (la galleta) |
 | 🧩 [**Armá la Clase**](armar-la-clase/) — 20 retos | Armar una clase pieza por pieza y separar **propiedades** de **métodos** |
+| 🖨️ [**¿Qué Imprime?**](que-imprime/) — 12 retos | Predecir la salida de un programa y **escribir el código** que falta |
+| 🙋 [**¿Quién Responde?**](quien-responde/) — retos de despacho | Seguir a quién le toca responder un método en una jerarquía |
+| 🏛️ [**¿Cuál Pilar?**](cual-pilar/) — retos de pilares | Reconocer abstracción, encapsulamiento, herencia y polimorfismo |
+| 🔗 [**¿Qué Relación Es?**](que-relacion/) — 15 fragmentos | Decidir si hay asociación, agregación, composición o herencia |
+| 📦 [**¿Qué Importa?**](que-importa/) — 12 retos | Leer un proyecto de **varios archivos** y entender qué hace cada `import` |
 
 ---
 
@@ -64,13 +69,20 @@ está todo ahí, en unas 600 líneas.
 
 ```
 .
-├── index.html                  portada con los dos juegos
-├── molde-o-galleta/
-│   └── index.html              el juego completo
-└── armar-la-clase/
-    ├── index.html              el juego completo
-    └── retos.py                los 20 retos + su verificador
+├── index.html                  portada con los siete juegos
+├── molde-o-galleta/index.html
+├── armar-la-clase/index.html
+├── que-imprime/index.html
+├── quien-responde/index.html
+├── cual-pilar/index.html
+├── que-relacion/index.html
+└── que-importa/index.html
 ```
+
+Cada juego se genera desde un script de Python que vive en el repo de contenido del curso
+(`_retos.py`, `_relaciones.py`, …): define los retos, **los ejecuta en Python real** para
+verificar cada salida, y escribe el `index.html` que ves acá. Lo que se publica nunca se
+escribe a mano.
 
 ### `armar-la-clase/retos.py` — el archivo más interesante del repo
 
