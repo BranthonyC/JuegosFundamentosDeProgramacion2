@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Doce retos de Python sobre modulos e importaciones: que nombre queda disponible, donde busca Python y por que sale ModuleNotFoundError. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
+<meta name="description" content="Doce retos de Python sobre arreglos de objetos: recorrer una lista de documentos distintos con un solo ciclo, acumular totales y no reventar con el metodo que no todos tienen. Fundamentos de Programacion 2, Universidad Da Vinci de Guatemala.">
 <meta name="color-scheme" content="light dark">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
-<title>¿Qué Importa?</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%82%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<title>La Lista Mixta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
@@ -231,8 +231,8 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
 <div class="wrap">
   <header class="top">
     <div>
-      <p class="eyebrow">FP2 · Unidad 4 · Semana 8 · módulos e importaciones</p>
-      <h1 class="brand">¿Qué <em>Importa</em>?</h1>
+      <p class="eyebrow">FP2 · Unidad 4 · Semana 8 · arreglos de objetos</p>
+      <h1 class="brand">La Lista <em>Mixta</em></h1>
     </div>
     <button class="btn ghost" id="tema" type="button">Tema</button>
   </header>
@@ -240,13 +240,13 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
   <!-- ============ INICIO ============ -->
   <section class="card" id="p-inicio">
     <p style="font-size:15.5px;margin:0 0 4px">
-      Doce retos sobre <strong>proyectos de varios archivos</strong>: <strong>ocho predicciones</strong>
-      —leés un proyecto completo y decís qué imprime <em>o qué error lanza</em>— y
+      Doce retos sobre <strong>una lista con objetos de distinto tipo</strong>: <strong>ocho predicciones</strong>
+      —leés el programa y decís qué imprime <em>o dónde revienta</em>— y
       <strong>cuatro challenges</strong> donde escribís el código vos.
     </p>
     <ul class="reglas">
-      <li><span class="chip a">8</span><span><strong>¿Qué importa?</strong> Leé <em>todos</em> los archivos del proyecto y elegí qué pasa al correr <code>main.py</code>. Importar no es traer el archivo: es elegir <strong>qué nombre queda disponible</strong>.</span></li>
-      <li><span class="chip b">4</span><span><strong>Escribí el código.</strong> Los cuatro son piezas exactas de la tarea <strong>Importación de clases</strong>. Si los sacás, ya la tenés a medio camino.</span></li>
+      <li><span class="chip a">8</span><span><strong>¿Qué imprime la lista?</strong> Un solo ciclo, documentos distintos. Fijate <em>dónde</em> está cada línea: adentro o afuera del <code>for</code> cambia todo.</span></li>
+      <li><span class="chip b">4</span><span><strong>Escribí el código.</strong> Los cuatro son piezas exactas de la tarea <strong>Word, Excel, PowerPoint y Access</strong>. Si los sacás, ya la tenés a medio camino.</span></li>
       <li><span class="chip c">✓</span><span>Todo corre en tu navegador. Nada se envía a ningún servidor: tu nombre y tu avance viven solo en este equipo. Si cerrás la pestaña, podés continuar.</span></li>
     </ul>
     <label for="nombre">Tu nombre completo</label>
@@ -275,7 +275,7 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
     <div class="rail" id="rail" aria-hidden="true"></div>
     <div class="card" style="margin-top:16px">
       <div class="meta">
-        <span>Reto <strong id="n-actual">1</strong> de 12 · <span id="etiqueta" class="tipo p">¿qué importa?</span></span>
+        <span>Reto <strong id="n-actual">1</strong> de 12 · <span id="etiqueta" class="tipo p">¿qué imprime?</span></span>
         <span id="marcador">0 resueltos</span>
       </div>
       <h2 class="enun" id="enunciado">—</h2>
@@ -314,7 +314,7 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
     <div class="card">
       <div class="res-head">
         <div>
-          <p class="eyebrow">Resultado · ¿Qué Importa?</p>
+          <p class="eyebrow">Resultado · La Lista Mixta</p>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;margin:0;font-weight:600" id="r-nombre">—</h2>
         </div>
         <div class="score" id="r-score">0<span>/12</span></div>
@@ -344,7 +344,7 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
 
     <div class="card repaso" id="bloque-codigo" hidden>
       <h3>Mi código de los cuatro challenges</h3>
-      <p class="hint" style="margin:-6px 0 12px">Esto va dentro de tu PDF. Son piezas de la tarea Importación de clases: guardalo y trabajá desde ahí.</p>
+      <p class="hint" style="margin:-6px 0 12px">Esto va dentro de tu PDF. Son piezas de la tarea Word, Excel, PowerPoint y Access: guardalo y trabajá desde ahí.</p>
       <div id="lista-codigo"></div>
     </div>
 
@@ -352,9 +352,9 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
       <h3>Tu respuesta escrita</h3>
       <p class="pregunta-pdf">Respondé las tres, en 200 a 350 palabras en total:</p>
       <ol>
-        <li><strong>Qué nombre queda.</strong> Explicá con tus palabras la diferencia entre <code>import modulo</code> y <code>from modulo import Clase</code>: qué nombre queda disponible en cada caso y cómo se usa. Con un ejemplo tuyo, que no sea Estudiante ni Curso.</li>
+        <li><strong>Un ciclo, muchos tipos.</strong> Explicá con tus palabras por qué un solo <code>for</code> puede recorrer objetos de clases distintas, y qué pasa si en ese ciclo llamás un método que solo tiene una de ellas. Con un ejemplo tuyo, que no sea de Office.</li>
         <li><strong>El reto que más te costó.</strong> Nombralo, decí qué habías predicho y qué entendiste después de ver la salida real.</li>
-        <li><strong>El guardián.</strong> Después de los retos 8 y 12: ¿por qué importar un módulo ejecuta su código, y para qué sirve <code>if __name__ == "__main__":</code>?</li>
+        <li><strong>Adentro o afuera.</strong> Después de los retos 1, 2 y 3: ¿qué cambia si el acumulador o el <code>print</code> quedan adentro del <code>for</code> en lugar de afuera?</li>
       </ol>
       <textarea id="reflexion" placeholder="Escribí aquí tu respuesta…"></textarea>
       <p class="cuenta"><span id="n-palabras">0</span> palabras</p>
@@ -380,346 +380,349 @@ var DATOS={
  "retos": [
   {
    "tipo": "prediccion",
-   "titulo": "El nombre que queda",
-   "sub": "La diferencia entre traer el modulo y traer la clase.",
+   "titulo": "El acumulador en su lugar",
+   "sub": "Un total que empieza afuera y suma adentro.",
    "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "main.py": "\nimport estudiante\n\nana = estudiante.Estudiante(\"Ana Lopez\", \"202612345\")\nprint(ana.presentarse())\n"
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
+    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\ntotal = 0\nfor d in docs:\n    total += d.tamano_kb\nprint(\"Total:\", total)\n"
    },
    "entrada": "main.py",
    "opciones": [
-    "Soy Ana Lopez, carne 202612345",
-    "NameError: name 'Estudiante' is not defined",
-    "ModuleNotFoundError: No module named 'estudiante'",
-    "AttributeError: module 'estudiante' has no attribute 'Estudiante'"
+    "Total: 1470",
+    "Total: 900",
+    "Total: 350\nTotal: 570\nTotal: 1470",
+    "Total: 0"
    ],
    "correcta": 0,
    "tientan": {
-    "1": "Eso pasaria si hubieras escrito <code>Estudiante(...)</code> a secas. Con <code>import estudiante</code> el nombre que queda es el del <strong>modulo</strong>, y por eso hay que decir <code>estudiante.Estudiante</code>.",
-    "2": "El archivo <code>estudiante.py</code> esta ahi mismo, junto a <code>main.py</code>. Python lo encuentra.",
-    "3": "La clase si existe adentro del modulo. Mirá el <code>class Estudiante</code> en <code>estudiante.py</code>."
+    "1": "Eso seria si <code>total</code> se reiniciara en cada vuelta: quedaria solo el ultimo. Aca <code>total = 0</code> esta <strong>antes</strong> del <code>for</code>, se ejecuta una sola vez.",
+    "2": "Eso pasaria si el <code>print</code> tuviera sangria y estuviera adentro del ciclo. Esta afuera: se ejecuta una vez, al final.",
+    "3": "El ciclo si suma: <code>total</code> arranca en 0 pero no se queda ahi. 350 + 220 + 900."
    }
   },
   {
    "tipo": "prediccion",
-   "titulo": "El import que no alcanza",
-   "sub": "Mismo archivo, misma clase, pero ahora sin el prefijo.",
+   "titulo": "El total que se reinicia",
+   "sub": "La misma suma, con el acumulador una linea mas abajo.",
    "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "main.py": "\nimport estudiante\n\nana = Estudiante(\"Ana Lopez\", \"202612345\")\nprint(ana.presentarse())\n"
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
+    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nfor d in docs:\n    total = 0\n    total += d.tamano_kb\nprint(\"Total:\", total)\n"
    },
    "entrada": "main.py",
    "opciones": [
-    "NameError: name 'Estudiante' is not defined. Did you mean: 'estudiante'?",
-    "Soy Ana Lopez, carne 202612345",
-    "ModuleNotFoundError: No module named 'estudiante'",
-    "ImportError: cannot import name 'Estudiante'"
+    "Total: 900",
+    "Total: 1470",
+    "Total: 0",
+    "NameError: name 'total' is not defined"
    ],
    "correcta": 0,
    "tientan": {
-    "1": "Para que funcionara sin prefijo haria falta <code>from estudiante import Estudiante</code>. Con <code>import estudiante</code> el unico nombre nuevo es <code>estudiante</code> — y fijate que Python te lo sugiere solito en el mensaje.",
-    "2": "El modulo se importo sin problema: la linea <code>import estudiante</code> no fallo. El error llega despues, al usar un nombre que nunca se definio.",
-    "3": "Ese error lo da <code>from ... import ...</code> cuando el nombre no existe adentro. Aca no se uso esa forma."
+    "1": "Seria 1470 si <code>total = 0</code> estuviera antes del <code>for</code>. Adentro, cada vuelta lo vuelve a poner en cero y solo sobrevive la suma de la ultima vuelta.",
+    "2": "Se reinicia a cero, si, pero la linea siguiente le suma el tamano de esa vuelta. Despues de la ultima vuelta vale 900, el tamano de Clase.pptx.",
+    "3": "<code>total</code> si existe: se crea en la primera vuelta, y en Python una variable creada dentro de un <code>for</code> sigue viva despues del ciclo."
    }
   },
   {
    "tipo": "prediccion",
-   "titulo": "El archivo que no esta",
-   "sub": "El clasico de la unidad, y casi nunca es culpa del import.",
+   "titulo": "El print con sangria",
+   "sub": "Cuatro espacios mas a la izquierda o a la derecha.",
    "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "main.py": "\nfrom Estudiante import Estudiante\n\nana = Estudiante(\"Ana Lopez\", \"202612345\")\nprint(ana.presentarse())\n"
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
+    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\ntotal = 0\nfor d in docs:\n    total += d.tamano_kb\n    print(\"Total:\", total)\n"
    },
    "entrada": "main.py",
    "opciones": [
-    "ModuleNotFoundError: No module named 'Estudiante'",
-    "Soy Ana Lopez, carne 202612345",
-    "ImportError: cannot import name 'Estudiante'",
-    "AttributeError: module 'Estudiante' has no attribute 'Estudiante'"
+    "Total: 350\nTotal: 570\nTotal: 1470",
+    "Total: 1470",
+    "Total: 350\nTotal: 220\nTotal: 900",
+    "Total: 1470\nTotal: 1470\nTotal: 1470"
    ],
    "correcta": 0,
    "tientan": {
-    "1": "Python distingue mayusculas: el archivo se llama <code>estudiante.py</code> con minuscula, y se pidio <code>Estudiante</code> con mayuscula.",
-    "2": "Ese error aparece cuando el <strong>modulo si existe</strong> pero el nombre de adentro no. Aca ni siquiera llego a abrir un archivo.",
-    "3": "Mismo caso: para quejarse de un atributo, primero tendria que haber encontrado el modulo."
-   }
-  },
-  {
-   "tipo": "prediccion",
-   "titulo": "El nombre que no vive adentro",
-   "sub": "El modulo existe. Lo que le pedis, no.",
-   "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "main.py": "\nfrom estudiante import Alumno\n\nana = Alumno(\"Ana Lopez\", \"202612345\")\nprint(ana.presentarse())\n"
-   },
-   "entrada": "main.py",
-   "opciones": [
-    "ImportError: cannot import name 'Alumno' from 'estudiante'",
-    "ModuleNotFoundError: No module named 'Alumno'",
-    "NameError: name 'Alumno' is not defined",
-    "Soy Ana Lopez, carne 202612345"
-   ],
-   "correcta": 0,
-   "tientan": {
-    "1": "El modulo que se busca es <code>estudiante</code>, y ese si existe. <code>Alumno</code> no es un modulo: es el nombre que se pidio de adentro.",
-    "2": "<code>NameError</code> aparece al <em>usar</em> un nombre que nunca se definio. Aca el programa ni llega a la linea de abajo: revienta en el import.",
-    "3": "La clase se llama <code>Estudiante</code>, no <code>Alumno</code>. Fijate en <code>estudiante.py</code>."
-   }
-  },
-  {
-   "tipo": "prediccion",
-   "titulo": "Dos modulos, un programa",
-   "sub": "El proyecto completo de la tarea, funcionando.",
-   "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "curso.py": "\nclass Curso:\n    def __init__(self, nombre, codigo):\n        self.nombre = nombre\n        self.codigo = codigo\n        self.estudiantes = []\n\n    def inscribir(self, estudiante):\n        self.estudiantes.append(estudiante)\n\n    def listar_estudiantes(self):\n        for e in self.estudiantes:\n            print(\"-\", e.presentarse())\n        print(\"Total de inscritos:\", len(self.estudiantes))\n",
-    "main.py": "\nfrom estudiante import Estudiante\nfrom curso import Curso\n\nfp2 = Curso(\"Fundamentos de Programacion 2\", \"FP2-2026\")\nfor nombre, carne in [(\"Ana Lopez\", \"202612345\"), (\"Carlos Perez\", \"202612346\")]:\n    fp2.inscribir(Estudiante(nombre, carne))\n\nfp2.listar_estudiantes()\n"
-   },
-   "entrada": "main.py",
-   "opciones": [
-    "- Soy Ana Lopez, carne 202612345\n- Soy Carlos Perez, carne 202612346\nTotal de inscritos: 2",
-    "Total de inscritos: 2",
-    "- Soy Ana Lopez, carne 202612345\nTotal de inscritos: 1",
-    "ModuleNotFoundError: No module named 'curso'"
-   ],
-   "correcta": 0,
-   "tientan": {
-    "1": "<code>listar_estudiantes()</code> primero recorre la lista con un <code>for</code> e imprime a cada uno. El total va al final, no solo.",
-    "2": "El ciclo del <code>main.py</code> inscribe a los dos: recorre una lista de dos pares.",
-    "3": "<code>curso.py</code> esta en la misma carpeta que <code>main.py</code>. Python lo encuentra."
-   }
-  },
-  {
-   "tipo": "prediccion",
-   "titulo": "La clase que se colo en main",
-   "sub": "Corre perfecto. Y aun asi esta mal hecho.",
-   "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "main.py": "\nfrom estudiante import Estudiante\n\nclass Curso:\n    def __init__(self, nombre):\n        self.nombre = nombre\n        self.estudiantes = []\n\n    def inscribir(self, e):\n        self.estudiantes.append(e)\n\nfp2 = Curso(\"Fundamentos de Programacion 2\")\nfp2.inscribir(Estudiante(\"Ana Lopez\", \"202612345\"))\nprint(\"Inscritos:\", len(fp2.estudiantes))\n"
-   },
-   "entrada": "main.py",
-   "opciones": [
-    "Inscritos: 1",
-    "ModuleNotFoundError: No module named 'curso'",
-    "NameError: name 'Curso' is not defined",
-    "ImportError: cannot import name 'Curso'"
-   ],
-   "correcta": 0,
-   "tientan": {
-    "1": "No se importa <code>curso</code> por ningun lado: la clase esta definida ahi mismo, arriba.",
-    "2": "<code>Curso</code> si esta definida, en el propio <code>main.py</code>.",
-    "3": "No hay ningun <code>from curso import ...</code> que pueda fallar."
-   }
-  },
-  {
-   "tipo": "prediccion",
-   "titulo": "El alias",
-   "sub": "Renombrar al importar: util cuando el nombre choca o es largo.",
-   "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "main.py": "\nfrom estudiante import Estudiante as Alumno\n\nana = Alumno(\"Ana Lopez\", \"202612345\")\nprint(ana.presentarse())\nprint(Alumno.__name__)\n"
-   },
-   "entrada": "main.py",
-   "opciones": [
-    "Soy Ana Lopez, carne 202612345\nEstudiante",
-    "Soy Ana Lopez, carne 202612345\nAlumno",
-    "ImportError: cannot import name 'Alumno'",
-    "NameError: name 'Estudiante' is not defined"
-   ],
-   "correcta": 0,
-   "tientan": {
-    "1": "El alias cambia el <strong>nombre de la variable</strong>, no el nombre de la clase. <code>__name__</code> sigue siendo el que se escribio en el <code>class</code>.",
-    "2": "<code>Alumno</code> es el alias que estas creando, no lo que se busca adentro del modulo. Lo que se busca es <code>Estudiante</code>, y si existe.",
-    "3": "Tras el alias, el nombre <code>Estudiante</code> efectivamente no queda disponible — pero el programa nunca lo usa."
-   }
-  },
-  {
-   "tipo": "prediccion",
-   "titulo": "El codigo suelto del modulo",
-   "sub": "Importar un modulo EJECUTA todo lo que tiene adentro.",
-   "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n\nprint(\"cargando estudiante.py\")\n",
-    "main.py": "\nfrom estudiante import Estudiante\n\nprint(\"arranco main\")\nana = Estudiante(\"Ana Lopez\", \"202612345\")\nprint(ana.presentarse())\n"
-   },
-   "entrada": "main.py",
-   "opciones": [
-    "cargando estudiante.py\narranco main\nSoy Ana Lopez, carne 202612345",
-    "arranco main\ncargando estudiante.py\nSoy Ana Lopez, carne 202612345",
-    "arranco main\nSoy Ana Lopez, carne 202612345",
-    "cargando estudiante.py\nSoy Ana Lopez, carne 202612345\narranco main"
-   ],
-   "correcta": 0,
-   "tientan": {
-    "1": "El <code>import</code> es la <strong>primera</strong> linea de <code>main.py</code>: se ejecuta antes que cualquier <code>print</code> de abajo.",
-    "2": "El <code>print</code> suelto de <code>estudiante.py</code> si corre. Importar no es 'leer las clases': es <strong>ejecutar el archivo entero</strong> una vez.",
-    "3": "Las lineas de <code>main.py</code> corren en orden, de arriba a abajo."
+    "1": "El <code>print</code> tiene sangria: esta <strong>adentro</strong> del <code>for</code> y se ejecuta en cada vuelta, con lo acumulado hasta ese momento.",
+    "2": "Esos serian los tamanos de cada documento por separado. Pero lo que se imprime es <code>total</code>, que va sumando.",
+    "3": "<code>total</code> cambia en cada vuelta antes del <code>print</code>: no vale 1470 hasta la ultima."
    }
   },
   {
    "tipo": "challenge",
-   "titulo": "El import que trae las dos clases",
-   "sub": "Escribi las dos importaciones para que el programa corra. Queremos usar Estudiante y Curso sin prefijo.",
+   "titulo": "Acumular el tamano total",
+   "sub": "Completa las dos lineas que calculan el tamano total. La tarea pide acumularlo dentro del ciclo.",
    "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "curso.py": "\nclass Curso:\n    def __init__(self, nombre, codigo):\n        self.nombre = nombre\n        self.codigo = codigo\n        self.estudiantes = []\n\n    def inscribir(self, estudiante):\n        self.estudiantes.append(estudiante)\n\n    def listar_estudiantes(self):\n        for e in self.estudiantes:\n            print(\"-\", e.presentarse())\n        print(\"Total de inscritos:\", len(self.estudiantes))\n"
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n"
    },
    "hueco_en": "main.py",
    "entrada": "main.py",
-   "plantilla": "{0}\n{1}\n\nfp2 = Curso(\"Fundamentos de Programacion 2\", \"FP2-2026\")\nfp2.inscribir(Estudiante(\"Ana Lopez\", \"202612345\"))\nfp2.listar_estudiantes()",
+   "plantilla": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\n{0}\nfor d in docs:\n    {1}\nprint(\"Tamano total:\", total, \"KB\")",
    "huecos": [
     {
-     "etiqueta": "1) traer la clase Estudiante",
-     "ayuda": "El archivo se llama estudiante.py y la clase, Estudiante.",
+     "etiqueta": "antes del ciclo: arrancar el acumulador",
+     "ayuda": "Un acumulador empieza en cero, y va afuera del for.",
      "acepta": [
-      "from estudiante import Estudiante"
+      "total = 0"
      ],
-     "referencia": "from estudiante import Estudiante"
+     "referencia": "total = 0"
     },
     {
-     "etiqueta": "2) traer la clase Curso",
-     "ayuda": "Mismo patron, con curso.py.",
+     "etiqueta": "dentro del ciclo: sumar el tamano de este documento",
+     "ayuda": "Cada documento guarda su tamano en el atributo tamano_kb.",
      "acepta": [
-      "from curso import Curso"
+      "total += d.tamano_kb",
+      "total = total + d.tamano_kb",
+      "total = d.tamano_kb + total"
      ],
-     "referencia": "from curso import Curso"
+     "referencia": "total += d.tamano_kb"
     }
    ],
-   "esperado": "- Soy Ana Lopez, carne 202612345\nTotal de inscritos: 1",
+   "esperado": "Tamano total: 1470 KB",
    "trampas": [
     {
      "codigo": [
-      "import estudiante",
-      "import curso"
+      "total = 0",
+      "total = d.tamano_kb"
      ],
-     "porque": "Esto tambien importa, pero deja disponibles los nombres <code>estudiante</code> y <code>curso</code> (los modulos), no las clases. El programa de abajo usa <code>Curso(...)</code> a secas, asi que revienta con <code>NameError</code>."
+     "porque": "Esto <strong>reemplaza</strong> el total en cada vuelta en vez de sumarle: al final queda solo el tamano del ultimo documento, 900."
     },
     {
      "codigo": [
-      "from estudiante import *",
-      "from curso import *"
+      "total = 0",
+      "total += d"
      ],
-     "porque": "Funciona, pero <code>import *</code> trae <strong>todo</strong> sin decir que: cuando dos modulos tengan un nombre igual, uno pisa al otro en silencio. En la industria esta desaconsejado justo por eso.",
+     "porque": "Se esta sumando el <strong>objeto entero</strong>, no su tamano. Python no sabe sumar un numero con un documento: hay que pedirle el atributo, <code>d.tamano_kb</code>."
+    }
+   ],
+   "pista_final": "Afuera: <code>total = 0</code>. Adentro, en cada vuelta: <code>total += d.tamano_kb</code>."
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "range(len()) no es el documento",
+   "sub": "Recorrer por posicion en lugar de por elemento.",
+   "archivos": {
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
+    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nfor i in range(len(docs)):\n    print(i)\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "0\n1\n2",
+    "Informe.docx\nPlanilla.xlsx\nClase.pptx",
+    "1\n2\n3",
+    "3"
+   ],
+   "correcta": 0,
+   "tientan": {
+    "1": "<code>range(len(docs))</code> recorre las <strong>posiciones</strong>, no los documentos. Para el nombre haria falta <code>docs[i].nombre</code> — o mejor, <code>for d in docs</code>.",
+    "2": "Las posiciones en Python empiezan en 0.",
+    "3": "<code>len(docs)</code> es 3, pero <code>range(3)</code> produce 0, 1 y 2: tres vueltas, no una."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "Un solo ciclo para todos",
+   "sub": "Escribi la linea del for que recorre la lista. El cuerpo ya usa la variable d.",
+   "archivos": {
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n"
+   },
+   "hueco_en": "main.py",
+   "entrada": "main.py",
+   "plantilla": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\n{0}\n    d.abrir()\nprint(\"Listo\")",
+   "huecos": [
+    {
+     "etiqueta": "el encabezado del for",
+     "ayuda": "Recorre los elementos directamente, sin posiciones.",
+     "acepta": [
+      "for d in docs:"
+     ],
+     "referencia": "for d in docs:"
+    }
+   ],
+   "esperado": "Abriendo Informe.docx\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx\nListo",
+   "trampas": [
+    {
+     "codigo": [
+      "for d in range(len(docs)):"
+     ],
+     "porque": "Con <code>range(len(docs))</code> la variable <code>d</code> vale 0, 1 y 2: son posiciones, no documentos. Un numero no tiene <code>abrir()</code>, y revienta en la primera vuelta."
+    }
+   ],
+   "pista_final": "<code>for d in docs:</code> — el <code>for</code> de Python entrega cada elemento, no su posicion."
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "El metodo que no todos tienen",
+   "sub": "Pedirle a cada documento algo que solo sabe hacer uno.",
+   "archivos": {
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
+    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nfor d in docs:\n    d.abrir()\n    d.revisar_ortografia()\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "Abriendo Informe.docx\nWord: revisando 12 paginas\nAbriendo Planilla.xlsx\nAttributeError: 'HojaExcel' object has no attribute 'revisar_ortografia'",
+    "Abriendo Informe.docx\nWord: revisando 12 paginas\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx",
+    "AttributeError: 'HojaExcel' object has no attribute 'revisar_ortografia'",
+    "Abriendo Informe.docx\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx"
+   ],
+   "correcta": 0,
+   "tientan": {
+    "1": "Python no se <em>salta</em> el metodo que falta: revienta ahi mismo. Una <code>HojaExcel</code> no tiene <code>revisar_ortografia</code>, que es propio de Word.",
+    "2": "Antes de reventar, el primer documento si se abrio y reviso, y el segundo alcanzo a abrirse. Lo que ya se imprimio queda en pantalla.",
+    "3": "<code>abrir()</code> lo tienen todos, pero el ciclo tambien llama <code>revisar_ortografia()</code> en cada vuelta."
+   }
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "isinstance tambien ve al padre",
+   "sub": "Contar cuantos documentos son de la clase base.",
+   "archivos": {
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
+    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\ncuenta = 0\nfor d in docs:\n    if isinstance(d, DocumentoOffice):\n        cuenta += 1\nprint(cuenta)\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "3",
+    "0",
+    "1",
+    "NameError: name 'DocumentoOffice' is not defined"
+   ],
+   "correcta": 0,
+   "tientan": {
+    "1": "Ninguno se creo como <code>DocumentoOffice</code> a secas, pero todos heredan de ella, y para <code>isinstance</code> eso alcanza.",
+    "2": "<code>isinstance</code> no compara la clase exacta: un <code>DocumentoWord</code> <strong>es un</strong> <code>DocumentoOffice</code>. Los tres cuentan.",
+    "3": "<code>DocumentoOffice</code> si esta importada: mira la primera linea de <code>main.py</code>."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "El metodo propio sin reventar",
+   "sub": "Solo los documentos Word saben revisar ortografia. Escribi la condicion para llamar ese metodo solo cuando corresponde.",
+   "archivos": {
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n"
+   },
+   "hueco_en": "main.py",
+   "entrada": "main.py",
+   "plantilla": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nfor d in docs:\n    d.abrir()\n    {0}\n        d.revisar_ortografia()",
+   "huecos": [
+    {
+     "etiqueta": "la condicion",
+     "ayuda": "Pregunta si d es un DocumentoWord.",
+     "acepta": [
+      "if isinstance(d, DocumentoWord):",
+      "if type(d) == DocumentoWord:",
+      "if type(d) is DocumentoWord:",
+      "if hasattr(d, \"revisar_ortografia\"):"
+     ],
+     "referencia": "if isinstance(d, DocumentoWord):"
+    }
+   ],
+   "esperado": "Abriendo Informe.docx\nWord: revisando 12 paginas\nAbriendo Planilla.xlsx\nAbriendo Clase.pptx",
+   "trampas": [
+    {
+     "codigo": [
+      "if isinstance(d, DocumentoOffice):"
+     ],
+     "porque": "Todos los documentos <strong>son</strong> <code>DocumentoOffice</code> (heredan de ella), asi que la condicion es verdadera siempre y el Excel revienta. Hay que preguntar por la clase hija."
+    },
+    {
+     "codigo": [
+      "if d == DocumentoWord:"
+     ],
+     "porque": "Compara el <strong>objeto</strong> con la <strong>clase</strong>: un documento nunca es igual al molde. La condicion es falsa siempre y Word nunca revisa ortografia."
+    }
+   ],
+   "pista_final": "<code>if isinstance(d, DocumentoWord):</code>. Anotalo: en la Unidad 6 el polimorfismo va a hacer innecesario este <code>if</code>."
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "La lista guarda al mismo objeto",
+   "sub": "Cambiar un documento por fuera de la lista.",
+   "archivos": {
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
+    "main.py": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\nprimero = docs[0]\nprimero.nombre = \"Final.docx\"\nprint(docs[0].nombre)\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "Final.docx",
+    "Informe.docx",
+    "Informe.docx\nFinal.docx",
+    "TypeError: 'DocumentoWord' object does not support item assignment"
+   ],
+   "correcta": 0,
+   "tientan": {
+    "1": "<code>primero</code> no es una copia: es <strong>otro nombre para el mismo objeto</strong> que esta en la lista. Cambiarlo por un lado lo cambia por el otro.",
+    "2": "Se imprime una sola cosa, una sola vez: <code>docs[0].nombre</code>.",
+    "3": "No se asigna con corchetes al objeto: <code>primero.nombre = ...</code> cambia un atributo, y eso si se puede."
+   }
+  },
+  {
+   "tipo": "prediccion",
+   "titulo": "append agrega una cosa",
+   "sub": "Meter una lista adentro de otra.",
+   "archivos": {
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n",
+    "main.py": "\nfrom documentos import DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12)]\nnuevos = [HojaExcel(\"Planilla.xlsx\", 220, 4),\n          PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\ndocs.append(nuevos)\nprint(len(docs))\n"
+   },
+   "entrada": "main.py",
+   "opciones": [
+    "2",
+    "3",
+    "1",
+    "4"
+   ],
+   "correcta": 0,
+   "tientan": {
+    "1": "<code>append</code> mete la lista <code>nuevos</code> <strong>entera</strong>, como un solo elemento. Para agregar sus dos documentos por separado seria <code>docs.extend(nuevos)</code>.",
+    "2": "<code>docs</code> empezaba con uno, y <code>append</code> si agrego algo: ahora tiene dos elementos.",
+    "3": "No hay cuatro en ningun lado. Hay tres documentos, y <code>append</code> los deja repartidos en dos elementos: uno suelto y una lista con dos."
+   }
+  },
+  {
+   "tipo": "challenge",
+   "titulo": "Contar los documentos",
+   "sub": "Completa el mensaje final con el total de documentos de la lista.",
+   "archivos": {
+    "documentos.py": "\nclass DocumentoOffice:\n    def __init__(self, nombre, tamano_kb):\n        self.nombre = nombre\n        self.tamano_kb = tamano_kb\n\n    def abrir(self):\n        print(\"Abriendo\", self.nombre)\n\n\nclass DocumentoWord(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, paginas):\n        super().__init__(nombre, tamano_kb)\n        self.paginas = paginas\n\n    def revisar_ortografia(self):\n        print(\"Word: revisando\", self.paginas, \"paginas\")\n\n\nclass HojaExcel(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, hojas):\n        super().__init__(nombre, tamano_kb)\n        self.hojas = hojas\n\n    def recalcular(self):\n        print(\"Excel: recalculando\", self.hojas, \"hojas\")\n\n\nclass PresentacionPowerPoint(DocumentoOffice):\n    def __init__(self, nombre, tamano_kb, diapositivas):\n        super().__init__(nombre, tamano_kb)\n        self.diapositivas = diapositivas\n\n    def iniciar_presentacion(self):\n        print(\"PowerPoint: mostrando\", self.diapositivas, \"diapositivas\")\n"
+   },
+   "hueco_en": "main.py",
+   "entrada": "main.py",
+   "plantilla": "from documentos import DocumentoOffice, DocumentoWord, HojaExcel, PresentacionPowerPoint\n\ndocs = [DocumentoWord(\"Informe.docx\", 350, 12),\n        HojaExcel(\"Planilla.xlsx\", 220, 4),\n        PresentacionPowerPoint(\"Clase.pptx\", 900, 20)]\n\ntotal = 0\nfor d in docs:\n    total += d.tamano_kb\nprint(\"Total de documentos:\", {0}, \"| Tamano total:\", total, \"KB\")",
+   "huecos": [
+    {
+     "etiqueta": "cuantos documentos hay en la lista",
+     "ayuda": "Hay una funcion de Python que cuenta los elementos de una lista.",
+     "acepta": [
+      "len(docs)"
+     ],
+     "referencia": "len(docs)"
+    }
+   ],
+   "esperado": "Total de documentos: 3 | Tamano total: 1470 KB",
+   "trampas": [
+    {
+     "codigo": [
+      "len(d)"
+     ],
+     "porque": "<code>d</code> es el <strong>ultimo</strong> documento que dejo el ciclo, no la lista. Un documento no tiene largo: la lista es <code>docs</code>."
+    },
+    {
+     "codigo": [
+      "3"
+     ],
+     "porque": "Da lo mismo <em>hoy</em>, pero el 3 esta escrito a mano: si agregas un documento a la lista, el mensaje miente. <code>len(docs)</code> se entera solo.",
      "misma_salida": true
     }
    ],
-   "pista_final": "Fijate en el patron: <code>from &lt;archivo sin .py&gt; import &lt;NombreDeLaClase&gt;</code>. El archivo va en minuscula, la clase con mayuscula."
-  },
-  {
-   "tipo": "challenge",
-   "titulo": "Inscribir con un ciclo",
-   "sub": "Completa el ciclo que inscribe a los tres estudiantes. La tarea pide recorrer la lista, no inscribir uno por uno.",
-   "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "curso.py": "\nclass Curso:\n    def __init__(self, nombre, codigo):\n        self.nombre = nombre\n        self.codigo = codigo\n        self.estudiantes = []\n\n    def inscribir(self, estudiante):\n        self.estudiantes.append(estudiante)\n\n    def listar_estudiantes(self):\n        for e in self.estudiantes:\n            print(\"-\", e.presentarse())\n        print(\"Total de inscritos:\", len(self.estudiantes))\n"
-   },
-   "hueco_en": "main.py",
-   "entrada": "main.py",
-   "plantilla": "from estudiante import Estudiante\nfrom curso import Curso\n\ndatos = [(\"Ana Lopez\", \"202612345\"), (\"Carlos Perez\", \"202612346\"), (\"Sofia Xoc\", \"202612347\")]\nfp2 = Curso(\"Fundamentos de Programacion 2\", \"FP2-2026\")\n\nfor nombre, carne in datos:\n    {0}\n\nfp2.listar_estudiantes()",
-   "huecos": [
-    {
-     "etiqueta": "inscribir al estudiante de esta vuelta",
-     "ayuda": "inscribir() recibe un OBJETO Estudiante, no un texto.",
-     "acepta": [
-      "fp2.inscribir(Estudiante(nombre, carne))",
-      "fp2.inscribir(Estudiante(nombre=nombre, carne=carne))"
-     ],
-     "referencia": "fp2.inscribir(Estudiante(nombre, carne))"
-    }
-   ],
-   "esperado": "- Soy Ana Lopez, carne 202612345\n- Soy Carlos Perez, carne 202612346\n- Soy Sofia Xoc, carne 202612347\nTotal de inscritos: 3",
-   "trampas": [
-    {
-     "codigo": [
-      "fp2.inscribir(nombre)"
-     ],
-     "porque": "Esto guarda el <strong>texto</strong> del nombre en la lista, no un objeto. Revienta al listar, porque un <code>str</code> no tiene <code>presentarse()</code>. Es el error mas comun de la tarea y la rubrica lo penaliza aparte."
-    },
-    {
-     "codigo": [
-      "fp2.estudiantes.append(Estudiante(nombre, carne))"
-     ],
-     "porque": "Da la misma salida, pero se salta el metodo <code>inscribir()</code> y mete mano directo en la lista del objeto. Si manana <code>inscribir()</code> valida algo (cupo, duplicados), este codigo se lo brinca.",
-     "misma_salida": true
-    }
-   ],
-   "pista_final": "El objeto se crea y se inscribe en la misma linea: <code>fp2.inscribir(Estudiante(nombre, carne))</code>."
-  },
-  {
-   "tipo": "challenge",
-   "titulo": "Usar el modulo con prefijo",
-   "sub": "El import ya esta escrito y no se toca. Completa la creacion del objeto para que corra.",
-   "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n"
-   },
-   "hueco_en": "main.py",
-   "entrada": "main.py",
-   "plantilla": "import estudiante\n\nana = {0}\nprint(ana.presentarse())",
-   "huecos": [
-    {
-     "etiqueta": "crear la estudiante Ana Lopez (carne 202612345)",
-     "ayuda": "Con `import modulo`, el unico nombre disponible es el del modulo.",
-     "acepta": [
-      "estudiante.Estudiante(\"Ana Lopez\", \"202612345\")"
-     ],
-     "referencia": "estudiante.Estudiante(\"Ana Lopez\", \"202612345\")"
-    }
-   ],
-   "esperado": "Soy Ana Lopez, carne 202612345",
-   "trampas": [
-    {
-     "codigo": [
-      "Estudiante(\"Ana Lopez\", \"202612345\")"
-     ],
-     "porque": "Ese es el nombre que <em>no</em> quedo disponible. Con <code>import estudiante</code> Python solo definio <code>estudiante</code>; <code>Estudiante</code> a secas da <code>NameError</code>."
-    }
-   ],
-   "pista_final": "El patron es <code>modulo.Clase(...)</code>: <code>estudiante.Estudiante(\"Ana Lopez\", \"202612345\")</code>."
-  },
-  {
-   "tipo": "challenge",
-   "titulo": "El guardian de main",
-   "sub": "curso.py trae una prueba al final que se ejecuta al importarlo. Escribi la linea que la deja correr solo cuando el archivo se ejecuta directo.",
-   "archivos": {
-    "estudiante.py": "\nclass Estudiante:\n    def __init__(self, nombre, carne):\n        self.nombre = nombre\n        self.carne = carne\n\n    def presentarse(self):\n        return \"Soy \" + self.nombre + \", carne \" + self.carne\n",
-    "main.py": "\nfrom estudiante import Estudiante\nimport curso\n\nana = Estudiante(\"Ana Lopez\", \"202612345\")\nprint(ana.presentarse())\n"
-   },
-   "hueco_en": "curso.py",
-   "entrada": "main.py",
-   "plantilla": "class Curso:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\n{0}\n    print(\"probando curso.py por mi cuenta\")",
-   "huecos": [
-    {
-     "etiqueta": "el guardian",
-     "ayuda": "Python guarda el nombre del modulo en __name__. Vale '__main__' solo si lo corriste directo.",
-     "acepta": [
-      "if __name__ == \"__main__\":",
-      "if __name__ == '__main__':",
-      "if \"__main__\" == __name__:"
-     ],
-     "referencia": "if __name__ == \"__main__\":"
-    }
-   ],
-   "esperado": "Soy Ana Lopez, carne 202612345",
-   "trampas": [
-    {
-     "codigo": [
-      "if __name__ == \"curso\":"
-     ],
-     "porque": "Al importarlo, <code>__name__</code> vale <code>\"curso\"</code> — asi que esto invierte el guardian: la prueba correria justo cuando <strong>no</strong> queres, y no correria al ejecutarlo directo."
-    }
-   ],
-   "pista_final": "La linea es <code>if __name__ == \"__main__\":</code>. Al importar el modulo, <code>__name__</code> vale el nombre del archivo; solo al ejecutarlo directo vale <code>__main__</code>."
+   "pista_final": "<code>len(docs)</code>: cuenta los elementos de la lista, sean del tipo que sean."
   }
  ],
  "juego": {
-  "ls": "fp2_que_importa_v1",
-  "etiqueta_pred": "¿qué importa?",
-  "tarea": "Importación de clases",
-  "tarea_pdf": "Importacion de clases",
+  "ls": "fp2_lista_mixta_v1",
+  "etiqueta_pred": "¿qué imprime?",
+  "tarea": "Word, Excel, PowerPoint y Access",
+  "tarea_pdf": "Word, Excel, PowerPoint y Access",
   "cierre_corto": "dom 11-oct",
-  "pdf_titulo": "Que Importa?  ·  Unidad 4, Semana 8",
-  "pdf_parrafo": "Cada uno es una pieza de la tarea Importacion de clases, que cierra el domingo 11 de octubre.",
-  "pdf_pie": "Generado por ¿Que Importa? · codersatelier.com",
-  "pdf_prefijo": "FP2_U4_Importa_"
+  "pdf_titulo": "La Lista Mixta  ·  Unidad 4, Semana 8",
+  "pdf_parrafo": "Cada uno es una pieza de la tarea Word, Excel, PowerPoint y Access, que cierra el domingo 11 de octubre.",
+  "pdf_pie": "Generado por La Lista Mixta · codersatelier.com",
+  "pdf_prefijo": "FP2_U4_Lista_"
  },
  "python": "3.12"
 };
