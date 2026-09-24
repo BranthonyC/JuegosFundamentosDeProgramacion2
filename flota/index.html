@@ -193,6 +193,22 @@ select:focus{outline:none;border-color:var(--pred);box-shadow:0 0 0 3px var(--pr
 .entrega .pregunta-pdf{font-size:14px;color:var(--ink-2);margin:0 0 12px}
 .entrega ol{margin:0 0 12px;padding-left:20px;font-size:14px;color:var(--ink-2)}
 .entrega ol li{margin-bottom:4px}
+textarea#programa{width:100%;min-height:280px;padding:13px 15px;border-radius:10px;
+  border:1px solid var(--line);background:var(--code-bg,var(--bg));color:var(--ink);
+  font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;resize:vertical;tab-size:4}
+textarea#programa:focus{outline:none;border-color:var(--pred);box-shadow:0 0 0 3px var(--pred-soft)}
+.etapa{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+details.enunciado{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:6px 0 16px}
+details.enunciado summary{cursor:pointer;font-weight:600}
+details.enunciado .md{font-size:14px;line-height:1.55;overflow-wrap:anywhere}
+details.enunciado .md pre{overflow-x:auto;padding:10px 12px;border-radius:8px;background:var(--code-bg,var(--bg));font-size:12.5px}
+details.enunciado .md ul,details.enunciado .md ol{padding-left:22px}
+.campo-prog{display:block;font-weight:600;margin:14px 0 6px}
+#vista-capturas{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+#vista-capturas figure{margin:0;border:1px solid var(--line);border-radius:8px;padding:6px;max-width:220px}
+#vista-capturas img{display:block;max-width:100%;border-radius:4px}
+#vista-capturas figcaption{font-size:12px;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;gap:8px}
+#vista-capturas button{border:0;background:none;color:var(--mal);cursor:pointer;font-size:12px}
 textarea#reflexion{width:100%;min-height:170px;padding:13px 15px;border-radius:10px;
   border:1px solid var(--line);background:var(--ground);color:var(--ink);font:inherit;
   line-height:1.55;resize:vertical}
@@ -247,6 +263,8 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
     <ul class="reglas">
       <li><span class="chip a">8</span><span><strong>¿Qué imprime?</strong> Una clase para todo funciona... hasta que llega un tipo que nadie previó. Fijate qué rama del <code>if</code> atrapa a cada vehículo, <em>y cuál no atrapa a ninguno</em>.</span></li>
       <li><span class="chip b">4</span><span><strong>Escribí el código.</strong> Los cuatro son piezas exactas de la tarea <strong>Clase de vehículos</strong>. Si los sacás, ya la tenés a medio camino.</span></li>
+      <li><span class="chip c">PDF</span><span><strong>Esta es tu tarea de Clase de vehículos.</strong> Después de los retos pegás tu
+        programa completo con la captura de su ejecución y contestás tres preguntas; el juego arma el PDF que subís a Moodle.</span></li>
       <li><span class="chip c">✓</span><span>Todo corre en tu navegador. Nada se envía a ningún servidor: tu nombre y tu avance viven solo en este equipo. Si cerrás la pestaña, podés continuar.</span></li>
     </ul>
     <label for="nombre">Tu nombre completo</label>
@@ -314,7 +332,7 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
     <div class="card">
       <div class="res-head">
         <div>
-          <p class="eyebrow">Resultado · La Flota</p>
+          <p class="eyebrow">Etapa 1 de 3 · Resultado · La Flota</p>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:22px;margin:0;font-weight:600" id="r-nombre">—</h2>
         </div>
         <div class="score" id="r-score">0<span>/12</span></div>
@@ -348,7 +366,45 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
       <div id="lista-codigo"></div>
     </div>
 
+    <div class="card entrega" id="bloque-programa" hidden>
+      <p class="etapa">Etapa 2 de 3</p>
+      <h3>Tu programa completo: Clase de vehículos</h3>
+      <p class="hint" style="margin:-4px 0 8px">Los challenges fueron piezas; ahora va el programa entero. Escribilo y corrélo
+        en tu computadora, y traé aquí el código y la captura de la ejecución.</p>
+      <details class="enunciado" open><summary>Enunciado del programa</summary>
+        <div class="md"><ol>
+<li>Crea UNA sola clase <strong>Vehiculo</strong> con estos atributos: <strong>tipo</strong> (texto: "carro", "moto" o "camion"), <strong>marca</strong>, <strong>modelo</strong>, <strong>anio</strong>, y además <strong>numero_puertas</strong>, <strong>cilindrada_cc</strong> y <strong>carga_maxima_ton</strong> (sí: los tres, aunque no todos apliquen a todos los tipos — esa incomodidad es parte del ejercicio; usa 0 o None cuando no aplique).</li>
+<li>Agrega el método <strong>describir()</strong>: según el valor de <strong>tipo</strong> (con if/elif), muestra los datos relevantes de cada tipo. Un carro muestra puertas, una moto muestra cilindrada, un camión muestra carga máxima.</li>
+<li>Agrega el método <strong>encender()</strong>: también con if/elif por tipo, muestra un mensaje distinto ("El carro arranca con llave", "La moto arranca con botón", "El camión enciende motor diésel").</li>
+<li>En el programa principal, crea una <strong>lista con al menos 6 vehículos</strong> (mínimo 2 de cada tipo) y recórrela llamando describir() y encender() para cada uno. Al final muestra el total de vehículos por tipo.</li>
+<li>Al final de tu archivo .py, agrega un comentario de <strong>4 a 6 líneas</strong> respondiendo: ¿qué te incomodó de este diseño? Piensa en: atributos que no aplican a todos los tipos, los if/elif repetidos en cada método, y qué pasaría si mañana agregan "bus" y "tractor" a la flota.</li>
+</ol>
+<p>Tu salida debe verse similar a esta (con tus propios datos):</p>
+<pre><code>=== Inventario de la flota ===
+[CARRO]  Toyota Corolla 2022 — 4 puertas
+         El carro arranca con llave.
+[MOTO]   Honda CB190 2023 — 190 cc
+         La moto arranca con botón.
+[CAMION] Hino Serie 500 2021 — carga máxima: 8.5 ton
+         El camión enciende motor diésel.
+... (resto) ...
+
+Total por tipo: carros=2, motos=2, camiones=2
+</code></pre>
+<p>Escribilo y corrélo <strong>en tu computadora</strong>. En el juego pegás el código completo y adjuntás la captura de la ejecución, con la terminal y la salida visibles (de 1 a 3 imágenes).</p></div>
+      </details>
+      <label class="campo-prog" for="programa">Pegá aquí tu programa completo, tal como lo corriste:</label>
+      <p class="hint" style="margin:-2px 0 8px">Si tiene varios archivos, pegalos uno tras otro, con una línea
+        <code># ===== archivo.py =====</code> arriba de cada uno.</p>
+      <textarea id="programa" spellcheck="false" placeholder="# Nombre, carné, grupo y fecha&#10;# pegá tu código aquí"></textarea>
+      <p class="cuenta"><span id="n-lineas">0</span> líneas · se guarda solo mientras escribís</p>
+      <label class="campo-prog" for="capturas">Captura de la ejecución: la terminal con la salida completa (de 1 a 3 imágenes)</label>
+      <input type="file" id="capturas" accept="image/png,image/jpeg,image/webp" multiple>
+      <div id="vista-capturas"></div>
+    </div>
+
     <div class="card entrega" id="bloque-entrega" hidden>
+      <p class="etapa">Etapa 3 de 3</p>
       <h3>Tu respuesta escrita</h3>
       <p class="pregunta-pdf">Respondé las tres, en 200 a 350 palabras en total:</p>
       <ol>
@@ -360,7 +416,7 @@ footer{text-align:center;font-size:12px;color:var(--ink-3);padding-top:4px}
       <p class="cuenta"><span id="n-palabras">0</span> palabras</p>
       <div class="row">
         <button class="btn" id="bajar-pdf" type="button">Descargar mi PDF de entrega</button>
-        <span class="hint">Se arma solo, con tu resultado y tu código. Después lo subís a Moodle.</span>
+        <span class="hint">Se arma solo, con tu resultado, tu programa, tus capturas y tu respuesta. Ese PDF es tu entrega en Moodle.</span>
       </div>
     </div>
     <div class="row"><button class="btn ghost" id="reiniciar" type="button">Jugar de nuevo</button></div>
@@ -1184,6 +1240,8 @@ function terminar(){
   lc.innerHTML=hc; q("bloque-codigo").hidden=false;
 
   q("p-juego").hidden=true; q("p-fin").hidden=false; q("bloque-entrega").hidden=false;
+  q("bloque-programa").hidden=false;
+  var pg=q("programa"); if(pg && !pg.value) { pg.value=leerPrograma(); contarLineas(); }
   borrar();
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1210,7 +1268,7 @@ q("empezar").addEventListener("click", function(){ iniciar(false) });
 q("continuar").addEventListener("click", function(){ iniciar(true) });
 q("nombre").addEventListener("keydown", function(e){ if(e.key==="Enter") iniciar(false) });
 q("reiniciar").addEventListener("click", function(){
-  borrar(); q("p-fin").hidden=true; q("p-inicio").hidden=false;
+  borrar(); CAPTURAS=[]; pintarCapturas(); q("p-fin").hidden=true; q("p-inicio").hidden=false;
   q("nombre").value=nombre; q("continuar").hidden=true;
   window.scrollTo({top:0,behavior:"smooth"});
 });
@@ -1222,6 +1280,62 @@ if(prev && prev.nombre && prev.idx>0){
   if(prev.carne) q("carne").value=prev.carne;
   if(prev.grupo) q("grupo").value=prev.grupo;
 }
+
+/* ═══════ etapa 2: programa y capturas ═══════ */
+/* El programa pegado se guarda aparte: terminar() borra el avance del juego, y un
+   recargo en la etapa 2 no debe costarle al estudiante lo que ya pegó. Las capturas
+   no se guardan (pesan demasiado para localStorage): hay que volver a adjuntarlas. */
+function leerPrograma(){ try{ return localStorage.getItem(LS+"_programa")||""; }catch(e){ return ""; } }
+function contarLineas(){
+  var pg=q("programa"); if(!pg) return;
+  q("n-lineas").textContent=pg.value.trim() ? pg.value.replace(/\s+$/,"").split("\n").length : 0;
+}
+var progTa=q("programa");
+if(progTa) progTa.addEventListener("input", function(){
+  contarLineas(); progTa.style.borderColor="";
+  try{ localStorage.setItem(LS+"_programa", progTa.value); }catch(e){}
+});
+var CAPTURAS=[];   // [{data, w, h, nombre}] ya reducidas a JPEG
+function reducir(archivo){
+  return new Promise(function(ok,mal){
+    var fr=new FileReader();
+    fr.onerror=function(){ mal(new Error("no se pudo leer "+archivo.name)); };
+    fr.onload=function(){
+      var img=new Image();
+      img.onerror=function(){ mal(new Error("no es una imagen: "+archivo.name)); };
+      img.onload=function(){
+        var MAX=1600, f=Math.min(1, MAX/Math.max(img.width,img.height));
+        var c=document.createElement("canvas");
+        c.width=Math.round(img.width*f); c.height=Math.round(img.height*f);
+        var cx=c.getContext("2d"); cx.fillStyle="#fff"; cx.fillRect(0,0,c.width,c.height);
+        cx.drawImage(img,0,0,c.width,c.height);
+        ok({data:c.toDataURL("image/jpeg",0.86), w:c.width, h:c.height, nombre:archivo.name});
+      };
+      img.src=fr.result;
+    };
+    fr.readAsDataURL(archivo);
+  });
+}
+function pintarCapturas(){
+  var v=q("vista-capturas"); v.innerHTML="";
+  CAPTURAS.forEach(function(c,i){
+    var f=document.createElement("figure");
+    f.innerHTML='<img alt="captura '+(i+1)+'"><figcaption><span></span><button type="button">quitar</button></figcaption>';
+    f.querySelector("img").src=c.data;
+    f.querySelector("span").textContent=c.nombre;
+    f.querySelector("button").addEventListener("click", function(){ CAPTURAS.splice(i,1); pintarCapturas(); });
+    v.appendChild(f);
+  });
+}
+var capIn=q("capturas");
+if(capIn) capIn.addEventListener("change", function(){
+  var fs=[].slice.call(capIn.files||[]);
+  capIn.style.outline="";
+  Promise.all(fs.map(reducir)).then(function(lista){
+    CAPTURAS=CAPTURAS.concat(lista).slice(0,3);
+    pintarCapturas(); capIn.value="";
+  }).catch(function(e){ alert(e.message); capIn.value=""; });
+});
 
 /* ═══════ PDF de entrega ═══════ */
 function palabras(t){ return (t.trim().match(/\S+/g)||[]).length; }
@@ -1246,6 +1360,17 @@ function slug(t){
 }
 function armarPDF(){
   var btn=q("bajar-pdf");
+  var programa=(q("programa")||{value:""}).value.replace(/\s+$/,"");
+  if(programa.split("\n").length<5){
+    q("programa").focus(); q("programa").style.borderColor="var(--mal)";
+    alert("Falta la etapa 2: pegá tu programa completo.");
+    return;
+  }
+  if(!CAPTURAS.length){
+    q("capturas").style.outline="2px solid var(--mal)"; q("capturas").scrollIntoView({block:"center"});
+    alert("Falta la etapa 2: adjuntá al menos una captura de la ejecución.");
+    return;
+  }
   var texto=(q("reflexion")||{value:""}).value.trim();
   if(!texto){ q("reflexion").focus(); q("reflexion").style.borderColor="var(--mal)"; return; }
   btn.disabled=true; var etiqueta=btn.textContent; btn.textContent="Armando el PDF…";
@@ -1259,10 +1384,17 @@ function armarPDF(){
       if(y+(necesita||0) > ALTO-M){ doc.addPage(); y=M; return true; }
       return false;
     }
+    /* jsPDF con las fuentes base solo sabe Latin-1: lo demas (rayas largas,
+       comillas tipograficas, emojis) se traduce o se cambia por "?". */
+    function latin1(t){
+      return String(t).replace(/[\u2013\u2014]/g,"-").replace(/[\u2018\u2019]/g,"'")
+        .replace(/[\u201c\u201d]/g,'"').replace(/\u2026/g,"...").replace(/\t/g,"    ")
+        .replace(/[^\x00-\xff]/g,"?");
+    }
     function parrafo(txt, tam, gris, mono){
       doc.setFont(mono?"courier":"helvetica","normal");
       doc.setFontSize(tam); doc.setTextColor(gris);
-      var ls=doc.splitTextToSize(txt, A);
+      var ls=doc.splitTextToSize(latin1(txt), A);
       for(var i=0;i<ls.length;i++){ salto(16); y+=15; doc.text(ls[i], M, y); }
     }
 
@@ -1333,14 +1465,49 @@ function armarPDF(){
       y+=10;
     }
 
+    /* --- etapa 2: el programa completo y sus capturas --- */
+    doc.addPage(); y=M;
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("ETAPA 2", M, y); y+=18;
+    doc.setFontSize(14); doc.setTextColor(20);
+    doc.text(latin1("Mi programa completo: "+JUEGO.tarea_pdf), M, y); y+=8;
+    var lineasProg=programa.split("\n");
+    parrafo("("+lineasProg.length+" lineas)", 9, 120);
+    y+=4;
+    doc.setFont("courier","normal"); doc.setFontSize(8.5); doc.setTextColor(30);
+    for(var lp=0; lp<lineasProg.length; lp++){
+      var trozos=doc.splitTextToSize(latin1(lineasProg[lp])||" ", A-26);
+      for(var tz=0; tz<trozos.length; tz++){
+        salto(12); y+=11;
+        if(tz===0){ doc.setTextColor(160); doc.text(String(lp+1), M, y, {align:"left"}); doc.setTextColor(30); }
+        doc.text(trozos[tz], M+26, y);
+      }
+    }
+    y+=18;
+    doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(20);
+    salto(40); y+=4; doc.text("Captura de la ejecucion", M, y); y+=10;
+    for(var ci=0; ci<CAPTURAS.length; ci++){
+      var cap=CAPTURAS[ci], wImg=A, hImg=cap.h*A/cap.w, tope=ALTO-M*2-20;
+      if(hImg>tope){ hImg=tope; wImg=cap.w*tope/cap.h; }
+      if(y+hImg>ALTO-M){ doc.addPage(); y=M; }
+      doc.addImage(cap.data, "JPEG", M, y, wImg, hImg);
+      y+=hImg+14;
+    }
+
     /* --- la respuesta escrita --- */
+    doc.addPage(); y=M;
+    doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("ETAPA 3", M, y); y+=4;
     salto(40);
     doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(20);
     y+=16; doc.text("Respuesta escrita", M, y); y+=2;
     parrafo(texto, 11, 40);
 
-    doc.setFontSize(8); doc.setTextColor(150);
-    doc.text(JUEGO.pdf_pie, M, ALTO-28);
+    var np=doc.internal.getNumberOfPages();
+    for(var pi=1; pi<=np; pi++){
+      doc.setPage(pi); doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(150);
+      doc.text(latin1(JUEGO.pdf_pie+"  ·  "+nombre+"  ·  codigo "+cod+"  ·  pagina "+pi+" de "+np), M, ALTO-28);
+    }
 
     var _t=nombre.trim().split(/\s+/);
     var _ape=_t[Math.min(2,_t.length-1)], _nom=_t[0];

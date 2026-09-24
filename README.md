@@ -3,6 +3,8 @@
 Dieciséis juegos para entender **programación orientada a objetos** con Python, del curso
 Fundamentos de Programación 2 de la **Universidad Da Vinci de Guatemala**.
 
+Los juegos de las unidades 4 a 8 **son la tarea completa** de su tema, en tres etapas: doce retos, el programa completo del estudiante con la captura de su ejecución, y tres preguntas. El juego arma un solo PDF con todo, que es lo que se entrega en Moodle.
+
 Corren enteros en el navegador. **No hay servidor y no se envía nada a ninguna parte:**
 tu nombre y tu avance viven solo en tu equipo, en `localStorage`.
 
