@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Herramientas de IA y tu primer mensaje</title>
+<meta name="description" content="Práctica formativa de Fundamentos de Programación 2: reconocé los tipos de herramientas de IA para programar y armá tu primer mensaje a v0 con contexto, tarea, reglas y formato.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B0%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#EFF2F7; --surface:#FFFFFF; --sunken:#E4E8F0;
+  --ink:#141821; --ink-2:#454C5C; --ink-3:#767E90; --line:#D3D9E4;
+  --pred:#5B4BC4; --pred-soft:#EAE7FA; --pred-ink:#3B2E96;
+  --code:#0F7B78; --code-soft:#DDF1F0; --code-ink:#0A5654;
+  --bien:#2F7D52; --bien-soft:#E3F2E9; --mal:#B8403A; --mal-soft:#FBE7E5;
+  --alerta:#8A6100; --alerta-soft:#FBF0D8;
+  --shadow:0 1px 2px rgba(20,24,33,.06), 0 8px 24px -12px rgba(20,24,33,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --pred:#A99BF0; --pred-soft:#221C3D; --pred-ink:#C7BDF7;
+  --code:#5CC8C4; --code-soft:#0F2B2A; --code-ink:#8FDCD9;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --alerta:#E0B857; --alerta-soft:#2C2413;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --ground:#101319; --surface:#191D26; --sunken:#0B0D12;
+  --ink:#EDF0F5; --ink-2:#AAB2C2; --ink-3:#7C8497; --line:#2A303C;
+  --pred:#A99BF0; --pred-soft:#221C3D; --pred-ink:#C7BDF7;
+  --code:#5CC8C4; --code-soft:#0F2B2A; --code-ink:#8FDCD9;
+  --bien:#66BC8C; --bien-soft:#16281E; --mal:#E1756D; --mal-soft:#2C1917;
+  --alerta:#E0B857; --alerta-soft:#2C2413;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.55;padding:clamp(16px,4vw,40px) clamp(14px,4vw,24px);
+  display:flex;justify-content:center}
+[hidden]{display:none!important} button,textarea{font:inherit;color:inherit}
+.wrap{width:100%;max-width:860px;display:flex;flex-direction:column;gap:20px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 6px}
+h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(26px,5.5vw,38px);line-height:1.05;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(20px,4vw,26px);margin:0 0 6px;letter-spacing:-.01em}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:clamp(18px,4vw,26px)}
+.intro p{margin:.4em 0;color:var(--ink-2)}
+.badge{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--alerta-soft);color:var(--alerta)}
+.rail{display:grid;grid-template-columns:repeat(22,1fr);gap:3px}
+.seg{height:6px;border-radius:99px;background:var(--sunken)} .seg.bien{background:var(--bien)} .seg.mal{background:var(--mal)}
+.meta{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;margin-bottom:10px}
+.ronda-sub{color:var(--ink-2);margin:0 0 14px}
+.q{border-top:1px solid var(--line);padding:16px 0}
+.q:first-of-type{border-top:0}
+.q .num{font-size:12px;font-weight:600;color:var(--pred);letter-spacing:.06em;text-transform:uppercase}
+.q .enun{margin:4px 0 10px;font-weight:500}
+.prompt{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:13.5px;background:var(--sunken);border-radius:10px;padding:12px 14px;white-space:pre-wrap;margin:6px 0 10px;color:var(--ink)}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.op{text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;line-height:1.35}
+.op:hover:not([disabled]){border-color:var(--pred);background:var(--pred-soft)}
+.op:focus-visible{outline:2px solid var(--pred);outline-offset:2px}
+.op[disabled]{cursor:default}
+.op.ok{border-color:var(--bien);background:var(--bien-soft);color:var(--ink)}
+.op.no{border-color:var(--mal);background:var(--mal-soft);color:var(--ink)}
+.fb{margin-top:10px;padding:10px 12px;border-radius:10px;font-size:14.5px}
+.fb.ok{background:var(--bien-soft);border-left:4px solid var(--bien)}
+.fb.no{background:var(--mal-soft);border-left:4px solid var(--mal)}
+.fb b{display:block;margin-bottom:2px}
+.acciones{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{padding:10px 16px;border-radius:10px;border:1px solid var(--pred);background:var(--pred);color:#fff;font-weight:600;cursor:pointer}
+.btn.sec{background:transparent;color:var(--pred-ink);border-color:var(--line)}
+.btn:focus-visible{outline:2px solid var(--pred);outline-offset:2px}
+label.parte{display:block;font-weight:600;margin:14px 0 4px}
+label.parte span{font-weight:400;color:var(--ink-3);font-size:13.5px}
+textarea{width:100%;min-height:96px;border-radius:10px;border:1px solid var(--line);background:var(--surface);padding:10px 12px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:13.5px;resize:vertical}
+textarea:focus{outline:2px solid var(--code);outline-offset:1px;border-color:var(--code)}
+.check{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:4px;font-size:14px}
+.check li::before{content:"○ ";color:var(--ink-3)} .check li.si::before{content:"● ";color:var(--bien)}
+.res{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:28px}
+footer{font-size:12.5px;color:var(--ink-3);text-align:center}
+@media (prefers-reduced-motion:no-preference){.fb{animation:entra .18s ease-out}@keyframes entra{from{opacity:0;transform:translateY(-3px)}to{opacity:1}}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <p class="eyebrow">Fundamentos de Programación 2 · Práctica formativa</p>
+    <h1>Herramientas de IA y tu primer mensaje</h1>
+  </header>
+
+  <section class="card intro">
+    <p><span class="badge">No lleva nota ni se entrega</span></p>
+    <p>Tres rondas cortas y un cierre. En la primera reconocés <strong>qué tipo de herramienta de IA</strong> es cada una; en la segunda y la tercera, <strong>las cuatro partes de un buen mensaje</strong>: contexto, tarea, reglas y formato. Al final armás <strong>tu primer mensaje a v0</strong> para tu Proyecto Final y lo descargás.</p>
+    <p>Cada pregunta cuenta tu primer intento; después te dice por qué.</p>
+  </section>
+
+  <section class="card">
+    <div class="meta"><span id="progreso">0 de 22 contestadas</span><span id="aciertos">0 aciertos</span></div>
+    <div class="rail" id="rail" aria-hidden="true"></div>
+  </section>
+
+  <div id="rondas"></div>
+
+  <section class="card" id="fin" hidden>
+    <h2>Tu resultado</h2>
+    <p class="res" id="res-num"></p>
+    <p id="res-txt" class="ronda-sub"></p>
+  </section>
+
+  <section class="card" id="armar">
+    <p class="eyebrow">Cierre</p>
+    <h2>Armá tu primer mensaje a v0</h2>
+    <p class="ronda-sub">Escribilo con lo de <strong>tu</strong> sistema Guardianes del Petén. Es el mensaje que va en tu entrega del Proyecto Final: en tu PDF (Grupo 2) o en <code>PROMPT.txt</code> dentro de tu .zip (Grupo 3). Se guarda en este navegador mientras escribís.</p>
+    <label class="parte" for="p-contexto">Contexto <span>· qué es tu sistema y quién lo usa</span></label>
+    <textarea id="p-contexto" placeholder="Estoy construyendo el prototipo web de &quot;Guardianes del Petén&quot;, el sistema de monitoreo de fauna de la Reserva de la Biosfera Maya. Ya existe como programa en Python. Lo usan..."></textarea>
+    <label class="parte" for="p-tarea">Tarea <span>· tus pantallas, una por caso de uso</span></label>
+    <textarea id="p-tarea" placeholder="Construí una aplicación web con estas pantallas, una por caso de uso:&#10;1. Registrar animal y ver la lista de animales.&#10;2. ..."></textarea>
+    <label class="parte" for="p-reglas">Reglas <span>· tus clases con sus atributos y cada artículo del reglamento</span></label>
+    <textarea id="p-reglas" placeholder="- Datos (son mis clases de Python): Animal: codigo, nombre, especie, en_peligro...&#10;- Artículo 1: el código del animal tiene tres letras mayúsculas, un guion y tres dígitos (JAG-001). Si no cumple, mostrar &quot;Artículo 1: el código no es válido&quot; y no guardar.&#10;- Toda la interfaz va en español y sin inicio de sesión."></textarea>
+    <label class="parte" for="p-formato">Formato <span>· cómo se ve y cómo se usa</span></label>
+    <textarea id="p-formato" placeholder="Un menú arriba con una opción por pantalla. Cada formulario muestra el mensaje de rechazo en rojo debajo del campo que no cumple. Al abrir, la aplicación ya trae datos de ejemplo..."></textarea>
+    <ul class="check" id="check">
+      <li data-c="c">El contexto dice qué es el sistema y quién lo usa</li>
+      <li data-c="t">La tarea lista al menos 6 pantallas, una por línea</li>
+      <li data-c="d">Las reglas traen tus clases (por ejemplo, Animal: ...)</li>
+      <li data-c="a">Las reglas traen los artículos del reglamento (al menos 5)</li>
+      <li data-c="f">El formato dice cómo se ven los mensajes de rechazo y trae datos de ejemplo</li>
+    </ul>
+    <div class="acciones">
+      <button class="btn" id="copiar" type="button">Copiar mi mensaje</button>
+      <button class="btn sec" id="bajar" type="button">Descargar PROMPT.txt</button>
+    </div>
+    <p id="aviso" class="ronda-sub" aria-live="polite"></p>
+  </section>
+
+  <footer>Universidad Da Vinci de Guatemala · Fundamentos de Programación 2 · Ing. Brandon Chitay</footer>
+</main>
+
+<script>
+var TIPOS = ["Chatbot", "En tu editor", "Agente", "Generador de apps"];
+var PARTES = ["Contexto", "Tarea", "Reglas", "Formato"];
+var RONDAS = [
+ {titulo: "Ronda 1 · ¿Qué tipo de herramienta es?",
+  sub: "De izquierda a derecha la IA hace más por vos: chatbot, en tu editor, agente y generador de apps. Y mientras más hace, más tenés que revisar.",
+  preguntas: [
+   {e: "Le pegás a una ventana de conversación el mensaje de error de tu main.py y te explica qué pasó y por qué.", ops: TIPOS, c: 0,
+    p: "Conversás con ella y te responde con una explicación; no toca tus archivos. Eso es un chatbot (ChatGPT, Gemini, Claude).",
+    t: {1: "Funciona dentro de un programa, pero no está en tu editor sugiriendo mientras escribís: le preguntás en una conversación.", 2: "Un agente cambia tus archivos y corre pruebas por su cuenta; aquí solo te explica.", 3: "No construye ninguna aplicación: responde tu pregunta."}},
+   {e: "Mientras escribís el método atender() en el editor, aparece en gris la línea siguiente y la aceptás con Tab.", ops: TIPOS, c: 1,
+    p: "Es un asistente dentro de tu editor (por ejemplo, GitHub Copilot o Cursor): sugiere mientras escribís. La trampa: se acepta tan rápido que se acepta sin leer.",
+    t: {0: "No hay conversación: la sugerencia aparece sola mientras escribís.", 2: "No hace una tarea de varios pasos: completa la línea que estás escribiendo.", 3: "No arma una aplicación: completa tu código línea por línea."}},
+   {e: "Le escribís: «agregá la bitácora a mi sistema, guardala en una lista y probala». Lee tus archivos, los cambia, corre las pruebas y te muestra qué hizo.", ops: TIPOS, c: 2,
+    p: "Una tarea completa de varios pasos sobre tu proyecto: eso hace un agente (Claude Code, Codex, Gemini CLI).",
+    t: {0: "Un chatbot te explicaría cómo hacerlo; aquí lo hace en tus archivos y lo prueba.", 1: "No es una sugerencia línea por línea: hace la tarea completa.", 3: "No arma una aplicación nueva desde una descripción: trabaja sobre tu proyecto que ya existe."}},
+   {e: "Describís una aplicación para registrar animales y en dos minutos tenés pantallas que podés abrir y probar en el navegador.", ops: TIPOS, c: 3,
+    p: "Arma una aplicación entera desde tu descripción: es un generador de apps (v0, Lovable, Bolt).",
+    t: {0: "Un chatbot te contestaría con texto o código; aquí te entrega una app funcionando.", 1: "No estás escribiendo código en tu editor.", 2: "Se parece, porque hace mucho por vos, pero un agente trabaja sobre tu proyecto; este construye una app nueva desde la descripción."}},
+   {e: "v0, la herramienta de tu Proyecto Final.", ops: TIPOS, c: 3,
+    p: "v0 es un generador de apps: construye tu prototipo. Ojo: <strong>v0 construye y Vercel publica</strong>; Vercel no es una herramienta de IA, es donde queda tu dirección .vercel.app.",
+    t: {0: "Se usa conversando, pero lo que te entrega es una aplicación completa, no una respuesta.", 1: "No vive en tu editor.", 2: "No trabaja sobre tus archivos de Python: arma una app web nueva."}},
+   {e: "Claude Code trabajando en la terminal sobre la carpeta de tu proyecto.", ops: TIPOS, c: 2,
+    p: "Es un agente: lee tu proyecto, cambia archivos y corre comandos para terminar una tarea.",
+    t: {0: "Le escribís en texto, pero no se queda en explicar: actúa sobre tus archivos.", 1: "Corre en la terminal y hace tareas completas, no sugerencias mientras escribís.", 3: "No arma una app nueva desde cero: trabaja sobre la que ya tenés."}},
+   {e: "Le pedís a Gemini: «Haceme tres preguntas para ver si entendí la recursividad».", ops: TIPOS, c: 0,
+    p: "Es un chatbot, y este es uno de sus mejores usos para estudiar: que te pregunte a vos.",
+    t: {1: "No está sugiriendo código en tu editor.", 2: "No hace ninguna tarea sobre tu proyecto.", 3: "No arma ninguna aplicación."}},
+   {e: "GitHub Copilot instalado como extensión en tu editor, completando el método que estás escribiendo.", ops: TIPOS, c: 1,
+    p: "Asistente en tu editor. Antes de dar Tab, leé la línea: es tu código.",
+    t: {0: "Copilot también tiene chat, pero aquí está completando tu código mientras escribís.", 2: "No está haciendo una tarea completa de varios pasos.", 3: "No genera una aplicación desde una descripción."}}
+  ]},
+ {titulo: "Ronda 2 · ¿Qué parte del mensaje es?",
+  sub: "Un buen primer mensaje tiene cuatro partes: contexto (qué es y quién lo usa), tarea (qué pantallas), reglas (tus datos y el reglamento) y formato (cómo se ve y se usa). Cada frase es de un mensaje a v0 para Guardianes del Petén.",
+  preguntas: [
+   {e: "«Estoy construyendo el prototipo web de Guardianes del Petén, el sistema de monitoreo de fauna de la Reserva de la Biosfera Maya.»", ops: PARTES, c: 0,
+    p: "Dice qué es el sistema: es contexto.", t: {1: "No pide ninguna pantalla: presenta el sistema.", 2: "No pone ninguna condición que la app tenga que cumplir.", 3: "No dice cómo se ve la app."}},
+   {e: "«Lo usan la bióloga y el guardarrecursos.»", ops: PARTES, c: 0,
+    p: "Quién lo usa también es contexto: le ayuda a la IA a pensar en esas personas.", t: {1: "No pide pantallas.", 2: "No es una regla del reglamento ni un dato.", 3: "No describe el diseño."}},
+   {e: "«Construí una aplicación web con estas pantallas, una por caso de uso: 1. Registrar animal y ver la lista de animales. 2. Ver las alertas pendientes y marcarlas como atendidas.»", ops: PARTES, c: 1,
+    p: "Le pide qué construir, con las pantallas de tus casos de uso: es la tarea.", t: {0: "Ya no presenta el sistema: le pide algo concreto.", 2: "No son condiciones sobre los datos: son las pantallas.", 3: "No dice cómo se ve: dice qué pantallas hay."}},
+   {e: "«Artículo 1: el código del animal tiene tres letras mayúsculas, un guion y tres dígitos (JAG-001). Si no cumple, mostrar \"Artículo 1: el código no es válido\" y no guardar.»", ops: PARTES, c: 2,
+    p: "Es una regla de tu reglamento, con lo que pasa cuando no se cumple. Sin reglas, v0 acepta cualquier dato.", t: {0: "No presenta el sistema.", 1: "No es una pantalla: es lo que la pantalla tiene que validar.", 3: "El mensaje de error sí se ve, pero lo que pide es una condición sobre el dato: es regla."}},
+   {e: "«Datos (son mis clases de Python): Animal: codigo, nombre, especie, en_peligro.»", ops: PARTES, c: 2,
+    p: "Tus clases con sus atributos son la forma de tus datos: van en las reglas, para que la app use los mismos datos que tu Python.", t: {0: "No presenta el sistema: dice qué datos tiene que manejar exactamente.", 1: "No pide una pantalla.", 3: "No dice cómo se ve."}},
+   {e: "«Un menú arriba con una opción por pantalla.»", ops: PARTES, c: 3,
+    p: "Cómo se ve y cómo se usa la aplicación: es formato.", t: {0: "No presenta el sistema.", 1: "No agrega pantallas: dice cómo se navega entre ellas.", 2: "No es una condición de los datos."}},
+   {e: "«Cada formulario muestra el mensaje de rechazo en rojo debajo del campo que no cumple.»", ops: PARTES, c: 3,
+    p: "Dice dónde y cómo se ve el mensaje de error: formato. La regla es qué se rechaza; el formato, cómo se muestra.", t: {0: "No presenta el sistema.", 1: "No es una pantalla nueva.", 2: "Tienta porque habla de rechazos, pero no dice qué dato se rechaza: dice cómo se muestra."}},
+   {e: "«Al abrir, la aplicación ya trae datos de ejemplo: 4 zonas y 5 animales con nombres de Petén.»", ops: PARTES, c: 3,
+    p: "Cómo se ve al abrirla, con datos de ejemplo para probarla: es formato.", t: {0: "No presenta el sistema.", 1: "No pide una pantalla.", 2: "No es una condición que haya que validar."}}
+  ]},
+ {titulo: "Ronda 3 · ¿Qué le falta? ¿Qué hacés después?",
+  sub: "Ya sabés las cuatro partes. Ahora encontrá la que falta y decidí qué hacer después del primer mensaje.",
+  preguntas: [
+   {e: "¿Qué parte le falta a este mensaje?", pr: "Estoy construyendo el prototipo web de Guardianes del Petén. Lo usan la bióloga y el guardarrecursos.\nConstruí una aplicación web con una pantalla por caso de uso: registrar animal, asignar collar y ver alertas.\nUn menú arriba, mensajes de error en rojo y datos de ejemplo.", ops: PARTES, c: 2,
+    p: "No trae tus clases ni el reglamento: v0 va a aceptar cualquier código, incluso jag-1. Sin reglas, la app no se parece a tu sistema.", t: {0: "Sí dice qué es y quién lo usa.", 1: "Sí pide las pantallas.", 3: "Sí dice cómo se ve."}},
+   {e: "¿Qué parte le falta a este mensaje?", pr: "Construí una aplicación web con estas pantallas: registrar animal, asignar collar, reportar posición, registrar avistamiento, atender alertas y consultar movimientos.\nReglas: el código del animal es JAG-001 (tres letras, guion, tres dígitos); la batería va de 0 a 100.\nUn menú arriba y datos de ejemplo de Petén.", ops: PARTES, c: 0,
+    p: "No dice qué es el sistema ni quién lo usa: la IA no sabe que es un monitoreo de fauna para una bióloga y un guardarrecursos.", t: {1: "Sí lista las pantallas.", 2: "Sí trae reglas.", 3: "Sí dice cómo se ve."}},
+   {e: "¿Qué parte le falta a este mensaje?", pr: "Estoy construyendo el prototipo web de Guardianes del Petén, el monitoreo de fauna de la Reserva de la Biosfera Maya.\nReglas: Animal: codigo, nombre, especie. Artículo 1: código JAG-001; si no cumple, rechazarlo.\nUn menú arriba, mensajes de error en rojo y datos de ejemplo.", ops: PARTES, c: 1,
+    p: "No dice qué pantallas construir: v0 va a inventar las suyas en lugar de tus casos de uso.", t: {0: "Sí presenta el sistema.", 2: "Sí trae datos y un artículo.", 3: "Sí dice cómo se ve."}},
+   {e: "¿Qué parte le falta a este mensaje?", pr: "Estoy construyendo el prototipo web de Guardianes del Petén. Lo usan la bióloga y el guardarrecursos.\nConstruí una aplicación con una pantalla por caso de uso: registrar animal, asignar collar y atender alertas.\nReglas: Animal: codigo, nombre, especie. Artículo 1: código JAG-001; si no cumple, mostrar \"Artículo 1: el código no es válido\".", ops: PARTES, c: 3,
+    p: "No dice cómo se ve ni cómo se usa: ni menú, ni dónde aparecen los errores, ni datos de ejemplo para probarla.", t: {0: "Sí presenta el sistema.", 1: "Sí pide las pantallas.", 2: "Sí trae reglas."}},
+   {e: "¿Cuál es el mejor primer mensaje para v0?", ops: ["«Haceme una app de animales bonita y moderna.»", "Una historia larga de la reserva y del jaguar, sin pantallas ni reglas.", "El mensaje con contexto, tarea, reglas y formato, con tus casos de uso, tus clases y el reglamento.", "Diez mensajes cortos, uno por pantalla, para ir viendo qué sale."], c: 2,
+    p: "Con las cuatro partes, el primer resultado ya se parece a tu sistema y gastás menos créditos en correcciones.", t: {0: "Le deja a la IA decidir todo: te va a dar algo bonito que no es tu sistema.", 1: "Tiene mucho contexto, pero sin tarea ni reglas la IA no sabe qué construir.", 3: "Cada mensaje gasta créditos del plan gratuito, y sin el panorama completo cada pantalla sale por su lado."}},
+   {e: "v0 te devuelve el prototipo, pero acepta el código jag-1 y los errores salen en inglés. ¿Qué hacés?", ops: ["Volvés a escribir todo el primer mensaje desde cero.", "Mandás un solo mensaje con las correcciones numeradas: «1. Reglas: el artículo 1 acepta jag-1; tiene que rechazarlo. 2. Formato: los errores van en español.»", "Lo dejás así, porque igual se ve bien.", "Mandás un mensaje por cada error que encontrés."], c: 1,
+    p: "Revisá todo primero y mandá un solo mensaje de correcciones, numeradas y con el nombre de la parte. Así gastás menos créditos y no se pierde nada.", t: {0: "Perdés lo que ya estaba bien y gastás más créditos.", 2: "Tu nota del prototipo depende de que valide el reglamento: si acepta jag-1, no lo valida.", 3: "Cada mensaje gasta créditos; juntá las correcciones en uno."}}
+  ]}
+];
+var total = 0; RONDAS.forEach(function(r){ total += r.preguntas.length; });
+var resp = {}, aciertos = 0, contestadas = 0;
+var rail = document.getElementById("rail");
+for (var i = 0; i < total; i++) { var s = document.createElement("span"); s.className = "seg"; rail.appendChild(s); }
+var cont = document.getElementById("rondas"), n = 0;
+RONDAS.forEach(function(r) {
+  var sec = document.createElement("section"); sec.className = "card";
+  var h = document.createElement("h2"); h.textContent = r.titulo; sec.appendChild(h);
+  var sub = document.createElement("p"); sub.className = "ronda-sub"; sub.textContent = r.sub; sec.appendChild(sub);
+  r.preguntas.forEach(function(q) {
+    var idx = n++;
+    var d = document.createElement("div"); d.className = "q";
+    var num = document.createElement("div"); num.className = "num"; num.textContent = "Pregunta " + (idx + 1); d.appendChild(num);
+    var en = document.createElement("p"); en.className = "enun"; en.textContent = q.e; d.appendChild(en);
+    if (q.pr) { var pr = document.createElement("div"); pr.className = "prompt"; pr.textContent = q.pr; d.appendChild(pr); }
+    var ops = document.createElement("div"); ops.className = "ops"; d.appendChild(ops);
+    var fb = document.createElement("div"); fb.setAttribute("aria-live", "polite"); d.appendChild(fb);
+    q.ops.forEach(function(o, k) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "op"; b.textContent = o;
+      b.addEventListener("click", function() {
+        var primera = !(idx in resp);
+        if (primera) {
+          resp[idx] = k; contestadas++; if (k === q.c) aciertos++;
+          rail.children[idx].className = "seg " + (k === q.c ? "bien" : "mal");
+          actualizar();
+        }
+        [].forEach.call(ops.children, function(x, j) { x.classList.remove("ok", "no"); if (j === q.c) x.classList.add("ok"); else if (j === k) x.classList.add("no"); });
+        var bien = k === q.c;
+        fb.className = "fb " + (bien ? "ok" : "no");
+        fb.innerHTML = "<b>" + (bien ? "Correcto." : "No es esa.") + "</b>" + (bien ? q.p : ((q.t[k] || "") + " " + q.p));
+      });
+      ops.appendChild(b);
+    });
+    sec.appendChild(d);
+  });
+  cont.appendChild(sec);
+});
+function actualizar() {
+  document.getElementById("progreso").textContent = contestadas + " de " + total + " contestadas";
+  document.getElementById("aciertos").textContent = aciertos + (aciertos === 1 ? " acierto" : " aciertos");
+  if (contestadas === total) {
+    document.getElementById("fin").hidden = false;
+    document.getElementById("res-num").textContent = aciertos + " de " + total;
+    document.getElementById("res-txt").textContent = aciertos >= 19 ? "Muy bien: ya reconocés las herramientas y las cuatro partes. Ahora armá tu primer mensaje aquí abajo." : "Volvé a leer las explicaciones de las que fallaste: las mismas ideas son las que usás en tu primer mensaje de aquí abajo.";
+  }
+}
+// cierre: armar el mensaje
+var IDS = ["contexto", "tarea", "reglas", "formato"];
+function leer(id) { return document.getElementById("p-" + id).value.trim(); }
+function mensaje() { return "Contexto: " + leer("contexto") + "\n\nTarea: " + leer("tarea") + "\n\nReglas:\n" + leer("reglas") + "\n\nFormato: " + leer("formato") + "\n"; }
+function revisar() {
+  var c = leer("contexto"), t = leer("tarea"), r = leer("reglas"), f = leer("formato");
+  var lineasTarea = t.split("\n").filter(function(x) { return /^\s*(\d+[.)]|-)\s*\S/.test(x); }).length;
+  var arts = (r.match(/art[ií]culo\s*\d+/gi) || []).length;
+  var ok = {c: c.length > 60, t: lineasTarea >= 6, d: /\w+\s*:\s*\w+\s*,/.test(r), a: arts >= 5, f: f.length > 40 && /ejemplo/i.test(f) && /(error|rechazo|rojo)/i.test(f)};
+  [].forEach.call(document.querySelectorAll("#check li"), function(li) { li.classList.toggle("si", !!ok[li.dataset.c]); });
+}
+IDS.forEach(function(id) {
+  var ta = document.getElementById("p-" + id);
+  try { var g = localStorage.getItem("fp2-prompt-" + id); if (g) ta.value = g; } catch (e) {}
+  ta.addEventListener("input", function() { try { localStorage.setItem("fp2-prompt-" + id, ta.value); } catch (e) {} revisar(); });
+});
+revisar();
+function avisar(t) { document.getElementById("aviso").textContent = t; }
+function vacio() { return IDS.some(function(id) { return !leer(id); }); }
+document.getElementById("copiar").addEventListener("click", function() {
+  if (vacio()) { avisar("Te falta llenar alguna de las cuatro partes."); return; }
+  var txt = mensaje();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(function() { avisar("Copiado. Pegalo en v0 y guardá una copia para tu entrega."); }, function() { avisar("No se pudo copiar; usá Descargar PROMPT.txt."); });
+  } else { avisar("Tu navegador no deja copiar; usá Descargar PROMPT.txt."); }
+});
+document.getElementById("bajar").addEventListener("click", function() {
+  if (vacio()) { avisar("Te falta llenar alguna de las cuatro partes."); return; }
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([mensaje()], {type: "text/plain;charset=utf-8"}));
+  a.download = "PROMPT.txt"; document.body.appendChild(a); a.click(); a.remove();
+  avisar("Descargado: PROMPT.txt. Si sos del Grupo 2, pegá el mismo texto en tu PDF.");
+});
+</script>
+</body>
+</html>

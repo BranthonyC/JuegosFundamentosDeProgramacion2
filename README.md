@@ -26,6 +26,7 @@ tu nombre y tu avance viven solo en tu equipo, en `localStorage`.
 | 🏆 [**La Selección**](seleccion/) — 12 retos | **Ordenamiento por selección** sobre objetos, pasada a pasada |
 | 🔎 [**Lineal o Binaria**](lineal-o-binaria/) — 12 retos | **Búsqueda lineal y binaria**: contar comparaciones y mover los límites |
 | 🥞 [**La Fila y la Pila**](fila-y-pila/) — 12 retos | **Pilas y colas** con clases: LIFO, FIFO y la estructura vacía |
+| 🧰 [**Herramientas de IA y tu primer mensaje**](herramientas-ia/) — 22 preguntas, formativo | Reconocer **chatbots, asistentes en el editor, agentes y generadores** de apps, y armar un **prompt** con contexto, tarea, reglas y formato |
 
 ---
 
@@ -80,7 +81,7 @@ está todo ahí, en unas 600 líneas.
 
 ```
 .
-├── index.html                  portada con los dieciséis juegos
+├── index.html                  portada con los diecisiete juegos
 ├── molde-o-galleta/index.html
 ├── armar-la-clase/index.html
 ├── que-imprime/index.html
@@ -96,7 +97,8 @@ está todo ahí, en unas 600 líneas.
 ├── quien-vuela/index.html
 ├── seleccion/index.html
 ├── lineal-o-binaria/index.html
-└── fila-y-pila/index.html
+├── fila-y-pila/index.html
+└── herramientas-ia/index.html
 ```
 
 Cada juego se genera desde un script de Python que vive en el repo de contenido del curso
